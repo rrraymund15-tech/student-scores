@@ -1,1 +1,97 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Teacher Dashboard</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #f5f5f5;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+button {
+    padding: 8px 15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Teacher Dashboard</h1>
+
+<h2>Student Scores</h2>
+
+<table>
+
+<tr>
+<th>Student Name</th>
+<th>Score</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>Cleve</td>
+<td id="score">45</td>
+<td>
+<button onclick="editScore()">Edit</button>
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+
+<script>
+
+function editScore(){
+
+let newScore = prompt("Enter new score:");
+
+if(newScore != null){
+
+document.getElementById("score").innerHTML = newScore;
+
+}
+
+}
+
+
+function logout(){
+
+window.location.href="teacher.html";
+
+}
+
+</script>
+
+
+</body>
+</html>
