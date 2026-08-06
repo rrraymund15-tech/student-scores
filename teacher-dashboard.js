@@ -1,39 +1,77 @@
-
+// Import Firebase
 import { db } from "./firebase.js";
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import {
+  doc,
+  getDoc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-const scoreElement = document.getElementById("score");
+// Get elements
+const studentIDInput = document.getElementById("studentID");
+const studentName = document.getElementById("studentName");
 
-// Load Cleve's score from Firebase
-async function loadScore() {
-    const docRef = doc(db, "students", "Cleve");
-    const docSnap = await getDoc(docRef);
+const AP = document.getElementById("AP");
+const FIL = document.getElementById("FIL");
+const HELE = document.getElementById("HELE");
+const MUSICandArts = document.getElementById("MUSICandArts");
+const PEandHealth = document.getElementById("PEandHealth");
 
-    if (docSnap.exists()) {
-        scoreElement.innerHTML = docSnap.data().score;
-    }
-}
+const loadBtn = document.getElementById("loadBtn");
+const saveBtn = document.getElementById("saveBtn");
 
-// Edit and save the score
-window.editScore = async function () {
-    const newScore = prompt("Enter new score:");
+// Load student from Firestore
+loadBtn.addEventListener("click", async () => {
 
-    if (newScore === null) return;
+  const studentID = studentIDInput.value.trim();
 
-    const docRef = doc(db, "students", "Cleve");
+  if (!studentID) {
+    alert("Please enter a student ID");
+    return;
+  }
 
-    await updateDoc(docRef, {
-        score: Number(newScore)
-    });
+  const docRef = doc(db, "students", studentID);
+  const docSnap = await getDoc(docRef);
 
-    scoreElement.innerHTML = newScore;
+  if (docSnap.exists()) {
 
-    alert("Score saved successfully!");
-};
+    const data = docSnap.data();
 
-// Load the score when the page opens
-loadScore();
+    studentName.textContent = data.name || "No name";
 
-window.logout = function () {
-    window.location.href = "teacher.html";
-};
+    AP.value = data.AP || 0;
+    FIL.value = data.FIL || 0;
+    HELE.value = data.HELE || 0;
+    MUSICandArts.value = data.MUSICandArts || 0;
+    PEandHealth.value = data.PEandHealth || 0;
+
+  } else {
+
+    alert("Student not found");
+
+  }
+
+});
+
+// Save changes to Firestore
+saveBtn.addEventListener("click", async () => {
+
+  const studentID = studentIDInput.value.trim();
+
+  if (!studentID) {
+    alert("Please load a student first");
+    return;
+  }
+
+  const docRef = doc(db, "students", studentID);
+
+  await updateDoc(docRef, {
+    AP: Number(AP.value),
+    FIL: Number(FIL.value),
+    HELE: Number(HELE.value),
+    MUSICandArts: Number(MUSICandArts.value),
+    PEandHealth: Number(PEandHealth.value)
+  });
+
+  alert("Scores saved successfully!");
+
+});
