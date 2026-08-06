@@ -1,37 +1,86 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Dashboard</title>
 
+<link rel="stylesheet" href="style.css">
+
 <style>
-body {
-    font-family: Arial;
-    text-align: center;
-    background: #f5f5f5;
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    margin:0;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+.container{
+    width:700px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+h1{
+    text-align:center;
+    color:#2c3e50;
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 10px;
+.top{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
 }
 
-button {
-    padding: 8px 15px;
+.top input{
+    flex:1;
+    padding:10px;
 }
+
+.top button{
+    padding:10px 20px;
+}
+
+.student-name{
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    background:#3498db;
+    color:white;
+}
+
+input.score{
+    width:70px;
+    text-align:center;
+    padding:5px;
+}
+
+.buttons{
+    margin-top:25px;
+    text-align:center;
+}
+
+.buttons button{
+    padding:12px 20px;
+    margin:5px;
+}
+
 </style>
 
 </head>
@@ -42,34 +91,100 @@ button {
 
 <h1>Teacher Dashboard</h1>
 
-<h2>Student Scores</h2>
+<div class="top">
+
+<input
+type="text"
+id="studentID"
+placeholder="Enter Student ID (Example:1001)">
+
+<button id="loadBtn">
+Load Student
+</button>
+
+</div>
+
+<div class="student-name">
+
+<strong>Student Name:</strong>
+
+<span id="studentName">
+No student loaded
+</span>
+
+</div>
 
 <table>
 
 <tr>
-<th>Student Name</th>
+
+<th>Subject</th>
+
 <th>Score</th>
-<th>Action</th>
+
 </tr>
 
 <tr>
-<td>Cleve</td>
-<td id="score">45</td>
-<td>
-<button onclick="editScore()">Edit</button>
-</td>
+
+<td>AP</td>
+
+<td><input class="score" id="AP"></td>
+
+</tr>
+
+<tr>
+
+<td>FIL</td>
+
+<td><input class="score" id="FIL"></td>
+
+</tr>
+
+<tr>
+
+<td>HELE</td>
+
+<td><input class="score" id="HELE"></td>
+
+</tr>
+
+<tr>
+
+<td>Music & Arts</td>
+
+<td><input class="score" id="MUSICandArts"></td>
+
+</tr>
+
+<tr>
+
+<td>PE & Health</td>
+
+<td><input class="score" id="PEandHealth"></td>
+
 </tr>
 
 </table>
 
-<br>
+<div class="buttons">
 
-<button onclick="logout()">Logout</button>
+<button id="saveBtn">
+
+💾 Save Changes
+
+</button>
+
+<button onclick="window.location.href='teacher.html'">
+
+Logout
+
+</button>
 
 </div>
+
+</div>
+
 <script type="module" src="teacher-dashboard.js"></script>
-
-
 
 </body>
 </html>
