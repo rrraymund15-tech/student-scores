@@ -72,9 +72,19 @@ loginButton.addEventListener("click", async () => {
 
         <div class="student-dashboard">
 
-            <div class="student-header">
+           <div class="student-header">
 
-                <h1>Student Score Portal</h1>
+    <div class="school-info">
+
+        <h2>SHILOH CHRISTIAN SCHOOL</h2>
+
+        <p>Student Score Portal</p>
+
+        <p>School Year: 2026–2027</p>
+
+    </div>
+
+    <h1>Student Scores</h1>
 
                 <h2>${student.name}</h2>
 
