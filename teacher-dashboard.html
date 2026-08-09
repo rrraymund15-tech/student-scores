@@ -223,6 +223,46 @@ Logout
 
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCUZmbjsWOGgs8chdBOIVfoY8RNAeGwk7s",
+    authDomain: "studentscores-c9ad1.firebaseapp.com",
+    projectId: "studentscores-c9ad1",
+    storageBucket: "studentscores-c9ad1.firebasestorage.app",
+    messagingSenderId: "627785600117",
+    appId: "1:627785600117:web:eaa750b8583929dda0fc3c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Check if teacher is logged in
+onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+        // Not logged in → return to Teacher Login
+        window.location.href = "teacher.html";
+    }
+
+});
+
+// Logout button
+document.querySelector(".buttons button:last-child").addEventListener("click", async () => {
+
+    await signOut(auth);
+
+    window.location.href = "teacher.html";
+
+});
+</script>
+
 <script type="module" src="teacher-dashboard.js"></script>
 
 </body>
