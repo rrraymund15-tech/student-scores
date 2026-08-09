@@ -29,7 +29,6 @@ loginButton.addEventListener("click", async () => {
     try {
 
         const studentRef = doc(db, "students", studentID);
-
         const studentSnap = await getDoc(studentRef);
 
 
@@ -52,53 +51,93 @@ loginButton.addEventListener("click", async () => {
         }
 
 
-        // Student login successful
+        // Get scores
+
+        const AP = Number(student.AP) || 0;
+        const FIL = Number(student.FIL) || 0;
+        const HELE = Number(student.HELE) || 0;
+        const MUSICandArts = Number(student.MUSICandArts) || 0;
+        const PEandHealth = Number(student.PEandHealth) || 0;
+
+
+        // Calculate average
+
+        const average =
+            (AP + FIL + HELE + MUSICandArts + PEandHealth) / 5;
+
+
+        // Display student dashboard
 
         document.body.innerHTML = `
 
-        <div class="container">
+        <div class="student-dashboard">
 
-            <h1>${student.name}</h1>
+            <div class="student-header">
 
-            <table border="1" width="100%" cellpadding="10">
+                <h1>Student Score Portal</h1>
 
-                <tr>
-                    <th>Subject</th>
-                    <th>Score</th>
-                </tr>
+                <h2>${student.name}</h2>
 
-                <tr>
-                    <td>AP</td>
-                    <td>${student.AP ?? ""}</td>
-                </tr>
+                <p>
+                    Student ID: <strong>${studentID}</strong>
+                </p>
 
-                <tr>
-                    <td>FIL</td>
-                    <td>${student.FIL ?? ""}</td>
-                </tr>
+            </div>
 
-                <tr>
-                    <td>HELE</td>
-                    <td>${student.HELE ?? ""}</td>
-                </tr>
 
-                <tr>
-                    <td>MUSIC / ARTS</td>
-                    <td>${student.MUSICandArts ?? ""}</td>
-                </tr>
+            <div class="score-card">
 
-                <tr>
-                    <td>PE / HEALTH</td>
-                    <td>${student.PEandHealth ?? ""}</td>
-                </tr>
+                <h2>My Scores</h2>
 
-            </table>
+                <table>
 
-            <br>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Score</th>
+                    </tr>
 
-            <button onclick="location.reload()">
-                Logout
-            </button>
+                    <tr>
+                        <td>Araling Panlipunan</td>
+                        <td>${AP}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Filipino</td>
+                        <td>${FIL}</td>
+                    </tr>
+
+                    <tr>
+                        <td>HELE</td>
+                        <td>${HELE}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Music & Arts</td>
+                        <td>${MUSICandArts}</td>
+                    </tr>
+
+                    <tr>
+                        <td>PE & Health</td>
+                        <td>${PEandHealth}</td>
+                    </tr>
+
+                </table>
+
+
+                <div class="average">
+
+                    <strong>General Average:</strong>
+
+                    <span>${average.toFixed(2)}</span>
+
+                </div>
+
+
+                <button onclick="location.reload()">
+                    Logout
+                </button>
+
+            </div>
 
         </div>
 
@@ -111,7 +150,8 @@ loginButton.addEventListener("click", async () => {
 
         console.error(error);
 
-        message.innerHTML = "Error connecting to Firebase.";
+        message.innerHTML =
+            "Error connecting to Firebase.";
 
     }
 
