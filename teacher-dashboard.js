@@ -1,9 +1,25 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 import {
-  doc,
-  getDoc,
-  updateDoc,
-  setDoc
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc,
+    setDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCUZmbjsWOGgs8chdBOIVfoY8RNAeGwk7s",
+    authDomain: "studentscores-c9ad1.firebaseapp.com",
+    projectId: "studentscores-c9ad1",
+    storageBucket: "studentscores-c9ad1.firebasestorage.app",
+    messagingSenderId: "627785600117",
+    appId: "1:627785600117:web:eaa750b8583929dda0fc3c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 
 // Get elements
 const studentIDInput = document.getElementById("studentID");
@@ -17,101 +33,143 @@ const PEandHealth = document.getElementById("PEandHealth");
 
 const loadBtn = document.getElementById("loadBtn");
 const saveBtn = document.getElementById("saveBtn");
+
 const newStudentID = document.getElementById("newStudentID");
 const newStudentName = document.getElementById("newStudentName");
 const newStudentPassword = document.getElementById("newStudentPassword");
+
 const addStudentBtn = document.getElementById("addStudentBtn");
-// Load student from Firestore
+
+
+// LOAD STUDENT
 loadBtn.addEventListener("click", async () => {
 
-  const studentID = studentIDInput.value.trim();
+    const studentID = studentIDInput.value.trim();
 
-  if (!studentID) {
-    alert("Please enter a student ID");
-    return;
-  }
+    if (!studentID) {
+        alert("Please enter a student ID.");
+        return;
+    }
 
-  const docRef = doc(db, "students", studentID);
-  const docSnap = await getDoc(docRef);
+    try {
 
-  if (docSnap.exists()) {
+        const docRef = doc(db, "students", studentID);
+        const docSnap = await getDoc(docRef);
 
-    const data = docSnap.data();
+        if (docSnap.exists()) {
 
-    studentName.textContent = data.name || "No name";
+            const data = docSnap.data();
 
-    AP.value = data.AP || 0;
-    FIL.value = data.FIL || 0;
-    HELE.value = data.HELE || 0;
-    MUSICandArts.value = data.MUSICandArts || 0;
-    PEandHealth.value = data.PEandHealth || 0;
+            studentName.textContent = data.name || "No name";
 
-  } else {
+            AP.value = data.AP || 0;
+            FIL.value = data.FIL || 0;
+            HELE.value = data.HELE || 0;
+            MUSICandArts.value = data.MUSICandArts || 0;
+            PEandHealth.value = data.PEandHealth || 0;
 
-    alert("Student not found");
+        } else {
 
-  }
+            alert("Student not found.");
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Error loading student: " + error.message);
+
+    }
 
 });
 
-// Save changes to Firestore
+
+// SAVE SCORES
 saveBtn.addEventListener("click", async () => {
 
-  const studentID = studentIDInput.value.trim();
+    const studentID = studentIDInput.value.trim();
 
-  if (!studentID) {
-    alert("Please load a student first");
-    return;
-  }
+    if (!studentID) {
+        alert("Please load a student first.");
+        return;
+    }
 
-  const docRef = doc(db, "students", studentID);
+    try {
 
-  await updateDoc(docRef, {
-    AP: Number(AP.value),
-    FIL: Number(FIL.value),
-    HELE: Number(HELE.value),
-    MUSICandArts: Number(MUSICandArts.value),
-    PEandHealth: Number(PEandHealth.value)
-  });
+        const docRef = doc(db, "students", studentID);
 
-  alert("Scores saved successfully!");
+        await updateDoc(docRef, {
+
+            AP: Number(AP.value),
+            FIL: Number(FIL.value),
+            HELE: Number(HELE.value),
+            MUSICandArts: Number(MUSICandArts.value),
+            PEandHealth: Number(PEandHealth.value)
+
+        });
+
+        alert("Scores saved successfully!");
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Error saving scores: " + error.message);
+
+    }
 
 });
-// Add new student
+
+
+// ADD NEW STUDENT
 addStudentBtn.addEventListener("click", async () => {
 
-  const id = newStudentID.value.trim();
-  const name = newStudentName.value.trim();
-  const password = newStudentPassword.value.trim();
+    const id = newStudentID.value.trim();
+    const name = newStudentName.value.trim();
+    const password = newStudentPassword.value.trim();
 
-  if (!id || !name || !password) {
-    alert("Please enter Student ID, Name, and Password.");
-    return;
-  }
+    if (!id || !name || !password) {
 
-  const studentRef = doc(db, "students", id);
+        alert("Please enter Student ID, Name, and Password.");
+        return;
 
-  const existingStudent = await getDoc(studentRef);
+    }
 
-  if (existingStudent.exists()) {
-    alert("That Student ID already exists.");
-    return;
-  }
+    try {
 
-  await setDoc(studentRef, {
-    name: name,
-    password: password,
-    AP: 0,
-    FIL: 0,
-    HELE: 0,
-    MUSICandArts: 0,
-    PEandHealth: 0
-  });
+        const studentRef = doc(db, "students", id);
 
-  alert("Student added successfully!");
+        const existingStudent = await getDoc(studentRef);
 
-  newStudentID.value = "";
-  newStudentName.value = "";
-  newStudentPassword.value = "";
+        if (existingStudent.exists()) {
+
+            alert("That Student ID already exists.");
+            return;
+
+        }
+
+        await setDoc(studentRef, {
+
+            name: name,
+            password: password,
+            AP: 0,
+            FIL: 0,
+            HELE: 0,
+            MUSICandArts: 0,
+            PEandHealth: 0
+
+        });
+
+        alert("Student added successfully!");
+
+        newStudentID.value = "";
+        newStudentName.value = "";
+        newStudentPassword.value = "";
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Error adding student: " + error.message);
+
+    }
 
 });
