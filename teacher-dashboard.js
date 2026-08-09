@@ -1,9 +1,8 @@
-// Import Firebase
-import { db } from "./firebase.js";
 import {
   doc,
   getDoc,
-  updateDoc
+  updateDoc,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 // Get elements
@@ -18,7 +17,10 @@ const PEandHealth = document.getElementById("PEandHealth");
 
 const loadBtn = document.getElementById("loadBtn");
 const saveBtn = document.getElementById("saveBtn");
-
+const newStudentID = document.getElementById("newStudentID");
+const newStudentName = document.getElementById("newStudentName");
+const newStudentPassword = document.getElementById("newStudentPassword");
+const addStudentBtn = document.getElementById("addStudentBtn");
 // Load student from Firestore
 loadBtn.addEventListener("click", async () => {
 
@@ -73,5 +75,43 @@ saveBtn.addEventListener("click", async () => {
   });
 
   alert("Scores saved successfully!");
+
+});
+// Add new student
+addStudentBtn.addEventListener("click", async () => {
+
+  const id = newStudentID.value.trim();
+  const name = newStudentName.value.trim();
+  const password = newStudentPassword.value.trim();
+
+  if (!id || !name || !password) {
+    alert("Please enter Student ID, Name, and Password.");
+    return;
+  }
+
+  const studentRef = doc(db, "students", id);
+
+  const existingStudent = await getDoc(studentRef);
+
+  if (existingStudent.exists()) {
+    alert("That Student ID already exists.");
+    return;
+  }
+
+  await setDoc(studentRef, {
+    name: name,
+    password: password,
+    AP: 0,
+    FIL: 0,
+    HELE: 0,
+    MUSICandArts: 0,
+    PEandHealth: 0
+  });
+
+  alert("Student added successfully!");
+
+  newStudentID.value = "";
+  newStudentName.value = "";
+  newStudentPassword.value = "";
 
 });
