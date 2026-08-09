@@ -58,12 +58,25 @@ loginButton.addEventListener("click", async () => {
         const HELE = Number(student.HELE) || 0;
         const MUSICandArts = Number(student.MUSICandArts) || 0;
         const PEandHealth = Number(student.PEandHealth) || 0;
-
+        const English = Number(student.English) || 0;
+        const Mathematics = Number(student.Mathematics) || 0;
+        const Science = Number(student.Science) || 0;
+        const GMRC = Number(student.GMRC) || 0;
 
         // Calculate average
 
         const average =
-            (AP + FIL + HELE + MUSICandArts + PEandHealth) / 5;
+    (
+        AP +
+        FIL +
+        HELE +
+        MUSICandArts +
+        PEandHealth +
+        English +
+        Mathematics +
+        Science +
+        GMRC
+    ) / 9;
 
 
         // Display student dashboard
@@ -130,7 +143,25 @@ loginButton.addEventListener("click", async () => {
                         <td>PE & Health</td>
                         <td>${PEandHealth}</td>
                     </tr>
+                    <tr>
+    <td>English</td>
+    <td>${English}</td>
+</tr>
 
+<tr>
+    <td>Mathematics</td>
+    <td>${Mathematics}</td>
+</tr>
+
+<tr>
+    <td>Science</td>
+    <td>${Science}</td>
+</tr>
+
+<tr>
+    <td>GMRC</td>
+    <td>${GMRC}</td>
+</tr>
                 </table>
 
 
