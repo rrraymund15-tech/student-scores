@@ -110,11 +110,11 @@ saveBtn.addEventListener("click", async () => {
             FIL: Number(FIL.value),
             HELE: Number(HELE.value),
             MUSICandArts: Number(MUSICandArts.value),
-            PEandHealth: Number(PEandHealth.value)
-            English: Number(English.value),
-            Mathematics: Number(Mathematics.value),
-            Science: Number(Science.value),
-            GMRC: Number(GMRC.value)
+           PEandHealth: Number(PEandHealth.value),
+English: Number(English.value),
+Mathematics: Number(Mathematics.value),
+Science: Number(Science.value),
+GMRC: Number(GMRC.value)
         });
 
         alert("Scores saved successfully!");
