@@ -5,7 +5,9 @@ import {
     doc,
     getDoc,
     updateDoc,
-    setDoc
+    setDoc,
+    collection,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -42,8 +44,79 @@ const newStudentName = document.getElementById("newStudentName");
 const newStudentPassword = document.getElementById("newStudentPassword");
 
 const addStudentBtn = document.getElementById("addStudentBtn");
+const studentList = document.getElementById("studentList");
+// LOAD ALL STUDENTS
+async function loadStudentList() {
 
+    try {
 
+        const studentsRef = collection(db, "students");
+        const snapshot = await getDocs(studentsRef);
+
+        studentList.innerHTML = "";
+
+        if (snapshot.empty) {
+
+            studentList.innerHTML = `
+                <tr>
+                    <td colspan="3">No students found.</td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        snapshot.forEach((studentDoc) => {
+
+            const data = studentDoc.data();
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${studentDoc.id}</td>
+                <td>${data.name || "No name"}</td>
+                <td>
+                    <button class="load-student-btn"
+                        data-id="${studentDoc.id}">
+                        Load
+                    </button>
+                </td>
+            `;
+
+            studentList.appendChild(row);
+
+        });
+
+        document.querySelectorAll(".load-student-btn")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    studentIDInput.value = button.dataset.id;
+
+                    loadBtn.click();
+
+                });
+
+            });
+
+    } catch (error) {
+
+        console.error(error);
+
+        studentList.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    Error loading students.
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+loadStudentList();
 // LOAD STUDENT
 loadBtn.addEventListener("click", async () => {
 
