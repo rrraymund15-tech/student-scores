@@ -30,7 +30,10 @@ const FIL = document.getElementById("FIL");
 const HELE = document.getElementById("HELE");
 const MUSICandArts = document.getElementById("MUSICandArts");
 const PEandHealth = document.getElementById("PEandHealth");
-
+const English = document.getElementById("English");
+const Mathematics = document.getElementById("Mathematics");
+const Science = document.getElementById("Science");
+const GMRC = document.getElementById("GMRC");
 const loadBtn = document.getElementById("loadBtn");
 const saveBtn = document.getElementById("saveBtn");
 
@@ -67,7 +70,10 @@ loadBtn.addEventListener("click", async () => {
             HELE.value = data.HELE || 0;
             MUSICandArts.value = data.MUSICandArts || 0;
             PEandHealth.value = data.PEandHealth || 0;
-
+            English.value = data.English || 0;
+            Mathematics.value = data.Mathematics || 0;
+            Science.value = data.Science || 0;
+            GMRC.value = data.GMRC || 0;
         } else {
 
             alert("Student not found.");
@@ -105,7 +111,10 @@ saveBtn.addEventListener("click", async () => {
             HELE: Number(HELE.value),
             MUSICandArts: Number(MUSICandArts.value),
             PEandHealth: Number(PEandHealth.value)
-
+            English: Number(English.value),
+            Mathematics: Number(Mathematics.value),
+            Science: Number(Science.value),
+            GMRC: Number(GMRC.value)
         });
 
         alert("Scores saved successfully!");
@@ -155,8 +164,11 @@ addStudentBtn.addEventListener("click", async () => {
             FIL: 0,
             HELE: 0,
             MUSICandArts: 0,
-            PEandHealth: 0
-
+            PEandHealth: 0,
+            English: 0,
+            Mathematics: 0,
+            Science: 0,
+            GMRC: 0
         });
 
         alert("Student added successfully!");
