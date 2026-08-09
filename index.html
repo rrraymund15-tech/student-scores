@@ -1,35 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Score Portal</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<a href="teacher.html">Teacher Login</a>
-<div class="container">
 
-    <h1>Student Score Portal</h1>
+    <div class="login-container">
 
-    <p>Please login to view your scores.</p>
+        <div class="login-box">
 
-    <input type="text" id="studentID" placeholder="Student ID">
+            <h1>Student Score Portal</h1>
 
-    <input type="password" id="password" placeholder="Password">
+            <p class="subtitle">
+                Please log in to view your scores.
+            </p>
 
-    <button id="loginBtn">
-        Login
-    </button>
+            <label for="studentID">Student ID</label>
 
-    <p id="message"></p>
+            <input
+                type="text"
+                id="studentID"
+                placeholder="Enter Student ID"
+                autocomplete="username"
+            >
 
-</div>
+            <label for="password">Password</label>
 
-<script type="module" src="firebase.js"></script>
-<script type="module" src="student.js"></script>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter Password"
+                autocomplete="current-password"
+            >
+
+            <button id="loginBtn">
+                Login
+            </button>
+
+            <p id="message"></p>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="student.js"></script>
 
 </body>
+
 </html>
