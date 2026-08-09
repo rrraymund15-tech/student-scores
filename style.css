@@ -1,81 +1,229 @@
-/* Student Score Portal */
+/* GENERAL PAGE */
 
 body {
     font-family: Arial, sans-serif;
-    background: #f2f2f2;
     margin: 0;
     padding: 0;
+    background: #f4f7fb;
+    color: #333;
 }
 
-.container {
-    width: 90%;
+
+/* STUDENT LOGIN */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.login-box h1 {
+    text-align: center;
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.login-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.login-box button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 7px;
+    background: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #2980b9;
+}
+
+#message {
+    text-align: center;
+    color: #d63031;
+    margin-top: 15px;
+}
+
+
+/* STUDENT DASHBOARD */
+
+.student-dashboard {
+    min-height: 100vh;
+    padding: 30px 20px;
+    box-sizing: border-box;
+}
+
+.student-header {
     max-width: 800px;
-    margin: 40px auto;
+    margin: 0 auto 20px;
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+    text-align: center;
 }
 
-h1 {
+.student-header h1 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.student-header h2 {
+    margin-bottom: 5px;
+    color: #3498db;
+}
+
+.student-header p {
+    color: #666;
+}
+
+
+/* SCORE CARD */
+
+.score-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+.score-card h2 {
     text-align: center;
     color: #2c3e50;
 }
 
-h2 {
-    color: #34495e;
-}
 
-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 5px;
-}
+/* SCORE TABLE */
 
-button {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background: #3498db;
-    color: white;
-    font-size: 15px;
-}
-
-button:hover {
-    opacity: 0.9;
-}
-
-table {
+.score-card table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-th,
-td {
+.score-card th,
+.score-card td {
     border: 1px solid #ddd;
-    padding: 12px;
+    padding: 14px;
     text-align: center;
 }
 
-th {
+.score-card th {
     background: #3498db;
     color: white;
 }
 
-.score {
-    width: 70px;
-    text-align: center;
+.score-card td:first-child {
+    text-align: left;
+    font-weight: bold;
 }
 
-.buttons {
-    text-align: center;
+
+/* AVERAGE */
+
+.average {
     margin-top: 25px;
+    padding: 18px;
+    text-align: center;
+    background: #f4f7fb;
+    border-radius: 10px;
+    font-size: 20px;
 }
 
-.student-name {
-    font-size: 18px;
-    margin-top: 20px;
+.average span {
+    display: block;
+    margin-top: 8px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #3498db;
+}
+
+
+/* LOGOUT BUTTON */
+
+.score-card button {
+    display: block;
+    margin: 25px auto 0;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 7px;
+    background: #e74c3c;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.score-card button:hover {
+    background: #c0392b;
+}
+
+
+/* MOBILE PHONE */
+
+@media (max-width: 600px) {
+
+    .login-box {
+        padding: 25px;
+    }
+
+    .student-dashboard {
+        padding: 15px 10px;
+    }
+
+    .student-header,
+    .score-card {
+        padding: 18px;
+    }
+
+    .score-card th,
+    .score-card td {
+        padding: 10px 6px;
+        font-size: 14px;
+    }
+
+    .average {
+        font-size: 18px;
+    }
+
+    .average span {
+        font-size: 26px;
+    }
 }
