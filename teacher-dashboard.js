@@ -325,10 +325,6 @@ if (selectedTerm === "term1") {
 
 }
 
-            // Use the selected term's scores if they exist.
-            // Otherwise, use the existing scores as Term 1.
-            const scores =
-                data[selectedTerm] || data;
 
             AP.value = scores.AP || 0;
             FIL.value = scores.FIL || 0;
