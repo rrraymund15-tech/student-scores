@@ -227,6 +227,68 @@ studentSearch.addEventListener("input", () => {
 
 
 loadStudentList();
+// CHANGE STUDENT PASSWORD
+changePasswordBtn.addEventListener("click", async () => {
+
+    const studentID = passwordStudentID.value.trim();
+    const newPassword = changeNewPassword.value.trim();
+
+    if (!studentID || !newPassword) {
+        alert("Please enter the Student ID and new password.");
+        return;
+    }
+
+    if (newPassword.length < 4) {
+        alert("Password must be at least 4 characters.");
+        return;
+    }
+
+    const confirmed = confirm(
+        `Change the password for student ${studentID}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const studentRef = doc(
+            db,
+            "students",
+            studentID
+        );
+
+        const studentSnap = await getDoc(studentRef);
+
+        if (!studentSnap.exists()) {
+
+            alert("Student ID not found.");
+
+            return;
+        }
+
+        await updateDoc(studentRef, {
+            password: newPassword
+        });
+
+        alert("Student password changed successfully.");
+
+        passwordStudentID.value = "";
+        changeNewPassword.value = "";
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Error changing password: " +
+            error.message
+        );
+
+    }
+
+});
 // LOAD STUDENT
 loadBtn.addEventListener("click", async () => {
 
