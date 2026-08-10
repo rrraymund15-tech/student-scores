@@ -46,6 +46,14 @@ const newStudentPassword = document.getElementById("newStudentPassword");
 const addStudentBtn = document.getElementById("addStudentBtn");
 const studentList = document.getElementById("studentList");
 const studentSearch = document.getElementById("studentSearch");
+const passwordStudentID =
+    document.getElementById("passwordStudentID");
+
+const changeNewPassword =
+    document.getElementById("changeNewPassword");
+
+const changePasswordBtn =
+    document.getElementById("changePasswordBtn");
 // LOAD ALL STUDENTS
 // LOAD ALL STUDENTS
 let allStudents = [];
