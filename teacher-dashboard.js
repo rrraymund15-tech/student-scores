@@ -46,6 +46,7 @@ const newStudentPassword = document.getElementById("newStudentPassword");
 const addStudentBtn = document.getElementById("addStudentBtn");
 const studentList = document.getElementById("studentList");
 const studentSearch = document.getElementById("studentSearch");
+const termSelect = document.getElementById("termSelect");
 const passwordStudentID =
     document.getElementById("passwordStudentID");
 
