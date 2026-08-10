@@ -317,11 +317,12 @@ let termScores;
 
 if (selectedTerm === "term1") {
 
-  termScores = data.term1 || data;
+ termScores = data.term1 || data;
 } else {
 
-    scores = data[selectedTerm] || {};
+    termScores = data[selectedTerm] || {};
 
+}
 }
 
 AP.value = termScores.AP || 0;
