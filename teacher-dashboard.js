@@ -311,15 +311,23 @@ loadBtn.addEventListener("click", async () => {
 
             studentName.textContent = data.name || "No name";
 
-            AP.value = data.AP || 0;
-            FIL.value = data.FIL || 0;
-            HELE.value = data.HELE || 0;
-            MUSICandArts.value = data.MUSICandArts || 0;
-            PEandHealth.value = data.PEandHealth || 0;
-            English.value = data.English || 0;
-            Mathematics.value = data.Mathematics || 0;
-            Science.value = data.Science || 0;
-            GMRC.value = data.GMRC || 0;
+            const selectedTerm = termSelect.value;
+
+            // Use the selected term's scores if they exist.
+            // Otherwise, use the existing scores as Term 1.
+            const scores =
+                data[selectedTerm] || data;
+
+            AP.value = scores.AP || 0;
+            FIL.value = scores.FIL || 0;
+            HELE.value = scores.HELE || 0;
+            MUSICandArts.value = scores.MUSICandArts || 0;
+            PEandHealth.value = scores.PEandHealth || 0;
+            English.value = scores.English || 0;
+            Mathematics.value = scores.Mathematics || 0;
+            Science.value = scores.Science || 0;
+            GMRC.value = scores.GMRC || 0;
+
         } else {
 
             alert("Student not found.");
@@ -350,17 +358,26 @@ saveBtn.addEventListener("click", async () => {
 
         const docRef = doc(db, "students", studentID);
 
-        await updateDoc(docRef, {
+        const selectedTerm = termSelect.value;
+
+        const scores = {
 
             AP: Number(AP.value),
             FIL: Number(FIL.value),
             HELE: Number(HELE.value),
             MUSICandArts: Number(MUSICandArts.value),
-           PEandHealth: Number(PEandHealth.value),
-English: Number(English.value),
-Mathematics: Number(Mathematics.value),
-Science: Number(Science.value),
-GMRC: Number(GMRC.value)
+            PEandHealth: Number(PEandHealth.value),
+            English: Number(English.value),
+            Mathematics: Number(Mathematics.value),
+            Science: Number(Science.value),
+            GMRC: Number(GMRC.value)
+
+        };
+
+        await updateDoc(docRef, {
+
+            [selectedTerm]: scores
+
         });
 
         alert("Scores saved successfully!");
@@ -373,7 +390,6 @@ GMRC: Number(GMRC.value)
     }
 
 });
-
 
 // ADD NEW STUDENT
 addStudentBtn.addEventListener("click", async () => {
