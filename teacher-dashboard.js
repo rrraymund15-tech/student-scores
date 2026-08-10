@@ -313,6 +313,18 @@ loadBtn.addEventListener("click", async () => {
 
             const selectedTerm = termSelect.value;
 
+let scores;
+
+if (selectedTerm === "term1") {
+
+    scores = data.term1 || data;
+
+} else {
+
+    scores = data[selectedTerm] || {};
+
+}
+
             // Use the selected term's scores if they exist.
             // Otherwise, use the existing scores as Term 1.
             const scores =
