@@ -313,28 +313,26 @@ loadBtn.addEventListener("click", async () => {
 
             const selectedTerm = termSelect.value;
 
-let scores;
+let termScores;
 
 if (selectedTerm === "term1") {
 
-    scores = data.term1 || data;
-
+  termScores = data.term1 || data;
 } else {
 
     scores = data[selectedTerm] || {};
 
 }
 
-
-            AP.value = scores.AP || 0;
-            FIL.value = scores.FIL || 0;
-            HELE.value = scores.HELE || 0;
-            MUSICandArts.value = scores.MUSICandArts || 0;
-            PEandHealth.value = scores.PEandHealth || 0;
-            English.value = scores.English || 0;
-            Mathematics.value = scores.Mathematics || 0;
-            Science.value = scores.Science || 0;
-            GMRC.value = scores.GMRC || 0;
+AP.value = termScores.AP || 0;
+FIL.value = termScores.FIL || 0;
+HELE.value = termScores.HELE || 0;
+MUSICandArts.value = termScores.MUSICandArts || 0;
+PEandHealth.value = termScores.PEandHealth || 0;
+English.value = termScores.English || 0;
+Mathematics.value = termScores.Mathematics || 0;
+Science.value = termScores.Science || 0;
+GMRC.value = termScores.GMRC || 0;
 
         } else {
 
