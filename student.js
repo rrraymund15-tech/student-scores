@@ -55,12 +55,19 @@ loginButton.addEventListener("click", async () => {
 
         // GET TERM SCORES
 
-        const term1 =
-            student.term1 || {};
+       const term1 = student.term1 || {
+    AP: student.AP || 0,
+    FIL: student.FIL || 0,
+    HELE: student.HELE || 0,
+    MUSICandArts: student.MUSICandArts || 0,
+    PEandHealth: student.PEandHealth || 0,
+    English: student.English || 0,
+    Mathematics: student.Mathematics || 0,
+    Science: student.Science || 0,
+    GMRC: student.GMRC || 0
+};
 
-        const term2 =
-            student.term2 || {};
-
+const term2 = student.term2 || {};
         // DISPLAY DASHBOARD
 
         document.body.innerHTML = `
