@@ -151,7 +151,51 @@ function displayStudents(students) {
             });
 
         });
+// DELETE STUDENT
+document.querySelectorAll(".delete-student-btn")
+    .forEach(button => {
 
+        button.addEventListener("click", async () => {
+
+            const studentID = button.dataset.id;
+            const studentName = button.dataset.name;
+
+            const confirmed = confirm(
+                `Are you sure you want to delete ${studentName} (${studentID})?\n\nThis will permanently delete the student's record and all scores.`
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+
+                const studentRef = doc(
+                    db,
+                    "students",
+                    studentID
+                );
+
+                await deleteDoc(studentRef);
+
+                alert("Student deleted successfully.");
+
+                loadStudentList();
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Error deleting student: " +
+                    error.message
+                );
+
+            }
+
+        });
+
+    });
 }
 
 
