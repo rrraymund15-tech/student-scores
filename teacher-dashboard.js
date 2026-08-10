@@ -366,7 +366,7 @@ saveBtn.addEventListener("click", async () => {
 
         const selectedTerm = termSelect.value;
 
-        const scores = {
+        const scoresToSave = {
 
             AP: Number(AP.value),
             FIL: Number(FIL.value),
@@ -382,7 +382,7 @@ saveBtn.addEventListener("click", async () => {
 
         await updateDoc(docRef, {
 
-            [selectedTerm]: scores
+            [selectedTerm]: scoresToSave
 
         });
 
@@ -396,7 +396,6 @@ saveBtn.addEventListener("click", async () => {
     }
 
 });
-
 // ADD NEW STUDENT
 addStudentBtn.addEventListener("click", async () => {
 
