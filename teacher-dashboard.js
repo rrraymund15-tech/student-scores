@@ -47,6 +47,9 @@ const addStudentBtn = document.getElementById("addStudentBtn");
 const studentList = document.getElementById("studentList");
 const studentSearch = document.getElementById("studentSearch");
 // LOAD ALL STUDENTS
+// LOAD ALL STUDENTS
+let allStudents = [];
+
 async function loadStudentList() {
 
     try {
@@ -54,52 +57,20 @@ async function loadStudentList() {
         const studentsRef = collection(db, "students");
         const snapshot = await getDocs(studentsRef);
 
-        studentList.innerHTML = "";
-
-        if (snapshot.empty) {
-
-            studentList.innerHTML = `
-                <tr>
-                    <td colspan="3">No students found.</td>
-                </tr>
-            `;
-
-            return;
-        }
+        allStudents = [];
 
         snapshot.forEach((studentDoc) => {
 
             const data = studentDoc.data();
 
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${studentDoc.id}</td>
-                <td>${data.name || "No name"}</td>
-                <td>
-                    <button class="load-student-btn"
-                        data-id="${studentDoc.id}">
-                        Load
-                    </button>
-                </td>
-            `;
-
-            studentList.appendChild(row);
+            allStudents.push({
+                id: studentDoc.id,
+                name: data.name || "No name"
+            });
 
         });
 
-        document.querySelectorAll(".load-student-btn")
-            .forEach(button => {
-
-                button.addEventListener("click", () => {
-
-                    studentIDInput.value = button.dataset.id;
-
-                    loadBtn.click();
-
-                });
-
-            });
+        displayStudents(allStudents);
 
     } catch (error) {
 
@@ -116,6 +87,83 @@ async function loadStudentList() {
     }
 
 }
+
+
+// DISPLAY STUDENTS
+function displayStudents(students) {
+
+    studentList.innerHTML = "";
+
+    if (students.length === 0) {
+
+        studentList.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    No students found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    students.forEach((student) => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${student.id}</td>
+
+            <td>${student.name}</td>
+
+            <td>
+                <button
+                    class="load-student-btn"
+                    data-id="${student.id}">
+                    Load
+                </button>
+            </td>
+        `;
+
+        studentList.appendChild(row);
+
+    });
+
+
+    document.querySelectorAll(".load-student-btn")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                studentIDInput.value = button.dataset.id;
+
+                loadBtn.click();
+
+            });
+
+        });
+
+}
+
+
+// SEARCH STUDENTS
+studentSearch.addEventListener("input", () => {
+
+    const searchText =
+        studentSearch.value.trim().toLowerCase();
+
+    const filteredStudents = allStudents.filter(student =>
+
+        student.id.toLowerCase().includes(searchText) ||
+
+        student.name.toLowerCase().includes(searchText)
+
+    );
+
+    displayStudents(filteredStudents);
+
+});
+
 
 loadStudentList();
 // LOAD STUDENT
