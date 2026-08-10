@@ -7,9 +7,9 @@ import {
     updateDoc,
     setDoc,
     collection,
-    getDocs
+    getDocs,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
 const firebaseConfig = {
     apiKey: "AIzaSyCUZmbjsWOGgs8chdBOIVfoY8RNAeGwk7s",
     authDomain: "studentscores-c9ad1.firebaseapp.com",
@@ -117,12 +117,21 @@ function displayStudents(students) {
             <td>${student.name}</td>
 
             <td>
-                <button
-                    class="load-student-btn"
-                    data-id="${student.id}">
-                    Load
-                </button>
-            </td>
+
+    <button
+        class="load-student-btn"
+        data-id="${student.id}">
+        Load
+    </button>
+
+    <button
+        class="delete-student-btn"
+        data-id="${student.id}"
+        data-name="${student.name}">
+        Delete
+    </button>
+
+</td>
         `;
 
         studentList.appendChild(row);
