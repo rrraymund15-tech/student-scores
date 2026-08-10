@@ -45,6 +45,7 @@ const newStudentPassword = document.getElementById("newStudentPassword");
 
 const addStudentBtn = document.getElementById("addStudentBtn");
 const studentList = document.getElementById("studentList");
+const studentSearch = document.getElementById("studentSearch");
 // LOAD ALL STUDENTS
 async function loadStudentList() {
 
