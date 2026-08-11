@@ -383,17 +383,32 @@ saveBtn.addEventListener("click", async () => {
 
         const scoresToSave = {
 
-            AP: Number(AP.value),
-            FIL: Number(FIL.value),
-            HELE: Number(HELE.value),
-            MUSICandArts: Number(MUSICandArts.value),
-            PEandHealth: Number(PEandHealth.value),
-            English: Number(English.value),
-            Mathematics: Number(Mathematics.value),
-            Science: Number(Science.value),
-            GMRC: Number(GMRC.value)
+            AP: Number(AP.value) || 0,
+
+            FIL: Number(FIL.value) || 0,
+
+            HELE: Number(HELE.value) || 0,
+
+            MUSICandArts:
+                Number(MUSICandArts.value) || 0,
+
+            PEandHealth:
+                Number(PEandHealth.value) || 0,
+
+            English:
+                Number(English.value) || 0,
+
+            Mathematics:
+                Number(Mathematics.value) || 0,
+
+            Science:
+                Number(Science.value) || 0,
+
+            GMRC:
+                Number(GMRC.value) || 0
 
         };
+
 
         await updateDoc(docRef, {
 
@@ -401,14 +416,29 @@ saveBtn.addEventListener("click", async () => {
 
         });
 
-        alert("Scores saved successfully!");
+
+        alert(
+            selectedTerm === "term1"
+                ? "Term 1 scores saved successfully!"
+                : "Term 2 scores saved successfully!"
+        );
+
 
     } catch (error) {
 
-        console.error(error);
-        alert("Error saving scores: " + error.message);
+        console.error(
+            "ERROR SAVING SCORES:",
+            error
+        );
+
+        alert(
+            "Error saving scores: " +
+            error.message
+        );
 
     }
+
+});
 
 });
 // ADD NEW STUDENT
