@@ -311,10 +311,12 @@ loginButton.addEventListener("click", async () => {
             message.innerHTML =
                 "Incorrect Student ID or Password.";
 
-        } else {
+            } else {
 
-            message.innerHTML =
-                "Error connecting to Firebase.";
+        message.innerHTML =
+            "Incorrect Student ID or Password.";
+
+    }
 
         }
 
