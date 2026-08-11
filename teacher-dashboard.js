@@ -1,245 +1,164 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+import { db } from "./firebase.js";
 
 import {
     getAuth,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    updateDoc,
-    setDoc,
-    collection,
-    getDocs,
-    deleteDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+// ======================================================
+// TEACHER AUTHENTICATION
+// ======================================================
 
-// ===============================
-// FIREBASE CONFIGURATION
-// ===============================
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCUZmbjsWOGgs8chdBOIVfoY8RNAeGwk7s",
-    authDomain: "studentscores-c9ad1.firebaseapp.com",
-    projectId: "studentscores-c9ad1",
-    storageBucket: "studentscores-c9ad1.firebasestorage.app",
-    messagingSenderId: "627785600117",
-    appId: "1:627785600117:web:eaa750b8583929dda0fc3c"
-};
-
-
-// ===============================
-// INITIALIZE FIREBASE
-// ===============================
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-
-// ===============================
-// CHECK TEACHER LOGIN
-// ===============================
+const auth = getAuth();
 
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
-
         window.location.href = "teacher.html";
-
+        return;
     }
+
+    console.log("Teacher logged in:", user.email);
 
 });
 
 
-// ===============================
+// ======================================================
 // GET HTML ELEMENTS
-// ===============================
+// ======================================================
 
-const studentIDInput =
-    document.getElementById("studentID");
+const studentIDInput = document.getElementById("studentID");
+const studentName = document.getElementById("studentName");
 
-const studentName =
-    document.getElementById("studentName");
+const AP = document.getElementById("AP");
+const FIL = document.getElementById("FIL");
+const HELE = document.getElementById("HELE");
+const MAPEH = document.getElementById("MAPEH");
+const English = document.getElementById("English");
+const Mathematics = document.getElementById("Mathematics");
+const Science = document.getElementById("Science");
+const GMRC = document.getElementById("GMRC");
 
-const AP =
-    document.getElementById("AP");
+const loadBtn = document.getElementById("loadBtn");
+const saveBtn = document.getElementById("saveBtn");
 
-const FIL =
-    document.getElementById("FIL");
+const newStudentID = document.getElementById("newStudentID");
+const newStudentName = document.getElementById("newStudentName");
+const newStudentPassword = document.getElementById("newStudentPassword");
+const addStudentBtn = document.getElementById("addStudentBtn");
 
-const HELE =
-    document.getElementById("HELE");
+const studentList = document.getElementById("studentList");
+const studentSearch = document.getElementById("studentSearch");
 
-const MAPEH =
-    document.getElementById("MAPEH");
+const termSelect = document.getElementById("termSelect");
 
-const English =
-    document.getElementById("English");
-
-const Mathematics =
-    document.getElementById("Mathematics");
-
-const Science =
-    document.getElementById("Science");
-
-const GMRC =
-    document.getElementById("GMRC");
-
-const loadBtn =
-    document.getElementById("loadBtn");
-
-const saveBtn =
-    document.getElementById("saveBtn");
-
-const newStudentID =
-    document.getElementById("newStudentID");
-
-const newStudentName =
-    document.getElementById("newStudentName");
-
-const newStudentPassword =
-    document.getElementById("newStudentPassword");
-
-const addStudentBtn =
-    document.getElementById("addStudentBtn");
-
-const studentList =
-    document.getElementById("studentList");
-
-const studentSearch =
-    document.getElementById("studentSearch");
-
-const termSelect =
-    document.getElementById("termSelect");
-
-const passwordStudentID =
-    document.getElementById("passwordStudentID");
-
-const changeNewPassword =
-    document.getElementById("changeNewPassword");
-
-const changePasswordBtn =
-    document.getElementById("changePasswordBtn");
+const passwordStudentID = document.getElementById("passwordStudentID");
+const changeNewPassword = document.getElementById("changeNewPassword");
+const changePasswordBtn = document.getElementById("changePasswordBtn");
 
 
-// ===============================
-// LOAD ALL STUDENTS
-// ===============================
+// ======================================================
+// SUBJECTS
+// ======================================================
 
-let allStudents = [];
+const subjects = {
+    AP: AP,
+    FIL: FIL,
+    HELE: HELE,
+    MAPEH: MAPEH,
+    English: English,
+    Mathematics: Mathematics,
+    Science: Science,
+    GMRC: GMRC
+};
 
 
-async function loadStudentList() {
+// ======================================================
+// GET SELECTED TERM
+// ======================================================
 
-    try {
+function getSelectedTerm() {
 
-        const studentsRef =
-            collection(db, "students");
-
-        const snapshot =
-            await getDocs(studentsRef);
-
-        allStudents = [];
-
-        snapshot.forEach((studentDoc) => {
-
-            const data =
-                studentDoc.data();
-
-            allStudents.push({
-
-                id: studentDoc.id,
-
-                name:
-                    data.name || "No name"
-
-            });
-
-        });
-
-        displayStudents(allStudents);
-
-    } catch (error) {
-
-        console.error(error);
-
-        studentList.innerHTML = `
-            <tr>
-                <td colspan="3">
-                    Error loading students.
-                </td>
-            </tr>
-        `;
-
+    if (!termSelect) {
+        return "term1";
     }
+
+    return termSelect.value || "term1";
+}
+
+
+// ======================================================
+// CLEAR SCORES
+// ======================================================
+
+function clearScores() {
+
+    Object.values(subjects).forEach((input) => {
+
+        if (input) {
+            input.value = "";
+        }
+
+    });
 
 }
 
 
-// ===============================
+// ======================================================
 // DISPLAY STUDENTS
-// ===============================
+// ======================================================
 
 function displayStudents(students) {
+
+    if (!studentList) {
+        return;
+    }
 
     studentList.innerHTML = "";
 
     if (students.length === 0) {
 
-        studentList.innerHTML = `
-            <tr>
-                <td colspan="3">
-                    No students found.
-                </td>
-            </tr>
-        `;
+        studentList.innerHTML = "<p>No students found.</p>";
 
         return;
-
     }
 
 
     students.forEach((student) => {
 
-        const row =
-            document.createElement("tr");
+        const row = document.createElement("div");
 
+        row.className = "student-row";
 
         row.innerHTML = `
+            <span>
+                <strong>${student.id}</strong>
+                - ${student.name}
+            </span>
 
-            <td>
-                ${student.id}
-            </td>
+            <button
+                class="load-student-btn"
+                data-id="${student.id}">
+                Load
+            </button>
 
-            <td>
-                ${student.name}
-            </td>
-
-            <td>
-
-                <button
-                    class="load-student-btn"
-                    data-id="${student.id}">
-                    Load
-                </button>
-
-                <button
-                    class="delete-student-btn"
-                    data-id="${student.id}"
-                    data-name="${student.name}">
-                    Delete
-                </button>
-
-            </td>
-
+            <button
+                class="delete-student-btn"
+                data-id="${student.id}">
+                Delete
+            </button>
         `;
-
 
         studentList.appendChild(row);
 
@@ -252,17 +171,19 @@ function displayStudents(students) {
         .querySelectorAll(".load-student-btn")
         .forEach((button) => {
 
-            button.addEventListener(
-                "click",
-                () => {
+            button.addEventListener("click", () => {
 
-                    studentIDInput.value =
-                        button.dataset.id;
+                const id = button.dataset.id;
 
-                    loadBtn.click();
-
+                if (studentIDInput) {
+                    studentIDInput.value = id;
                 }
-            );
+
+                if (loadBtn) {
+                    loadBtn.click();
+                }
+
+            });
 
         });
 
@@ -273,495 +194,636 @@ function displayStudents(students) {
         .querySelectorAll(".delete-student-btn")
         .forEach((button) => {
 
-            button.addEventListener(
-                "click",
-                async () => {
+            button.addEventListener("click", async () => {
 
-                    const studentID =
-                        button.dataset.id;
+                const studentID = button.dataset.id;
 
-                    const studentNameValue =
-                        button.dataset.name;
-
-
-                    const confirmed =
-                        confirm(
-                            `Are you sure you want to delete ${studentNameValue} (${studentID})?\n\nThis will permanently delete the student's record and all scores.`
-                        );
+                const studentNameValue =
+                    button.parentElement
+                        .querySelector("span")
+                        .textContent;
 
 
-                    if (!confirmed) {
+                const confirmed = confirm(
+                    `Are you sure you want to delete ${studentNameValue}?\n\nThis will permanently delete the student's record and scores.`
+                );
 
-                        return;
 
+                if (!confirmed) {
+                    return;
+                }
+
+
+                try {
+
+                    const studentRef =
+                        doc(db, "students", studentID);
+
+                    await deleteDoc(studentRef);
+
+                    alert("Student deleted successfully.");
+
+                    clearScores();
+
+                    if (studentIDInput) {
+                        studentIDInput.value = "";
                     }
 
-
-                    try {
-
-                        const studentRef =
-                            doc(
-                                db,
-                                "students",
-                                studentID
-                            );
-
-
-                        await deleteDoc(studentRef);
-
-
-                        alert(
-                            "Student deleted successfully."
-                        );
-
-
-                        loadStudentList();
-
-
-                    } catch (error) {
-
-                        console.error(error);
-
-
-                        alert(
-                            "Error deleting student: " +
-                            error.message
-                        );
-
+                    if (studentName) {
+                        studentName.textContent = "";
                     }
+
+                    await loadStudentList();
+
+                } catch (error) {
+
+                    console.error(
+                        "Error deleting student:",
+                        error
+                    );
+
+                    alert(
+                        "Error deleting student: " +
+                        error.message
+                    );
 
                 }
-            );
+
+            });
 
         });
 
 }
 
 
-// ===============================
-// SEARCH STUDENTS
-// ===============================
+// ======================================================
+// LOAD ALL STUDENTS
+// ======================================================
 
-studentSearch.addEventListener(
-    "input",
-    () => {
+async function loadStudentList() {
 
-        const searchText =
-            studentSearch.value
-                .trim()
-                .toLowerCase();
+    try {
 
+        const studentsRef =
+            collection(db, "students");
 
-        const filteredStudents =
-            allStudents.filter(
-                (student) =>
+        const snapshot =
+            await getDocs(studentsRef);
 
-                    student.id
-                        .toLowerCase()
-                        .includes(searchText)
-
-                    ||
-
-                    student.name
-                        .toLowerCase()
-                        .includes(searchText)
-            );
+        const allStudents = [];
 
 
-        displayStudents(filteredStudents);
+        snapshot.forEach((studentDoc) => {
+
+            const data = studentDoc.data();
+
+            allStudents.push({
+
+                id: studentDoc.id,
+
+                name: data.name || "No name"
+
+            });
+
+        });
+
+
+        allStudents.sort((a, b) =>
+            a.id.localeCompare(b.id)
+        );
+
+
+        displayStudents(allStudents);
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading students:",
+            error
+        );
+
+
+        if (studentList) {
+
+            studentList.innerHTML =
+                "<p>Error loading students.</p>";
+
+        }
 
     }
-);
+
+}
 
 
-// Load students when dashboard opens
+// ======================================================
+// SEARCH STUDENTS
+// ======================================================
 
-loadStudentList();
+if (studentSearch) {
+
+    studentSearch.addEventListener(
+        "input",
+        async () => {
+
+            const searchText =
+                studentSearch.value
+                    .trim()
+                    .toLowerCase();
 
 
-// ===============================
+            try {
+
+                const studentsRef =
+                    collection(db, "students");
+
+                const snapshot =
+                    await getDocs(studentsRef);
+
+                const allStudents = [];
+
+
+                snapshot.forEach((studentDoc) => {
+
+                    const data = studentDoc.data();
+
+                    allStudents.push({
+
+                        id: studentDoc.id,
+
+                        name: data.name || "No name"
+
+                    });
+
+                });
+
+
+                const filteredStudents =
+                    allStudents.filter((student) => {
+
+                        return (
+                            student.id
+                                .toLowerCase()
+                                .includes(searchText)
+
+                            ||
+
+                            student.name
+                                .toLowerCase()
+                                .includes(searchText)
+                        );
+
+                    });
+
+
+                displayStudents(filteredStudents);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Search error:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// LOAD STUDENT
+// ======================================================
+
+if (loadBtn) {
+
+    loadBtn.addEventListener(
+        "click",
+        async () => {
+
+            const studentID =
+                studentIDInput.value.trim();
+
+
+            if (!studentID) {
+
+                alert(
+                    "Please enter a Student ID."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const studentRef =
+                    doc(
+                        db,
+                        "students",
+                        studentID
+                    );
+
+
+                const studentSnap =
+                    await getDoc(studentRef);
+
+
+                if (!studentSnap.exists()) {
+
+                    alert("Student not found.");
+
+                    clearScores();
+
+                    if (studentName) {
+                        studentName.textContent = "";
+                    }
+
+                    return;
+
+                }
+
+
+                const data =
+                    studentSnap.data();
+
+
+                // DISPLAY STUDENT NAME
+
+                if (studentName) {
+
+                    studentName.textContent =
+                        data.name || "No name";
+
+                }
+
+
+                // GET SELECTED TERM
+
+                const selectedTerm =
+                    getSelectedTerm();
+
+
+                let termScores = {};
+
+
+                /*
+                    Supports both:
+
+                    term1: {
+                        AP: 90,
+                        FIL: 91
+                    }
+
+                    and older documents where scores
+                    were stored directly.
+                */
+
+                if (
+                    data[selectedTerm] &&
+                    typeof data[selectedTerm] === "object"
+                ) {
+
+                    termScores =
+                        data[selectedTerm];
+
+                } else if (
+                    data.termScores &&
+                    data.termScores[selectedTerm]
+                ) {
+
+                    termScores =
+                        data.termScores[selectedTerm];
+
+                } else {
+
+                    termScores = data;
+
+                }
+
+
+                // LOAD SUBJECT SCORES
+
+                AP.value =
+                    termScores.AP ?? "";
+
+                FIL.value =
+                    termScores.FIL ?? "";
+
+                HELE.value =
+                    termScores.HELE ?? "";
+
+                MAPEH.value =
+                    termScores.MAPEH ?? "";
+
+                English.value =
+                    termScores.English ?? "";
+
+                Mathematics.value =
+                    termScores.Mathematics ?? "";
+
+                Science.value =
+                    termScores.Science ?? "";
+
+                GMRC.value =
+                    termScores.GMRC ?? "";
+
+
+                console.log(
+                    "Student loaded:",
+                    studentID
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading student:",
+                    error
+                );
+
+
+                alert(
+                    "Error connecting to Firebase: " +
+                    error.message
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// SAVE SCORES
+// ======================================================
+
+if (saveBtn) {
+
+    saveBtn.addEventListener(
+        "click",
+        async () => {
+
+            const studentID =
+                studentIDInput.value.trim();
+
+
+            if (!studentID) {
+
+                alert(
+                    "Please load a student first."
+                );
+
+                return;
+
+            }
+
+
+            const selectedTerm =
+                getSelectedTerm();
+
+
+            try {
+
+                const studentRef =
+                    doc(
+                        db,
+                        "students",
+                        studentID
+                    );
+
+
+                const studentSnap =
+                    await getDoc(studentRef);
+
+
+                if (!studentSnap.exists()) {
+
+                    alert("Student not found.");
+
+                    return;
+
+                }
+
+
+                const scores = {
+
+                    AP: AP.value,
+
+                    FIL: FIL.value,
+
+                    HELE: HELE.value,
+
+                    MAPEH: MAPEH.value,
+
+                    English: English.value,
+
+                    Mathematics: Mathematics.value,
+
+                    Science: Science.value,
+
+                    GMRC: GMRC.value
+
+                };
+
+
+                await setDoc(
+                    studentRef,
+                    {
+                        [selectedTerm]: scores
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+
+                alert(
+                    `${selectedTerm.toUpperCase()} scores saved successfully!`
+                );
+
+
+                console.log(
+                    "Scores saved:",
+                    scores
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error saving scores:",
+                    error
+                );
+
+
+                alert(
+                    "Error saving scores: " +
+                    error.message
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
 // CHANGE STUDENT PASSWORD
-// ===============================
+// ======================================================
 
-changePasswordBtn.addEventListener(
-    "click",
-    async () => {
+if (changePasswordBtn) {
 
-        const studentID =
-            passwordStudentID.value.trim();
+    changePasswordBtn.addEventListener(
+        "click",
+        async () => {
 
-        const newPassword =
-            changeNewPassword.value.trim();
+            const studentID =
+                passwordStudentID.value.trim();
 
-
-        if (!studentID || !newPassword) {
-
-            alert(
-                "Please enter the Student ID and new password."
-            );
-
-            return;
-
-        }
+            const newPassword =
+                changeNewPassword.value.trim();
 
 
-        if (newPassword.length < 4) {
+            if (!studentID) {
 
-            alert(
-                "Password must be at least 4 characters."
-            );
+                alert(
+                    "Please enter the Student ID."
+                );
 
-            return;
+                return;
 
-        }
+            }
 
 
-        const confirmed =
-            confirm(
+            if (!newPassword) {
+
+                alert(
+                    "Please enter a new password."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword.length < 4) {
+
+                alert(
+                    "Password must be at least 4 characters."
+                );
+
+                return;
+
+            }
+
+
+            const confirmed = confirm(
                 `Change the password for student ${studentID}?`
             );
 
 
-        if (!confirmed) {
-
-            return;
-
-        }
+            if (!confirmed) {
+                return;
+            }
 
 
-        try {
+            try {
 
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    studentID
+                const studentRef =
+                    doc(
+                        db,
+                        "students",
+                        studentID
+                    );
+
+
+                const studentSnap =
+                    await getDoc(studentRef);
+
+
+                if (!studentSnap.exists()) {
+
+                    alert(
+                        "Student ID not found."
+                    );
+
+                    return;
+
+                }
+
+
+                await updateDoc(
+                    studentRef,
+                    {
+                        password: newPassword
+                    }
                 );
 
-
-            const studentSnap =
-                await getDoc(studentRef);
-
-
-            if (!studentSnap.exists()) {
 
                 alert(
-                    "Student ID not found."
-                );
-
-                return;
-
-            }
-
-
-            await updateDoc(
-                studentRef,
-                {
-                    password: newPassword
-                }
-            );
-
-
-            alert(
-                "Student password changed successfully."
-            );
-
-
-            passwordStudentID.value = "";
-
-            changeNewPassword.value = "";
-
-
-        } catch (error) {
-
-            console.error(error);
-
-
-            alert(
-                "Error changing password: " +
-                error.message
-            );
-
-        }
-
-    }
-);
-
-
-// ===============================
-// LOAD STUDENT
-// ===============================
-
-loadBtn.addEventListener(
-    "click",
-    async () => {
-
-        const studentID =
-            studentIDInput.value.trim();
-
-
-        if (!studentID) {
-
-            alert(
-                "Please enter a student ID."
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const docRef =
-                doc(
-                    db,
-                    "students",
-                    studentID
+                    "Student password changed successfully!"
                 );
 
 
-            const docSnap =
-                await getDoc(docRef);
+                passwordStudentID.value = "";
+
+                changeNewPassword.value = "";
 
 
-            if (!docSnap.exists()) {
+            } catch (error) {
+
+                console.error(
+                    "Error changing password:",
+                    error
+                );
+
 
                 alert(
-                    "Student not found."
+                    "Error changing password: " +
+                    error.message
                 );
-
-                return;
 
             }
 
-
-            const data =
-                docSnap.data();
-
-
-            studentName.textContent =
-                data.name || "No name";
-
-
-            const selectedTerm =
-                termSelect.value;
-
-
-            let termScores = {};
-
-
-            if (selectedTerm === "term1") {
-
-                termScores =
-                    data.term1 || data;
-
-            } else {
-
-                termScores =
-                    data[selectedTerm] || {};
-
-            }
-
-
-            // =========================
-            // LOAD 8 SUBJECTS
-            // =========================
-
-            AP.value =
-                termScores.AP || 0;
-
-            FIL.value =
-                termScores.FIL || 0;
-
-            HELE.value =
-                termScores.HELE || 0;
-
-            MAPEH.value =
-                termScores.MAPEH || 0;
-
-            English.value =
-                termScores.English || 0;
-
-            Mathematics.value =
-                termScores.Mathematics || 0;
-
-            Science.value =
-                termScores.Science || 0;
-
-            GMRC.value =
-                termScores.GMRC || 0;
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert(
-                "Error loading student: " +
-                error.message
-            );
-
         }
+    );
 
-    }
-);
-
-
-// ===============================
-// SAVE SCORES
-// ===============================
-
-saveBtn.addEventListener(
-    "click",
-    async () => {
-
-        const studentID =
-            studentIDInput.value.trim();
+}
 
 
-        if (!studentID) {
-
-            alert(
-                "Please load a student first."
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const docRef =
-                doc(
-                    db,
-                    "students",
-                    studentID
-                );
-
-
-            const selectedTerm =
-                termSelect.value;
-
-
-            // =========================
-            // 8 SUBJECTS
-            // =========================
-
-            const scoresToSave = {
-
-                AP:
-                    Number(AP.value) || 0,
-
-                FIL:
-                    Number(FIL.value) || 0,
-
-                HELE:
-                    Number(HELE.value) || 0,
-
-                MAPEH:
-                    Number(MAPEH.value) || 0,
-
-                English:
-                    Number(English.value) || 0,
-
-                Mathematics:
-                    Number(Mathematics.value) || 0,
-
-                Science:
-                    Number(Science.value) || 0,
-
-                GMRC:
-                    Number(GMRC.value) || 0
-
-            };
-
-
-            await updateDoc(
-                docRef,
-                {
-                    [selectedTerm]:
-                        scoresToSave
-                }
-            );
-
-
-            alert(
-                selectedTerm === "term1"
-                    ? "Term 1 scores saved successfully!"
-                    : selectedTerm === "term2"
-                    ? "Term 2 scores saved successfully!"
-                    : "Scores saved successfully!"
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "ERROR SAVING SCORES:",
-                error
-            );
-
-
-            alert(
-                "Error saving scores: " +
-                error.message
-            );
-
-        }
-
-    }
-);
-
-
-// ===============================
+// ======================================================
 // ADD NEW STUDENT
-// ===============================
+// ======================================================
 
-addStudentBtn.addEventListener(
-    "click",
-    async () => {
+if (addStudentBtn) {
 
-        const id =
-            newStudentID.value.trim();
+    addStudentBtn.addEventListener(
+        "click",
+        async () => {
 
-        const name =
-            newStudentName.value.trim();
+            const studentID =
+                newStudentID.value.trim();
 
-        const password =
-            newStudentPassword.value.trim();
+            const name =
+                newStudentName.value.trim();
 
-
-        if (!id || !name || !password) {
-
-            alert(
-                "Please enter Student ID, Name, and Password."
-            );
-
-            return;
-
-        }
+            const password =
+                newStudentPassword.value.trim();
 
 
-        try {
-
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    id
-                );
-
-
-            const existingStudent =
-                await getDoc(studentRef);
-
-
-            if (existingStudent.exists()) {
+            if (!studentID) {
 
                 alert(
-                    "That Student ID already exists."
+                    "Please enter a Student ID."
                 );
 
                 return;
@@ -769,60 +831,150 @@ addStudentBtn.addEventListener(
             }
 
 
-            await setDoc(
-                studentRef,
-                {
+            if (!name) {
 
-                    name: name,
+                alert(
+                    "Please enter the student's name."
+                );
 
-                    password: password,
+                return;
 
-                    AP: 0,
+            }
 
-                    FIL: 0,
 
-                    HELE: 0,
+            if (!password) {
 
-                    MAPEH: 0,
+                alert(
+                    "Please enter a password."
+                );
 
-                    English: 0,
+                return;
 
-                    Mathematics: 0,
+            }
 
-                    Science: 0,
 
-                    GMRC: 0
+            if (password.length < 4) {
+
+                alert(
+                    "Password must be at least 4 characters."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const studentRef =
+                    doc(
+                        db,
+                        "students",
+                        studentID
+                    );
+
+
+                const existingStudent =
+                    await getDoc(studentRef);
+
+
+                if (existingStudent.exists()) {
+
+                    alert(
+                        "That Student ID already exists."
+                    );
+
+                    return;
 
                 }
-            );
 
 
-            alert(
-                "Student added successfully!"
-            );
+                await setDoc(
+                    studentRef,
+                    {
+
+                        name: name,
+
+                        password: password
+
+                    }
+                );
 
 
-            newStudentID.value = "";
-
-            newStudentName.value = "";
-
-            newStudentPassword.value = "";
+                alert(
+                    "Student added successfully!"
+                );
 
 
-            loadStudentList();
+                newStudentID.value = "";
+
+                newStudentName.value = "";
+
+                newStudentPassword.value = "";
 
 
-        } catch (error) {
-
-            console.error(error);
+                await loadStudentList();
 
 
-            alert(
-                "Error adding student: " +
-                error.message
-            );
+            } catch (error) {
+
+                console.error(
+                    "Error adding student:",
+                    error
+                );
+
+
+                alert(
+                    "Error adding student: " +
+                    error.message
+                );
+
+            }
 
         }
+    );
 
-    }
+}
+
+
+// ======================================================
+// CHANGE TERM
+// ======================================================
+
+if (termSelect) {
+
+    termSelect.addEventListener(
+        "change",
+        async () => {
+
+            const studentID =
+                studentIDInput.value.trim();
+
+
+            if (!studentID) {
+                return;
+            }
+
+
+            // Automatically reload the
+            // currently selected student
+
+            if (loadBtn) {
+                loadBtn.click();
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// INITIAL LOAD
+// ======================================================
+
+loadStudentList();
+
+console.log(
+    "Teacher Dashboard loaded successfully."
 );
