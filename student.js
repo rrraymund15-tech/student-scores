@@ -5,9 +5,14 @@ import {
     getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+import {
+    getAuth,
+    signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 const loginButton = document.getElementById("loginBtn");
 const message = document.getElementById("message");
-
+const auth = getAuth();
 loginButton.addEventListener("click", async () => {
 
     message.innerHTML = "";
@@ -27,7 +32,14 @@ loginButton.addEventListener("click", async () => {
     }
 
     try {
+const studentEmail =
+    studentID + "@studentscores.local";
 
+await signInWithEmailAndPassword(
+    auth,
+    studentEmail,
+    password
+);
         const studentRef =
             doc(db, "students", studentID);
 
