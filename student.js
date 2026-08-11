@@ -27,6 +27,8 @@ loginButton.addEventListener("click", async () => {
         document.getElementById("password").value.trim();
 
 
+    // CHECK EMPTY FIELDS
+
     if (studentID === "" || password === "") {
 
         message.innerHTML =
@@ -38,9 +40,13 @@ loginButton.addEventListener("click", async () => {
 
     try {
 
+        // CREATE STUDENT EMAIL
+
         const studentEmail =
             studentID + "@studentscores.local";
 
+
+        // FIREBASE LOGIN
 
         await signInWithEmailAndPassword(
             auth,
@@ -48,6 +54,8 @@ loginButton.addEventListener("click", async () => {
             password
         );
 
+
+        // GET STUDENT DOCUMENT
 
         const studentRef =
             doc(db, "students", studentID);
@@ -57,10 +65,12 @@ loginButton.addEventListener("click", async () => {
             await getDoc(studentRef);
 
 
+        // CHECK STUDENT
+
         if (!studentSnap.exists()) {
 
             message.innerHTML =
-                "Student not found.";
+                "Incorrect Student ID or Password.";
 
             return;
         }
@@ -70,57 +80,103 @@ loginButton.addEventListener("click", async () => {
             studentSnap.data();
 
 
+        // CHECK PASSWORD STORED IN FIRESTORE
+
         if (student.password !== password) {
 
             message.innerHTML =
-                "Incorrect password.";
+                "Incorrect Student ID or Password.";
 
             return;
         }
 
 
+        // ==============================
         // TERM 1 SCORES
+        // ==============================
 
         const term1 = {
 
-            AP: Number(student.AP) || 0,
-            FIL: Number(student.FIL) || 0,
-            HELE: Number(student.HELE) || 0,
-            MUSICandArts: Number(student.MUSICandArts) || 0,
-            PEandHealth: Number(student.PEandHealth) || 0,
-            English: Number(student.English) || 0,
-            Mathematics: Number(student.Mathematics) || 0,
-            Science: Number(student.Science) || 0,
-            GMRC: Number(student.GMRC) || 0
+            AP:
+                Number(student.AP) || 0,
+
+            FIL:
+                Number(student.FIL) || 0,
+
+            HELE:
+                Number(student.HELE) || 0,
+
+            MUSICandArts:
+                Number(student.MUSICandArts) || 0,
+
+            PEandHealth:
+                Number(student.PEandHealth) || 0,
+
+            English:
+                Number(student.English) || 0,
+
+            Mathematics:
+                Number(student.Mathematics) || 0,
+
+            Science:
+                Number(student.Science) || 0,
+
+            GMRC:
+                Number(student.GMRC) || 0
 
         };
 
 
+        // ==============================
         // TERM 2 SCORES
+        // ==============================
 
-        const term2 = student.term2 || {};
+        const term2 =
+            student.term2 || {};
 
 
-        // DISPLAY DASHBOARD
+        // ==============================
+        // DISPLAY STUDENT DASHBOARD
+        // ==============================
 
         document.body.innerHTML = `
+
             <div class="student-dashboard">
 
                 <div class="student-header">
 
                     <div class="school-info">
-                        <h2>SHILOH CHRISTIAN SCHOOL</h2>
-                        <p>Student Score Portal</p>
-                        <p>School Year: 2026–2027</p>
+
+                        <h2>
+                            SHILOH CHRISTIAN SCHOOL
+                        </h2>
+
+                        <p>
+                            Student Score Portal
+                        </p>
+
+                        <p>
+                            School Year: 2026–2027
+                        </p>
+
                     </div>
 
-                    <h1>Student Scores</h1>
 
-                    <h2>${student.name}</h2>
+                    <h1>
+                        Student Scores
+                    </h1>
+
+
+                    <h2>
+                        ${student.name || "Student"}
+                    </h2>
+
 
                     <p>
                         Student ID:
-                        <strong>${studentID}</strong>
+                        <strong>
+                            ${studentID}
+                        </strong>
                     </p>
 
                 </div>
@@ -128,11 +184,15 @@ loginButton.addEventListener("click", async () => {
 
                 <div class="score-card">
 
-                    <h2>My Scores</h2>
+                    <h2>
+                        My Scores
+                    </h2>
+
 
                     <label for="studentTerm">
                         Select Term:
                     </label>
+
 
                     <select id="studentTerm">
 
@@ -146,17 +206,25 @@ loginButton.addEventListener("click", async () => {
 
                     </select>
 
+
                     <div id="scoresContainer"></div>
 
-                    <button onclick="location.reload()">
+
+                    <button
+                        id="logoutButton"
+                        type="button"
+                    >
                         Logout
                     </button>
 
                 </div>
 
             </div>
+
         `;
 
+
+        // GET DASHBOARD ELEMENTS
 
         const termSelect =
             document.getElementById("studentTerm");
@@ -164,25 +232,45 @@ loginButton.addEventListener("click", async () => {
         const scoresContainer =
             document.getElementById("scoresContainer");
 
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+
+        // ==============================
+        // DISPLAY SCORES FUNCTION
+        // ==============================
 
         function displayScores(termScores) {
 
-            const AP = Number(termScores.AP) || 0;
-            const FIL = Number(termScores.FIL) || 0;
-            const HELE = Number(termScores.HELE) || 0;
+            const AP =
+                Number(termScores.AP) || 0;
+
+            const FIL =
+                Number(termScores.FIL) || 0;
+
+            const HELE =
+                Number(termScores.HELE) || 0;
+
             const MUSICandArts =
                 Number(termScores.MUSICandArts) || 0;
+
             const PEandHealth =
                 Number(termScores.PEandHealth) || 0;
+
             const English =
                 Number(termScores.English) || 0;
+
             const Mathematics =
                 Number(termScores.Mathematics) || 0;
+
             const Science =
                 Number(termScores.Science) || 0;
+
             const GMRC =
                 Number(termScores.GMRC) || 0;
 
+
+            // CALCULATE AVERAGE
 
             const average =
                 (
@@ -198,58 +286,148 @@ loginButton.addEventListener("click", async () => {
                 ) / 9;
 
 
+            // DISPLAY TABLE
+
             scoresContainer.innerHTML = `
+
                 <table>
 
-                    <tr>
-                        <th>Subject</th>
-                        <th>Score</th>
-                    </tr>
+                    <thead>
 
-                    <tr>
-                        <td>Araling Panlipunan</td>
-                        <td>${AP}</td>
-                    </tr>
+                        <tr>
 
-                    <tr>
-                        <td>Filipino</td>
-                        <td>${FIL}</td>
-                    </tr>
+                            <th>
+                                Subject
+                            </th>
 
-                    <tr>
-                        <td>HELE</td>
-                        <td>${HELE}</td>
-                    </tr>
+                            <th>
+                                Score
+                            </th>
 
-                    <tr>
-                        <td>Music & Arts</td>
-                        <td>${MUSICandArts}</td>
-                    </tr>
+                        </tr>
 
-                    <tr>
-                        <td>PE & Health</td>
-                        <td>${PEandHealth}</td>
-                    </tr>
+                    </thead>
 
-                    <tr>
-                        <td>English</td>
-                        <td>${English}</td>
-                    </tr>
 
-                    <tr>
-                        <td>Mathematics</td>
-                        <td>${Mathematics}</td>
-                    </tr>
+                    <tbody>
 
-                    <tr>
-                        <td>Science</td>
-                        <td>${Science}</td>
-                    </tr>
+                        <tr>
 
-                    <tr>
-                        <td>GMRC</td>
-                        <td>${GMRC}</td>
-                    </tr>
+                            <td>
+                                Araling Panlipunan
+                            </td>
+
+                            <td>
+                                ${AP}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Filipino
+                            </td>
+
+                            <td>
+                                ${FIL}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                HELE
+                            </td>
+
+                            <td>
+                                ${HELE}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Music & Arts
+                            </td>
+
+                            <td>
+                                ${MUSICandArts}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                PE & Health
+                            </td>
+
+                            <td>
+                                ${PEandHealth}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                English
+                            </td>
+
+                            <td>
+                                ${English}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Mathematics
+                            </td>
+
+                            <td>
+                                ${Mathematics}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Science
+                            </td>
+
+                            <td>
+                                ${Science}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                GMRC
+                            </td>
+
+                            <td>
+                                ${GMRC}
+                            </td>
+
+                        </tr>
+
+                    </tbody>
 
                 </table>
 
@@ -265,6 +443,7 @@ loginButton.addEventListener("click", async () => {
                     </span>
 
                 </div>
+
             `;
 
         }
@@ -275,24 +454,49 @@ loginButton.addEventListener("click", async () => {
         displayScores(term1);
 
 
+        // ==============================
         // CHANGE TERM
+        // ==============================
 
-        termSelect.addEventListener("change", () => {
+        termSelect.addEventListener(
+            "change",
+            () => {
 
-            if (termSelect.value === "term1") {
+                if (
+                    termSelect.value === "term1"
+                ) {
 
-                displayScores(term1);
+                    displayScores(term1);
 
-            } else {
+                } else {
 
-                displayScores(term2);
+                    displayScores(term2);
+
+                }
 
             }
+        );
 
-        });
+
+        // ==============================
+        // LOGOUT
+        // ==============================
+
+        logoutButton.addEventListener(
+            "click",
+            () => {
+
+                location.reload();
+
+            }
+        );
 
     }
 
+
+    // ==============================
+    // ERROR HANDLING
+    // ==============================
 
     catch (error) {
 
@@ -302,23 +506,8 @@ loginButton.addEventListener("click", async () => {
         );
 
 
-        if (
-            error.code === "auth/invalid-credential" ||
-            error.code === "auth/wrong-password" ||
-            error.code === "auth/user-not-found"
-        ) {
-
-            message.innerHTML =
-                "Incorrect Student ID or Password.";
-
-            } else {
-
         message.innerHTML =
             "Incorrect Student ID or Password.";
-
-    }
-
-        }
 
     }
 
