@@ -289,13 +289,27 @@ const term2 = student.term2 || {};
 
     }
 
-    catch (error) {
+   catch (error) {
 
-        console.error(error);
+    console.error(error);
+
+    if (
+        error.code === "auth/invalid-credential" ||
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+    ) {
+
+        message.innerHTML =
+            "Incorrect Student ID or Password.";
+
+    } else {
 
         message.innerHTML =
             "Error connecting to Firebase.";
 
+    }
+
+}
     }
 
 });
