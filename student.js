@@ -27,7 +27,7 @@ loginButton.addEventListener("click", async () => {
         document.getElementById("password").value.trim();
 
 
-    // CHECK EMPTY FIELDS
+    // CHECK LOGIN FIELDS
 
     if (studentID === "" || password === "") {
 
@@ -40,13 +40,13 @@ loginButton.addEventListener("click", async () => {
 
     try {
 
-        // CREATE STUDENT EMAIL
+        // CREATE FIREBASE EMAIL
 
         const studentEmail =
             studentID + "@studentscores.local";
 
 
-        // FIREBASE LOGIN
+        // LOGIN
 
         await signInWithEmailAndPassword(
             auth,
@@ -65,7 +65,7 @@ loginButton.addEventListener("click", async () => {
             await getDoc(studentRef);
 
 
-        // CHECK STUDENT
+        // CHECK IF STUDENT EXISTS
 
         if (!studentSnap.exists()) {
 
@@ -80,7 +80,7 @@ loginButton.addEventListener("click", async () => {
             studentSnap.data();
 
 
-        // CHECK PASSWORD STORED IN FIRESTORE
+        // CHECK PASSWORD
 
         if (student.password !== password) {
 
@@ -91,53 +91,25 @@ loginButton.addEventListener("click", async () => {
         }
 
 
-        // ==============================
-        // TERM 1 SCORES
-        // ==============================
+        // =====================================
+        // GET TERM 1 FROM FIRESTORE MAP
+        // =====================================
 
-        const term1 = {
-
-            AP:
-                Number(student.AP) || 0,
-
-            FIL:
-                Number(student.FIL) || 0,
-
-            HELE:
-                Number(student.HELE) || 0,
-
-            MUSICandArts:
-                Number(student.MUSICandArts) || 0,
-
-            PEandHealth:
-                Number(student.PEandHealth) || 0,
-
-            English:
-                Number(student.English) || 0,
-
-            Mathematics:
-                Number(student.Mathematics) || 0,
-
-            Science:
-                Number(student.Science) || 0,
-
-            GMRC:
-                Number(student.GMRC) || 0
-
-        };
+        const term1 =
+            student.term1 || {};
 
 
-        // ==============================
-        // TERM 2 SCORES
-        // ==============================
+        // =====================================
+        // GET TERM 2 FROM FIRESTORE MAP
+        // =====================================
 
         const term2 =
             student.term2 || {};
 
 
-        // ==============================
+        // =====================================
         // DISPLAY STUDENT DASHBOARD
-        // ==============================
+        // =====================================
 
         document.body.innerHTML = `
 
@@ -224,21 +196,23 @@ loginButton.addEventListener("click", async () => {
         `;
 
 
-        // GET DASHBOARD ELEMENTS
+        // GET ELEMENTS
 
         const termSelect =
             document.getElementById("studentTerm");
 
+
         const scoresContainer =
             document.getElementById("scoresContainer");
+
 
         const logoutButton =
             document.getElementById("logoutButton");
 
 
-        // ==============================
-        // DISPLAY SCORES FUNCTION
-        // ==============================
+        // =====================================
+        // DISPLAY SCORES
+        // =====================================
 
         function displayScores(termScores) {
 
@@ -270,7 +244,7 @@ loginButton.addEventListener("click", async () => {
                 Number(termScores.GMRC) || 0;
 
 
-            // CALCULATE AVERAGE
+            // CALCULATE GENERAL AVERAGE
 
             const average =
                 (
@@ -286,7 +260,7 @@ loginButton.addEventListener("click", async () => {
                 ) / 9;
 
 
-            // DISPLAY TABLE
+            // DISPLAY SCORES
 
             scoresContainer.innerHTML = `
 
@@ -449,14 +423,16 @@ loginButton.addEventListener("click", async () => {
         }
 
 
+        // =====================================
         // SHOW TERM 1 FIRST
+        // =====================================
 
         displayScores(term1);
 
 
-        // ==============================
+        // =====================================
         // CHANGE TERM
-        // ==============================
+        // =====================================
 
         termSelect.addEventListener(
             "change",
@@ -478,9 +454,9 @@ loginButton.addEventListener("click", async () => {
         );
 
 
-        // ==============================
+        // =====================================
         // LOGOUT
-        // ==============================
+        // =====================================
 
         logoutButton.addEventListener(
             "click",
@@ -494,9 +470,9 @@ loginButton.addEventListener("click", async () => {
     }
 
 
-    // ==============================
+    // =====================================
     // ERROR HANDLING
-    // ==============================
+    // =====================================
 
     catch (error) {
 
