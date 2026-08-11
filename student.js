@@ -54,8 +54,20 @@ loginButton.addEventListener("click", async () => {
         }
 
         // GET TERM SCORES
+// GET TERM SCORES
 
-       const term1 = student.term1 || {};
+const term1 = {
+    AP: Number(student.AP) || 0,
+    FIL: Number(student.FIL) || 0,
+    HELE: Number(student.HELE) || 0,
+    MUSICandArts: Number(student.MUSICandArts) || 0,
+    PEandHealth: Number(student.PEandHealth) || 0,
+    English: Number(student.English) || 0,
+    Mathematics: Number(student.Mathematics) || 0,
+    Science: Number(student.Science) || 0,
+    GMRC: Number(student.GMRC) || 0
+};
+
 const term2 = student.term2 || {};
         // DISPLAY DASHBOARD
 
