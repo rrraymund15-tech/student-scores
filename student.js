@@ -305,14 +305,11 @@ catch (error) {
         message.innerHTML =
             "Incorrect Student ID or Password.";
 
-    } else {
+       } else {
 
         message.innerHTML =
             "Error connecting to Firebase.";
 
-    }
-
-}
     }
 
 });
