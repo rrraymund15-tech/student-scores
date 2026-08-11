@@ -117,86 +117,56 @@ loginButton.addEventListener("click", async () => {
             student.term2 || {};
 
 
-        // DISPLAY DASHBOARD
+       // DISPLAY DASHBOARD
 
-        document.body.innerHTML = `
+document.body.innerHTML = `
+<div class="student-dashboard">
 
-            <div class="student-dashboard">
+    <div class="student-header">
 
-                <div class="student-header">
+        <div class="school-info">
+            <h2>SHILOH CHRISTIAN SCHOOL</h2>
+            <p>Student Score Portal</p>
+            <p>School Year: 2026–2027</p>
+        </div>
 
-                    <div class="school-info">
+        <h1>Student Scores</h1>
 
-                        <h2>
-                            SHILOH CHRISTIAN SCHOOL
-                        </h2>
+        <h2>${student.name}</h2>
 
-                        <p>
-                            Student Score Portal
-                        </p>
+        <p>
+            Student ID:
+            <strong>${studentID}</strong>
+        </p>
 
-                        <p>
-                            School Year: 2026–2027
-                        </p>
+    </div>
 
-                    </div>
+    <div class="score-card">
 
+        <h2>My Scores</h2>
 
-                    <h1>
-                        Student Scores
-                    </h1>
+        <label for="studentTerm">
+            Select Term:
+        </label>
 
+        <select id="studentTerm">
 
-                    <h2>
-                        ${student.name}
-                    </h2>
+            <option value="term1">Term 1</option>
 
+            <option value="term2">Term 2</option>
 
-                    <p>
-                        Student ID:
-                        <strong>${studentID}</strong>
-                    </p>
+        </select>
 
-                </div>
+        <div id="scoresContainer"></div>
 
+        <button onclick="location.reload()">
+            Logout
+        </button>
 
-                <div class="score-card">
+    </div>
 
-                    <h2>
-                        My Scores
-                    </h2>
-
-
-                    <label for="studentTerm">
-                        Select Term:
-                    </label>
-
-
-                    <select id="studentTerm">
-
-                        <option value="term1">
-                            Term 1
-                        </option>
-
-                        <option value="term2">
-                            Term 2
-                        </option>
-
-                    </select>
-
-
-                    <div id="scoresContainer"></div>
-
-
-                    <button onclick="location.reload()">
-                        Logout
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
+</div>
+`;
 
 
         const termSelect =
