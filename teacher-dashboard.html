@@ -1,341 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Dashboard</title>
-
-<link rel="stylesheet" href="style.css">
-
-<style>
-
-body{
-    font-family: Arial, sans-serif;
-    background:#f2f2f2;
-    margin:0;
-}
-
-.container{
-    width:700px;
-    margin:40px auto;
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,.2);
-}
-
-h1{
-    text-align:center;
-    color:#2c3e50;
-}
-
-.top{
-    display:flex;
-    gap:10px;
-    margin-bottom:20px;
-}
-
-.top input{
-    flex:1;
-    padding:10px;
-}
-
-.top button{
-    padding:10px 20px;
-}
-
-.student-name{
-    font-size:18px;
-    margin-bottom:20px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,td{
-    border:1px solid #ddd;
-    padding:12px;
-    text-align:center;
-}
-
-th{
-    background:#3498db;
-    color:white;
-}
-
-input.score{
-    width:70px;
-    text-align:center;
-    padding:5px;
-}
-
-.buttons{
-    margin-top:25px;
-    text-align:center;
-}
-
-.buttons button{
-    padding:12px 20px;
-    margin:5px;
-}
-.add-student {
-    margin-top: 25px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-}
-
-.add-student h2 {
-    margin-top: 0;
-}
-
-.add-student input {
-    margin: 5px;
-    padding: 10px;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>Teacher Dashboard</h1>
-
-<div class="top">
-
-<input
-type="text"
-id="studentID"
-placeholder="Enter Student ID (Example:1001)">
-
-<button id="loadBtn">
-Load Student
-</button>
-
-</div>
-
-<div class="student-name">
-
-<strong>Student Name:</strong>
-
-<span id="studentName">
-No student loaded
-</span>
-
-</div>
-    <div class="term-selector">
-
-    <label for="termSelect">
-        Select Term:
-    </label>
-
-    <select id="termSelect">
-
-        <option value="term1">
-            Term 1
-        </option>
-
-        <option value="term2">
-            Term 2
-        </option>
-
-        <option value="term3">
-            Term 3
-        </option>
-
-    </select>
-
-</div>
-<div class="add-student"><div class="student-list">
-
-    <h2>Student List</h2>
-    <input
-    type="text"
-    id="studentSearch"
-    placeholder="Search Student ID or Name">
-<input
-    type="text"
-    id="studentSearch"
-    placeholder="Search Student ID or Name">
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>Student ID</th>
-                <th>Student Name</th>
-                <th>Action</th>
-            </tr>
-
-        </thead>
-
-        <tbody id="studentList">
-
-            <tr>
-                <td colspan="3">
-                    Loading students...
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-</div>
-
-<h2>Add New Student</h2>
-
-<input
-type="text"
-id="newStudentID"
-placeholder="Student ID">
-
-<input
-type="text"
-id="newStudentName"
-placeholder="Student Name">
-
-<input
-type="text"
-id="newStudentPassword"
-placeholder="Password">
-
-<button id="addStudentBtn">
-Add Student
-</button>
-
-</div>
-<div class="change-password">
-
-    <h2>Change Student Password</h2>
-
-    <input
-        type="text"
-        id="passwordStudentID"
-        placeholder="Student ID">
-
-    <input
-        type="password"
-        id="changeNewPassword"
-        placeholder="New Password">
-
-    <button id="changePasswordBtn">
-        Change Password
-    </button>
-
-</div>
-<table>
-
-<tr>
-
-<th>Subject</th>
-
-<th>Score</th>
-
-</tr>
-
-<tr>
-
-<td>AP</td>
-
-<td><input class="score" id="AP"></td>
-
-</tr>
-
-<tr>
-
-<td>FIL</td>
-
-<td><input class="score" id="FIL"></td>
-
-</tr>
-
-<tr>
-
-<td>HELE</td>
-
-<td><input class="score" id="HELE"></td>
-
-</tr>
-
-<tr>
-
-<td>Music & Arts</td>
-
-<td><input class="score" id="MUSICandArts"></td>
-
-</tr>
-
-<tr>
-
-<td>PE & Health</td>
-
-<td><input class="score" id="PEandHealth"></td>
-
-</tr>
-<tr>
-
-<td>English</td>
-
-<td><input class="score" id="English"></td>
-
-</tr>
-
-<tr>
-
-<td>Mathematics</td>
-
-<td><input class="score" id="Mathematics"></td>
-
-</tr>
-
-<tr>
-
-<td>Science</td>
-
-<td><input class="score" id="Science"></td>
-
-</tr>
-
-<tr>
-
-<td>GMRC</td>
-
-<td><input class="score" id="GMRC"></td>
-
-</tr>
-</table>
-
-<div class="buttons">
-
-<button id="saveBtn">
-
-💾 Save Changes
-
-</button>
-
-<button onclick="window.location.href='teacher.html'">
-
-Logout
-
-</button>
-
-</div>
-
-</div>
-
-<script type="module">
+```javascript
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 import {
     getAuth,
-    onAuthStateChanged,
-    signOut
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc,
+    setDoc,
+    collection,
+    getDocs,
+    deleteDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+// ========================================
+// FIREBASE CONFIG
+// ========================================
 
 const firebaseConfig = {
     apiKey: "AIzaSyCUZmbjsWOGgs8chdBOIVfoY8RNAeGwk7s",
@@ -346,30 +31,890 @@ const firebaseConfig = {
     appId: "1:627785600117:web:eaa750b8583929dda0fc3c"
 };
 
+
+// ========================================
+// INITIALIZE FIREBASE
+// ========================================
+
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 
-// Check if teacher is logged in
+const db = getFirestore(app);
+
+
+// ========================================
+// CHECK TEACHER LOGIN
+// ========================================
+
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
-        // Not logged in → return to Teacher Login
         window.location.href = "teacher.html";
     }
 
 });
 
-// Logout button
-document.querySelector(".buttons button:last-child").addEventListener("click", async () => {
 
-    await signOut(auth);
+// ========================================
+// GET HTML ELEMENTS
+// ========================================
 
-    window.location.href = "teacher.html";
+const studentIDInput =
+    document.getElementById("studentID");
 
-});
-</script>
+const studentName =
+    document.getElementById("studentName");
 
-<script type="module" src="teacher-dashboard.js"></script>
+const AP =
+    document.getElementById("AP");
 
-</body>
-</html>
+const FIL =
+    document.getElementById("FIL");
+
+const HELE =
+    document.getElementById("HELE");
+
+const MAPEH =
+    document.getElementById("MAPEH");
+
+const English =
+    document.getElementById("English");
+
+const Mathematics =
+    document.getElementById("Mathematics");
+
+const Science =
+    document.getElementById("Science");
+
+const GMRC =
+    document.getElementById("GMRC");
+
+const loadBtn =
+    document.getElementById("loadBtn");
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+const newStudentID =
+    document.getElementById("newStudentID");
+
+const newStudentName =
+    document.getElementById("newStudentName");
+
+const newStudentPassword =
+    document.getElementById("newStudentPassword");
+
+const addStudentBtn =
+    document.getElementById("addStudentBtn");
+
+const studentList =
+    document.getElementById("studentList");
+
+const studentSearch =
+    document.getElementById("studentSearch");
+
+const termSelect =
+    document.getElementById("termSelect");
+
+const passwordStudentID =
+    document.getElementById("passwordStudentID");
+
+const changeNewPassword =
+    document.getElementById("changeNewPassword");
+
+const changePasswordBtn =
+    document.getElementById("changePasswordBtn");
+
+
+// ========================================
+// CHECK REQUIRED ELEMENTS
+// ========================================
+
+if (
+    !studentIDInput ||
+    !studentName ||
+    !AP ||
+    !FIL ||
+    !HELE ||
+    !MAPEH ||
+    !English ||
+    !Mathematics ||
+    !Science ||
+    !GMRC ||
+    !loadBtn ||
+    !saveBtn ||
+    !newStudentID ||
+    !newStudentName ||
+    !newStudentPassword ||
+    !addStudentBtn ||
+    !studentList ||
+    !studentSearch ||
+    !termSelect ||
+    !passwordStudentID ||
+    !changeNewPassword ||
+    !changePasswordBtn
+) {
+
+    console.error(
+        "Teacher Dashboard: One or more HTML elements are missing."
+    );
+
+}
+
+
+// ========================================
+// LOAD ALL STUDENTS
+// ========================================
+
+let allStudents = [];
+
+
+async function loadStudentList() {
+
+    try {
+
+        const studentsRef =
+            collection(db, "students");
+
+        const snapshot =
+            await getDocs(studentsRef);
+
+        allStudents = [];
+
+        snapshot.forEach((studentDoc) => {
+
+            const data =
+                studentDoc.data();
+
+            allStudents.push({
+
+                id: studentDoc.id,
+
+                name:
+                    data.name || "No name"
+
+            });
+
+        });
+
+        displayStudents(allStudents);
+
+    } catch (error) {
+
+        console.error(
+            "Error loading students:",
+            error
+        );
+
+        studentList.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    Error loading students.
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+// ========================================
+// DISPLAY STUDENTS
+// ========================================
+
+function displayStudents(students) {
+
+    studentList.innerHTML = "";
+
+
+    if (students.length === 0) {
+
+        studentList.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    No students found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    students.forEach((student) => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+            <td>
+                ${student.id}
+            </td>
+
+            <td>
+                ${student.name}
+            </td>
+
+            <td>
+
+                <button
+                    class="load-student-btn"
+                    data-id="${student.id}">
+                    Load
+                </button>
+
+                <button
+                    class="delete-student-btn"
+                    data-id="${student.id}"
+                    data-name="${student.name}">
+                    Delete
+                </button>
+
+            </td>
+        `;
+
+
+        studentList.appendChild(row);
+
+    });
+
+
+    // LOAD BUTTONS
+
+    document
+        .querySelectorAll(".load-student-btn")
+        .forEach((button) => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    studentIDInput.value =
+                        button.dataset.id;
+
+                    loadBtn.click();
+
+                }
+            );
+
+        });
+
+
+    // DELETE BUTTONS
+
+    document
+        .querySelectorAll(".delete-student-btn")
+        .forEach((button) => {
+
+            button.addEventListener(
+                "click",
+                async () => {
+
+                    const studentID =
+                        button.dataset.id;
+
+                    const studentNameValue =
+                        button.dataset.name;
+
+
+                    const confirmed =
+                        confirm(
+                            `Are you sure you want to delete ${studentNameValue} (${studentID})?\n\nThis will permanently delete the student's record and all scores.`
+                        );
+
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+
+                    try {
+
+                        const studentRef =
+                            doc(
+                                db,
+                                "students",
+                                studentID
+                            );
+
+
+                        await deleteDoc(studentRef);
+
+
+                        alert(
+                            "Student deleted successfully."
+                        );
+
+
+                        loadStudentList();
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+
+                        alert(
+                            "Error deleting student: " +
+                            error.message
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+}
+
+
+// ========================================
+// SEARCH STUDENTS
+// ========================================
+
+studentSearch.addEventListener(
+    "input",
+    () => {
+
+        const searchText =
+            studentSearch.value
+                .trim()
+                .toLowerCase();
+
+
+        const filteredStudents =
+            allStudents.filter((student) => {
+
+                return (
+
+                    student.id
+                        .toLowerCase()
+                        .includes(searchText)
+
+                    ||
+
+                    student.name
+                        .toLowerCase()
+                        .includes(searchText)
+
+                );
+
+            });
+
+
+        displayStudents(filteredStudents);
+
+    }
+);
+
+
+// ========================================
+// INITIAL STUDENT LIST
+// ========================================
+
+loadStudentList();
+
+
+// ========================================
+// CHANGE STUDENT PASSWORD
+// ========================================
+
+changePasswordBtn.addEventListener(
+    "click",
+    async () => {
+
+        const studentID =
+            passwordStudentID.value.trim();
+
+        const newPassword =
+            changeNewPassword.value.trim();
+
+
+        if (!studentID || !newPassword) {
+
+            alert(
+                "Please enter the Student ID and new password."
+            );
+
+            return;
+
+        }
+
+
+        if (newPassword.length < 4) {
+
+            alert(
+                "Password must be at least 4 characters."
+            );
+
+            return;
+
+        }
+
+
+        const confirmed =
+            confirm(
+                `Change the password for student ${studentID}?`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    studentID
+                );
+
+
+            const studentSnap =
+                await getDoc(studentRef);
+
+
+            if (!studentSnap.exists()) {
+
+                alert(
+                    "Student ID not found."
+                );
+
+                return;
+
+            }
+
+
+            await updateDoc(
+                studentRef,
+                {
+                    password: newPassword
+                }
+            );
+
+
+            alert(
+                "Student password changed successfully."
+            );
+
+
+            passwordStudentID.value = "";
+
+            changeNewPassword.value = "";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            alert(
+                "Error changing password: " +
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+// ========================================
+// LOAD STUDENT
+// ========================================
+
+loadBtn.addEventListener(
+    "click",
+    async () => {
+
+        const studentID =
+            studentIDInput.value.trim();
+
+
+        if (!studentID) {
+
+            alert(
+                "Please enter a student ID."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const docRef =
+                doc(
+                    db,
+                    "students",
+                    studentID
+                );
+
+
+            const docSnap =
+                await getDoc(docRef);
+
+
+            if (!docSnap.exists()) {
+
+                alert(
+                    "Student not found."
+                );
+
+                return;
+
+            }
+
+
+            const data =
+                docSnap.data();
+
+
+            studentName.textContent =
+                data.name || "No name";
+
+
+            const selectedTerm =
+                termSelect.value;
+
+
+            let termScores = {};
+
+
+            if (selectedTerm === "term1") {
+
+                /*
+                 * Older students may have Term 1
+                 * scores directly in the document.
+                 *
+                 * New students use a term1 map.
+                 */
+
+                termScores =
+                    data.term1 || data;
+
+            } else {
+
+                termScores =
+                    data[selectedTerm] || {};
+
+            }
+
+
+            // =================================
+            // LOAD 8 SUBJECTS
+            // =================================
+
+            AP.value =
+                termScores.AP ?? 0;
+
+            FIL.value =
+                termScores.FIL ?? 0;
+
+            HELE.value =
+                termScores.HELE ?? 0;
+
+            MAPEH.value =
+                termScores.MAPEH ?? 0;
+
+            English.value =
+                termScores.English ?? 0;
+
+            Mathematics.value =
+                termScores.Mathematics ?? 0;
+
+            Science.value =
+                termScores.Science ?? 0;
+
+            GMRC.value =
+                termScores.GMRC ?? 0;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            alert(
+                "Error loading student: " +
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+// ========================================
+// SAVE SCORES
+// ========================================
+
+saveBtn.addEventListener(
+    "click",
+    async () => {
+
+        const studentID =
+            studentIDInput.value.trim();
+
+
+        if (!studentID) {
+
+            alert(
+                "Please load a student first."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const docRef =
+                doc(
+                    db,
+                    "students",
+                    studentID
+                );
+
+
+            const selectedTerm =
+                termSelect.value;
+
+
+            // =================================
+            // 8 SUBJECTS
+            // =================================
+
+            const scoresToSave = {
+
+                AP:
+                    Number(AP.value) || 0,
+
+                FIL:
+                    Number(FIL.value) || 0,
+
+                HELE:
+                    Number(HELE.value) || 0,
+
+                MAPEH:
+                    Number(MAPEH.value) || 0,
+
+                English:
+                    Number(English.value) || 0,
+
+                Mathematics:
+                    Number(Mathematics.value) || 0,
+
+                Science:
+                    Number(Science.value) || 0,
+
+                GMRC:
+                    Number(GMRC.value) || 0
+
+            };
+
+
+            await updateDoc(
+                docRef,
+                {
+                    [selectedTerm]:
+                        scoresToSave
+                }
+            );
+
+
+            if (selectedTerm === "term1") {
+
+                alert(
+                    "Term 1 scores saved successfully!"
+                );
+
+            } else if (selectedTerm === "term2") {
+
+                alert(
+                    "Term 2 scores saved successfully!"
+                );
+
+            } else {
+
+                alert(
+                    "Scores saved successfully!"
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR SAVING SCORES:",
+                error
+            );
+
+
+            alert(
+                "Error saving scores: " +
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+// ========================================
+// ADD NEW STUDENT
+// ========================================
+
+addStudentBtn.addEventListener(
+    "click",
+    async () => {
+
+        const id =
+            newStudentID.value.trim();
+
+        const name =
+            newStudentName.value.trim();
+
+        const password =
+            newStudentPassword.value.trim();
+
+
+        if (!id || !name || !password) {
+
+            alert(
+                "Please enter Student ID, Name, and Password."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    id
+                );
+
+
+            const existingStudent =
+                await getDoc(studentRef);
+
+
+            if (existingStudent.exists()) {
+
+                alert(
+                    "That Student ID already exists."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * New students start with Term 1.
+             *
+             * MAPEH is now one subject.
+             *
+             * HELE / Computer is stored as HELE.
+             */
+
+            await setDoc(
+                studentRef,
+                {
+
+                    name: name,
+
+                    password: password,
+
+                    term1: {
+
+                        AP: 0,
+
+                        FIL: 0,
+
+                        HELE: 0,
+
+                        MAPEH: 0,
+
+                        English: 0,
+
+                        Mathematics: 0,
+
+                        Science: 0,
+
+                        GMRC: 0
+
+                    },
+
+                    term2: {
+
+                        AP: 0,
+
+                        FIL: 0,
+
+                        HELE: 0,
+
+                        MAPEH: 0,
+
+                        English: 0,
+
+                        Mathematics: 0,
+
+                        Science: 0,
+
+                        GMRC: 0
+
+                    }
+
+                }
+            );
+
+
+            alert(
+                "Student added successfully!"
+            );
+
+
+            newStudentID.value = "";
+
+            newStudentName.value = "";
+
+            newStudentPassword.value = "";
+
+
+            loadStudentList();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            alert(
+                "Error adding student: " +
+                error.message
+            );
+
+        }
+
+    }
+);
+```
