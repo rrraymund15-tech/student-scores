@@ -1,4 +1,3 @@
-```js
 import { db } from "./firebase.js";
 
 import {
@@ -80,98 +79,87 @@ loginButton.addEventListener("click", async () => {
         }
 
 
-        // GET TERM 1 SCORES
+        // TERM 1 SCORES
 
         const term1 = {
 
             AP: Number(student.AP) || 0,
-
             FIL: Number(student.FIL) || 0,
-
             HELE: Number(student.HELE) || 0,
-
-            MUSICandArts:
-                Number(student.MUSICandArts) || 0,
-
-            PEandHealth:
-                Number(student.PEandHealth) || 0,
-
-            English:
-                Number(student.English) || 0,
-
-            Mathematics:
-                Number(student.Mathematics) || 0,
-
-            Science:
-                Number(student.Science) || 0,
-
-            GMRC:
-                Number(student.GMRC) || 0
+            MUSICandArts: Number(student.MUSICandArts) || 0,
+            PEandHealth: Number(student.PEandHealth) || 0,
+            English: Number(student.English) || 0,
+            Mathematics: Number(student.Mathematics) || 0,
+            Science: Number(student.Science) || 0,
+            GMRC: Number(student.GMRC) || 0
 
         };
 
 
-        // GET TERM 2 SCORES
+        // TERM 2 SCORES
 
-        const term2 =
-            student.term2 || {};
+        const term2 = student.term2 || {};
 
 
-       // DISPLAY DASHBOARD
+        // DISPLAY DASHBOARD
 
-document.body.innerHTML = `
-<div class="student-dashboard">
+        document.body.innerHTML = `
+            <div class="student-dashboard">
 
-    <div class="student-header">
+                <div class="student-header">
 
-        <div class="school-info">
-            <h2>SHILOH CHRISTIAN SCHOOL</h2>
-            <p>Student Score Portal</p>
-            <p>School Year: 2026–2027</p>
-        </div>
+                    <div class="school-info">
+                        <h2>SHILOH CHRISTIAN SCHOOL</h2>
+                        <p>Student Score Portal</p>
+                        <p>School Year: 2026–2027</p>
+                    </div>
 
-        <h1>Student Scores</h1>
+                    <h1>Student Scores</h1>
 
-        <h2>${student.name}</h2>
+                    <h2>${student.name}</h2>
 
-        <p>
-            Student ID:
-            <strong>${studentID}</strong>
-        </p>
+                    <p>
+                        Student ID:
+                        <strong>${studentID}</strong>
+                    </p>
 
-    </div>
+                </div>
 
-    <div class="score-card">
 
-        <h2>My Scores</h2>
+                <div class="score-card">
 
-        <label for="studentTerm">
-            Select Term:
-        </label>
+                    <h2>My Scores</h2>
 
-        <select id="studentTerm">
+                    <label for="studentTerm">
+                        Select Term:
+                    </label>
 
-            <option value="term1">Term 1</option>
+                    <select id="studentTerm">
 
-            <option value="term2">Term 2</option>
+                        <option value="term1">
+                            Term 1
+                        </option>
 
-        </select>
+                        <option value="term2">
+                            Term 2
+                        </option>
 
-        <div id="scoresContainer"></div>
+                    </select>
 
-        <button onclick="location.reload()">
-            Logout
-        </button>
+                    <div id="scoresContainer"></div>
 
-    </div>
+                    <button onclick="location.reload()">
+                        Logout
+                    </button>
 
-</div>
-`;
+                </div>
+
+            </div>
+        `;
 
 
         const termSelect =
             document.getElementById("studentTerm");
-
 
         const scoresContainer =
             document.getElementById("scoresContainer");
@@ -179,30 +167,19 @@ document.body.innerHTML = `
 
         function displayScores(termScores) {
 
-            const AP =
-                Number(termScores.AP) || 0;
-
-            const FIL =
-                Number(termScores.FIL) || 0;
-
-            const HELE =
-                Number(termScores.HELE) || 0;
-
+            const AP = Number(termScores.AP) || 0;
+            const FIL = Number(termScores.FIL) || 0;
+            const HELE = Number(termScores.HELE) || 0;
             const MUSICandArts =
                 Number(termScores.MUSICandArts) || 0;
-
             const PEandHealth =
                 Number(termScores.PEandHealth) || 0;
-
             const English =
                 Number(termScores.English) || 0;
-
             const Mathematics =
                 Number(termScores.Mathematics) || 0;
-
             const Science =
                 Number(termScores.Science) || 0;
-
             const GMRC =
                 Number(termScores.GMRC) || 0;
 
@@ -222,7 +199,6 @@ document.body.innerHTML = `
 
 
             scoresContainer.innerHTML = `
-
                 <table>
 
                     <tr>
@@ -230,54 +206,45 @@ document.body.innerHTML = `
                         <th>Score</th>
                     </tr>
 
-
                     <tr>
                         <td>Araling Panlipunan</td>
                         <td>${AP}</td>
                     </tr>
-
 
                     <tr>
                         <td>Filipino</td>
                         <td>${FIL}</td>
                     </tr>
 
-
                     <tr>
                         <td>HELE</td>
                         <td>${HELE}</td>
                     </tr>
-
 
                     <tr>
                         <td>Music & Arts</td>
                         <td>${MUSICandArts}</td>
                     </tr>
 
-
                     <tr>
                         <td>PE & Health</td>
                         <td>${PEandHealth}</td>
                     </tr>
-
 
                     <tr>
                         <td>English</td>
                         <td>${English}</td>
                     </tr>
 
-
                     <tr>
                         <td>Mathematics</td>
                         <td>${Mathematics}</td>
                     </tr>
 
-
                     <tr>
                         <td>Science</td>
                         <td>${Science}</td>
                     </tr>
-
 
                     <tr>
                         <td>GMRC</td>
@@ -298,7 +265,6 @@ document.body.innerHTML = `
                     </span>
 
                 </div>
-
             `;
 
         }
@@ -327,6 +293,7 @@ document.body.innerHTML = `
 
     }
 
+
     catch (error) {
 
         console.error(
@@ -354,4 +321,3 @@ document.body.innerHTML = `
     }
 
 });
-```
