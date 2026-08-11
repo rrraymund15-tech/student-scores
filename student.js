@@ -289,9 +289,12 @@ const term2 = student.term2 || {};
 
     }
 
-   catch (error) {
+catch (error) {
+    console.error("FIREBASE ERROR:", error);
 
-    console.error(error);
+    message.innerHTML =
+        "Firebase Error: " + error.message;
+}
 
     if (
         error.code === "auth/invalid-credential" ||
