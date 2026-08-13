@@ -226,6 +226,237 @@ const averageValue =
 
 
 // ========================================
+// EXAM INPUTS
+// ========================================
+
+const examFields = {
+
+    AP: {
+        raw: document.getElementById("examAPRaw"),
+        total: document.getElementById("examAPTotal"),
+        equivalent: document.getElementById("examAPEquivalent")
+    },
+
+    FIL: {
+        raw: document.getElementById("examFILRaw"),
+        total: document.getElementById("examFILTotal"),
+        equivalent: document.getElementById("examFILEquivalent")
+    },
+
+    Computer: {
+        raw: document.getElementById("examComputerRaw"),
+        total: document.getElementById("examComputerTotal"),
+        equivalent: document.getElementById("examComputerEquivalent")
+    },
+
+    HELE: {
+        raw: document.getElementById("examHELERaw"),
+        total: document.getElementById("examHELETotal"),
+        equivalent: document.getElementById("examHELEEquivalent")
+    },
+
+    MusicArts: {
+        raw: document.getElementById("examMusicArtsRaw"),
+        total: document.getElementById("examMusicArtsTotal"),
+        equivalent: document.getElementById("examMusicArtsEquivalent")
+    },
+
+    PEHealth: {
+        raw: document.getElementById("examPEHealthRaw"),
+        total: document.getElementById("examPEHealthTotal"),
+        equivalent: document.getElementById("examPEHealthEquivalent")
+    },
+
+    Mathematics: {
+        raw: document.getElementById("examMathematicsRaw"),
+        total: document.getElementById("examMathematicsTotal"),
+        equivalent: document.getElementById("examMathematicsEquivalent")
+    },
+
+    Science: {
+        raw: document.getElementById("examScienceRaw"),
+        total: document.getElementById("examScienceTotal"),
+        equivalent: document.getElementById("examScienceEquivalent")
+    },
+
+    English: {
+        raw: document.getElementById("examEnglishRaw"),
+        total: document.getElementById("examEnglishTotal"),
+        equivalent: document.getElementById("examEnglishEquivalent")
+    },
+
+    GMRC: {
+        raw: document.getElementById("examGMRCRaw"),
+        total: document.getElementById("examGMRCTotal"),
+        equivalent: document.getElementById("examGMRCEquivalent")
+    }
+
+};
+
+
+function calculateExamEquivalent(field) {
+
+    const raw = Number(field.raw.value);
+    const total = Number(field.total.value);
+
+    if (
+        !Number.isFinite(raw) ||
+        !Number.isFinite(total) ||
+        total <= 0 ||
+        raw < 0
+    ) {
+
+        field.equivalent.textContent = "—";
+        return null;
+
+    }
+
+    const equivalent = (raw / total) * 100;
+
+    field.equivalent.textContent =
+        equivalent.toFixed(2);
+
+    return equivalent;
+
+}
+
+
+function updateAllExamEquivalents() {
+
+    Object.values(examFields).forEach(
+        (field) => calculateExamEquivalent(field)
+    );
+
+}
+
+
+function clearExamFields() {
+
+    Object.values(examFields).forEach(
+        (field) => {
+
+            field.raw.value = "";
+            field.total.value = "";
+            field.equivalent.textContent = "—";
+
+        }
+    );
+
+}
+
+
+function loadExamFields(exams = {}) {
+
+    Object.entries(examFields).forEach(
+        ([key, field]) => {
+
+            const saved =
+                exams[key] || {};
+
+            field.raw.value =
+                saved.rawScore ?? "";
+
+            field.total.value =
+                saved.totalScore ?? "";
+
+            calculateExamEquivalent(field);
+
+        }
+    );
+
+}
+
+
+function getExamScores() {
+
+    const exams = {};
+
+    Object.entries(examFields).forEach(
+        ([key, field]) => {
+
+            const rawText =
+                field.raw.value.trim();
+
+            const totalText =
+                field.total.value.trim();
+
+            if (
+                rawText === "" &&
+                totalText === ""
+            ) {
+
+                return;
+
+            }
+
+            const rawScore =
+                Number(rawText);
+
+            const totalScore =
+                Number(totalText);
+
+            if (
+                !Number.isFinite(rawScore) ||
+                !Number.isFinite(totalScore) ||
+                totalScore <= 0 ||
+                rawScore < 0
+            ) {
+
+                throw new Error(
+                    `${key} exam: please enter a valid raw score and total score.`
+                );
+
+            }
+
+            if (rawScore > totalScore) {
+
+                throw new Error(
+                    `${key} exam: raw score cannot be greater than total score.`
+                );
+
+            }
+
+            exams[key] = {
+
+                rawScore: rawScore,
+
+                totalScore: totalScore,
+
+                equivalent:
+                    Number(
+                        ((rawScore / totalScore) * 100)
+                            .toFixed(2)
+                    )
+
+            };
+
+        }
+    );
+
+    return exams;
+
+}
+
+
+Object.values(examFields).forEach(
+    (field) => {
+
+        field.raw.addEventListener(
+            "input",
+            () => calculateExamEquivalent(field)
+        );
+
+        field.total.addEventListener(
+            "input",
+            () => calculateExamEquivalent(field)
+        );
+
+    }
+);
+
+
+
+// ========================================
 // SUBJECT INPUTS
 // ========================================
 
@@ -352,7 +583,14 @@ if (
 
     !changePasswordBtn ||
 
-    !averageValue
+    !averageValue ||
+
+    Object.values(examFields).some(
+        (field) =>
+            !field.raw ||
+            !field.total ||
+            !field.equivalent
+    )
 
 ) {
 
@@ -933,6 +1171,15 @@ loadBtn.addEventListener(
 
 
             // =================================
+            // LOAD EXAM SCORES
+            // =================================
+
+            loadExamFields(
+                termScores.exams || {}
+            );
+
+
+            // =================================
             // CALCULATE AVERAGE
             // =================================
 
@@ -1039,12 +1286,46 @@ saveBtn.addEventListener(
             };
 
 
+            let examsToSave;
+
+            try {
+
+                examsToSave =
+                    getExamScores();
+
+            } catch (examError) {
+
+                alert(examError.message);
+                return;
+
+            }
+
+
+            // Preserve the existing term structure and
+            // add exams separately. Existing grades are
+            // never replaced by exam scores.
+
+            const existingSnap =
+                await getDoc(docRef);
+
+            const existingData =
+                existingSnap.exists()
+                    ? existingSnap.data()
+                    : {};
+
+            const existingTerm =
+                existingData[selectedTerm] || {};
+
+
             await updateDoc(
                 docRef,
                 {
 
-                    [selectedTerm]:
-                        scoresToSave
+                    [selectedTerm]: {
+                        ...existingTerm,
+                        ...scoresToSave,
+                        exams: examsToSave
+                    }
 
                 }
             );
@@ -1210,7 +1491,9 @@ addStudentBtn.addEventListener(
 
                         Science: 0,
 
-                        GMRC: 0
+                        GMRC: 0,
+
+                        exams: {}
 
                     },
 
@@ -1231,7 +1514,9 @@ addStudentBtn.addEventListener(
 
                         Science: 0,
 
-                        GMRC: 0
+                        GMRC: 0,
+
+                        exams: {}
 
                     },
 

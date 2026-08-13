@@ -266,6 +266,69 @@
            AVERAGE BOX
         ================================= */
 
+
+        .exam-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .exam-section h3 {
+            margin: 0 0 8px 0;
+            color: #1e3a8a;
+        }
+
+        .exam-note {
+            margin: 0 0 15px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .exam-header,
+        .exam-row {
+            display: contents;
+        }
+
+        .exam-cell {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .exam-cell.header {
+            font-weight: bold;
+            background: #f8fafc;
+        }
+
+        .exam-cell.subject {
+            font-weight: bold;
+        }
+
+        .exam-input {
+            width: 100%;
+            margin: 0;
+        }
+
+        .exam-equivalent {
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 800px) {
+            .exam-grid {
+                grid-template-columns: 160px 120px 120px 120px;
+                min-width: 520px;
+            }
+        }
+
         .average-box {
 
             margin-top: 20px;
@@ -646,6 +709,122 @@
 
             </div>
 
+
+        </div>
+
+
+        <!-- =================================
+             EXAM SCORES
+        ================================== -->
+
+        <div class="exam-section">
+
+            <h3>Exam Scores</h3>
+
+            <p class="exam-note">
+                Enter the raw score and total score. Exam Equivalent is calculated as
+                (Raw Score ÷ Total Score) × 100. Exam scores are stored separately
+                and are NOT included in the Current Term Average.
+            </p>
+
+            <div class="exam-grid">
+
+                <div class="exam-cell header">Subject</div>
+                <div class="exam-cell header">Raw Score</div>
+                <div class="exam-cell header">Total Score</div>
+                <div class="exam-cell header">Exam Equivalent</div>
+
+                <div class="exam-cell subject">AP</div>
+                <div class="exam-cell">
+                    <input type="number" id="examAPRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examAPTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examAPEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">Filipino</div>
+                <div class="exam-cell">
+                    <input type="number" id="examFILRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examFILTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examFILEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">Computer</div>
+                <div class="exam-cell">
+                    <input type="number" id="examComputerRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examComputerTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examComputerEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">HELE</div>
+                <div class="exam-cell">
+                    <input type="number" id="examHELERaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examHELETotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examHELEEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">Music/Arts</div>
+                <div class="exam-cell">
+                    <input type="number" id="examMusicArtsRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examMusicArtsTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examMusicArtsEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">PE/Health</div>
+                <div class="exam-cell">
+                    <input type="number" id="examPEHealthRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examPEHealthTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examPEHealthEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">Mathematics</div>
+                <div class="exam-cell">
+                    <input type="number" id="examMathematicsRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examMathematicsTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examMathematicsEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">Science</div>
+                <div class="exam-cell">
+                    <input type="number" id="examScienceRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examScienceTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examScienceEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">English</div>
+                <div class="exam-cell">
+                    <input type="number" id="examEnglishRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examEnglishTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examEnglishEquivalent" class="exam-equivalent">—</span></div>
+
+                <div class="exam-cell subject">GMRC</div>
+                <div class="exam-cell">
+                    <input type="number" id="examGMRCRaw" class="exam-input" min="0" step="any" placeholder="Raw">
+                </div>
+                <div class="exam-cell">
+                    <input type="number" id="examGMRCTotal" class="exam-input" min="0" step="any" placeholder="Total">
+                </div>
+                <div class="exam-cell"><span id="examGMRCEquivalent" class="exam-equivalent">—</span></div>
+
+            </div>
 
         </div>
 
