@@ -2,10 +2,12 @@ import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
+
 import {
     getAuth,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 import {
     getFirestore,
@@ -53,8 +55,10 @@ const firebaseConfig = {
 const app =
     initializeApp(firebaseConfig);
 
+
 const auth =
     getAuth(app);
+
 
 const db =
     getFirestore(app);
@@ -84,70 +88,230 @@ onAuthStateChanged(
 // ========================================
 
 const studentIDInput =
-    document.getElementById("studentID");
+    document.getElementById(
+        "studentID"
+    );
+
 
 const studentName =
-    document.getElementById("studentName");
+    document.getElementById(
+        "studentName"
+    );
+
 
 const AP =
-    document.getElementById("AP");
+    document.getElementById(
+        "AP"
+    );
+
 
 const FIL =
-    document.getElementById("FIL");
+    document.getElementById(
+        "FIL"
+    );
+
 
 const HELE =
-    document.getElementById("HELE");
+    document.getElementById(
+        "HELE"
+    );
+
 
 const MAPEH =
-    document.getElementById("MAPEH");
+    document.getElementById(
+        "MAPEH"
+    );
+
 
 const English =
-    document.getElementById("English");
+    document.getElementById(
+        "English"
+    );
+
 
 const Mathematics =
-    document.getElementById("Mathematics");
+    document.getElementById(
+        "Mathematics"
+    );
+
 
 const Science =
-    document.getElementById("Science");
+    document.getElementById(
+        "Science"
+    );
+
 
 const GMRC =
-    document.getElementById("GMRC");
+    document.getElementById(
+        "GMRC"
+    );
+
 
 const loadBtn =
-    document.getElementById("loadBtn");
+    document.getElementById(
+        "loadBtn"
+    );
+
 
 const saveBtn =
-    document.getElementById("saveBtn");
+    document.getElementById(
+        "saveBtn"
+    );
+
 
 const newStudentID =
-    document.getElementById("newStudentID");
+    document.getElementById(
+        "newStudentID"
+    );
+
 
 const newStudentName =
-    document.getElementById("newStudentName");
+    document.getElementById(
+        "newStudentName"
+    );
+
 
 const newStudentPassword =
-    document.getElementById("newStudentPassword");
+    document.getElementById(
+        "newStudentPassword"
+    );
+
 
 const addStudentBtn =
-    document.getElementById("addStudentBtn");
+    document.getElementById(
+        "addStudentBtn"
+    );
+
 
 const studentList =
-    document.getElementById("studentList");
+    document.getElementById(
+        "studentList"
+    );
+
 
 const studentSearch =
-    document.getElementById("studentSearch");
+    document.getElementById(
+        "studentSearch"
+    );
+
 
 const termSelect =
-    document.getElementById("termSelect");
+    document.getElementById(
+        "termSelect"
+    );
+
 
 const passwordStudentID =
-    document.getElementById("passwordStudentID");
+    document.getElementById(
+        "passwordStudentID"
+    );
+
 
 const changeNewPassword =
-    document.getElementById("changeNewPassword");
+    document.getElementById(
+        "changeNewPassword"
+    );
+
 
 const changePasswordBtn =
-    document.getElementById("changePasswordBtn");
+    document.getElementById(
+        "changePasswordBtn"
+    );
+
+
+const averageValue =
+    document.getElementById(
+        "averageValue"
+    );
+
+
+// ========================================
+// SUBJECT INPUTS
+// ========================================
+
+const subjectInputs = [
+
+    AP,
+
+    FIL,
+
+    HELE,
+
+    MAPEH,
+
+    English,
+
+    Mathematics,
+
+    Science,
+
+    GMRC
+
+];
+
+
+// ========================================
+// CALCULATE AVERAGE
+// ========================================
+
+function calculateAverage() {
+
+    const scores =
+        subjectInputs.map(
+            (input) =>
+                Number(input.value)
+        );
+
+
+    const hasScores =
+        scores.some(
+            (score) =>
+                score > 0
+        );
+
+
+    if (!hasScores) {
+
+        averageValue.textContent =
+            "—";
+
+        return;
+
+    }
+
+
+    const total =
+        scores.reduce(
+            (sum, score) =>
+                sum + score,
+            0
+        );
+
+
+    const average =
+        total / scores.length;
+
+
+    averageValue.textContent =
+        average.toFixed(2);
+
+}
+
+
+// ========================================
+// UPDATE AVERAGE WHEN SCORE CHANGES
+// ========================================
+
+subjectInputs.forEach(
+    (input) => {
+
+        input.addEventListener(
+            "input",
+            calculateAverage
+        );
+
+    }
+);
 
 
 // ========================================
@@ -198,7 +362,9 @@ if (
 
     !changeNewPassword ||
 
-    !changePasswordBtn
+    !changePasswordBtn ||
+
+    !averageValue
 
 ) {
 
@@ -292,7 +458,8 @@ function displayStudents(
     students
 ) {
 
-    studentList.innerHTML = "";
+    studentList.innerHTML =
+        "";
 
 
     if (
@@ -336,14 +503,19 @@ function displayStudents(
                     <button
                         class="load-student-btn"
                         data-id="${student.id}">
+
                         Load
+
                     </button>
+
 
                     <button
                         class="delete-student-btn"
                         data-id="${student.id}"
                         data-name="${student.name}">
+
                         Delete
+
                     </button>
 
                 </td>
@@ -628,6 +800,7 @@ changePasswordBtn.addEventListener(
             passwordStudentID.value =
                 "";
 
+
             changeNewPassword.value =
                 "";
 
@@ -715,10 +888,6 @@ loadBtn.addEventListener(
                 termSelect.value;
 
 
-            // =================================
-            // LOAD SELECTED TERM
-            // =================================
-
             let termScores = {};
 
 
@@ -726,29 +895,11 @@ loadBtn.addEventListener(
                 selectedTerm === "term1"
             ) {
 
-                /*
-                 * New students use term1.
-                 *
-                 * Older students may have
-                 * Term 1 scores directly
-                 * in the document.
-                 */
-
                 termScores =
                     data.term1 ||
                     data;
 
             } else {
-
-                /*
-                 * Works for:
-                 *
-                 * term2
-                 * term3
-                 *
-                 * If the term does not exist
-                 * yet, use empty scores.
-                 */
 
                 termScores =
                     data[selectedTerm] ||
@@ -758,7 +909,7 @@ loadBtn.addEventListener(
 
 
             // =================================
-            // LOAD 8 SUBJECTS
+            // LOAD SUBJECT SCORES
             // =================================
 
             AP.value =
@@ -791,6 +942,13 @@ loadBtn.addEventListener(
 
             GMRC.value =
                 termScores.GMRC ?? 0;
+
+
+            // =================================
+            // CALCULATE AVERAGE
+            // =================================
+
+            calculateAverage();
 
 
         } catch (error) {
@@ -848,10 +1006,6 @@ saveBtn.addEventListener(
                 termSelect.value;
 
 
-            // =================================
-            // 8 SUBJECTS
-            // =================================
-
             const scoresToSave = {
 
                 AP:
@@ -897,12 +1051,6 @@ saveBtn.addEventListener(
             };
 
 
-            /*
-             * This automatically creates
-             * term3 if it does not already
-             * exist.
-             */
-
             await updateDoc(
                 docRef,
                 {
@@ -912,6 +1060,13 @@ saveBtn.addEventListener(
 
                 }
             );
+
+
+            // =================================
+            // UPDATE AVERAGE
+            // =================================
+
+            calculateAverage();
 
 
             if (
@@ -1037,7 +1192,7 @@ addStudentBtn.addEventListener(
 
 
             // =================================
-            // CREATE NEW STUDENT
+            // CREATE STUDENT
             // =================================
 
             await setDoc(
@@ -1125,8 +1280,10 @@ addStudentBtn.addEventListener(
             newStudentID.value =
                 "";
 
+
             newStudentName.value =
                 "";
+
 
             newStudentPassword.value =
                 "";
