@@ -1,219 +1,211 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Teacher Dashboard</title>
+    <title>Teacher Dashboard</title>
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #f1f5f9;
-        color: #222;
-    }
-
-    header {
-        background: #1e3a8a;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
-
-    header h1 {
-        margin: 0;
-        font-size: 28px;
-    }
-
-    .container {
-        width: 95%;
-        max-width: 1200px;
-        margin: 25px auto;
-    }
-
-    .card {
-        background: white;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .card h2 {
-        margin-top: 0;
-        color: #1e3a8a;
-    }
-
-    input,
-    select {
-        padding: 10px;
-        margin: 5px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 15px;
-    }
-
-    button {
-        padding: 10px 16px;
-        margin: 5px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    button:hover {
-        opacity: 0.9;
-    }
-
-    #loadBtn {
-        background: #2563eb;
-        color: white;
-    }
-
-    #saveBtn {
-        background: #16a34a;
-        color: white;
-    }
-
-    #addStudentBtn {
-        background: #7c3aed;
-        color: white;
-    }
-
-    #changePasswordBtn {
-        background: #ea580c;
-        color: white;
-    }
-
-    .load-student-btn {
-        background: #2563eb;
-        color: white;
-    }
-
-    .delete-student-btn {
-        background: #dc2626;
-        color: white;
-    }
-
-    .student-info {
-        margin-top: 15px;
-        padding: 15px;
-        background: #eff6ff;
-        border-radius: 8px;
-    }
-
-    #studentName {
-        font-size: 20px;
-        font-weight: bold;
-        color: #1e3a8a;
-    }
-
-    .scores-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin-top: 15px;
-    }
-
-    .subject-box {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .subject-box label {
-        font-weight: bold;
-        margin-bottom: 4px;
-    }
-
-    .subject-box input {
-        width: 100%;
-        margin: 0;
-    }
-
-    .term-row {
-        margin-bottom: 10px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
-
-    th,
-    td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background: #1e3a8a;
-        color: white;
-    }
-
-    tr:nth-child(even) {
-        background: #f8fafc;
-    }
-
-    .search-box {
-        width: 100%;
-        max-width: 400px;
-        margin: 0;
-    }
-
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .logout-note {
-        text-align: center;
-        color: #666;
-        font-size: 13px;
-        margin-top: 20px;
-    }
-
-    @media (max-width: 700px) {
-
-        .scores-grid {
-            grid-template-columns: 1fr;
+    <style>
+        * {
+            box-sizing: border-box;
         }
 
-        .form-row {
-            flex-direction: column;
-            align-items: stretch;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f1f5f9;
+            color: #222;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #1e3a8a;
         }
 
         input,
-        select,
+        select {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
         button {
+            padding: 10px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #loadBtn {
+            background: #2563eb;
+            color: white;
+        }
+
+        #saveBtn {
+            background: #16a34a;
+            color: white;
+        }
+
+        #addStudentBtn {
+            background: #7c3aed;
+            color: white;
+        }
+
+        #changePasswordBtn {
+            background: #ea580c;
+            color: white;
+        }
+
+        .load-student-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .delete-student-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .student-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 8px;
+        }
+
+        #studentName {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .scores-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .subject-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .subject-box label {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .subject-box input {
             width: 100%;
-            margin: 5px 0;
+            margin: 0;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         table {
-            font-size: 13px;
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
         }
 
         th,
         td {
-            padding: 7px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
         }
-    }
-</style>
-```
 
+        th {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            margin: 0;
+        }
+
+        .logout-note {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .scores-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            input,
+            select,
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 7px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -224,261 +216,259 @@
 
 <div class="container">
 
-```
-<!-- =====================================
-     LOAD STUDENT
-====================================== -->
+    <!-- LOAD STUDENT -->
 
-<div class="card">
+    <div class="card">
 
-    <h2>Load Student</h2>
+        <h2>Load Student</h2>
 
-    <div class="form-row">
+        <div class="form-row">
 
-        <input
-            type="text"
-            id="studentID"
-            placeholder="Enter Student ID">
+            <input
+                type="text"
+                id="studentID"
+                placeholder="Enter Student ID">
 
-        <select id="termSelect">
-            <option value="term1">Term 1</option>
-            <option value="term2">Term 2</option>
-        </select>
+            <select id="termSelect">
 
-        <button id="loadBtn">
-            Load Student
+                <option value="term1">
+                    Term 1
+                </option>
+
+                <option value="term2">
+                    Term 2
+                </option>
+
+                <option value="term3">
+                    Term 3
+                </option>
+
+            </select>
+
+            <button id="loadBtn">
+                Load Student
+            </button>
+
+        </div>
+
+        <div class="student-info">
+
+            Student Name:
+
+            <span id="studentName">
+                No student loaded
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDENT SCORES -->
+
+    <div class="card">
+
+        <h2>Student Scores</h2>
+
+        <div class="scores-grid">
+
+            <div class="subject-box">
+                <label for="AP">AP</label>
+                <input
+                    type="number"
+                    id="AP"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="FIL">Filipino</label>
+                <input
+                    type="number"
+                    id="FIL"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="HELE">HELE</label>
+                <input
+                    type="number"
+                    id="HELE"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="MAPEH">MAPEH</label>
+                <input
+                    type="number"
+                    id="MAPEH"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="English">English</label>
+                <input
+                    type="number"
+                    id="English"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="Mathematics">Mathematics</label>
+                <input
+                    type="number"
+                    id="Mathematics"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="Science">Science</label>
+                <input
+                    type="number"
+                    id="Science"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+            <div class="subject-box">
+                <label for="GMRC">GMRC</label>
+                <input
+                    type="number"
+                    id="GMRC"
+                    min="0"
+                    max="100"
+                    value="0">
+            </div>
+
+        </div>
+
+        <br>
+
+        <button id="saveBtn">
+            Save Scores
         </button>
 
     </div>
 
-    <div class="student-info">
 
-        Student Name:
+    <!-- ADD NEW STUDENT -->
 
-        <span id="studentName">
-            No student loaded
-        </span>
+    <div class="card">
 
+        <h2>Add New Student</h2>
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="newStudentID"
+                placeholder="Student ID">
+
+            <input
+                type="text"
+                id="newStudentName"
+                placeholder="Student Name">
+
+            <input
+                type="text"
+                id="newStudentPassword"
+                placeholder="Student Password">
+
+            <button id="addStudentBtn">
+                Add Student
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHANGE PASSWORD -->
+
+    <div class="card">
+
+        <h2>Change Student Password</h2>
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="passwordStudentID"
+                placeholder="Student ID">
+
+            <input
+                type="text"
+                id="changeNewPassword"
+                placeholder="New Password">
+
+            <button id="changePasswordBtn">
+                Change Password
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDENT LIST -->
+
+    <div class="card">
+
+        <h2>Student List</h2>
+
+        <input
+            type="text"
+            id="studentSearch"
+            class="search-box"
+            placeholder="Search by Student ID or Name">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="studentList">
+
+                <tr>
+                    <td colspan="3">
+                        Loading students...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="logout-note">
+        Teacher Dashboard — Student Score Management
     </div>
 
 </div>
 
 
-<!-- =====================================
-     STUDENT SCORES
-====================================== -->
-
-<div class="card">
-
-    <h2>Student Scores</h2>
-
-    <div class="scores-grid">
-
-        <div class="subject-box">
-            <label for="AP">AP</label>
-            <input
-                type="number"
-                id="AP"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="FIL">Filipino</label>
-            <input
-                type="number"
-                id="FIL"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="HELE">HELE</label>
-            <input
-                type="number"
-                id="HELE"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="MAPEH">MAPEH</label>
-            <input
-                type="number"
-                id="MAPEH"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="English">English</label>
-            <input
-                type="number"
-                id="English"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="Mathematics">Mathematics</label>
-            <input
-                type="number"
-                id="Mathematics"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="Science">Science</label>
-            <input
-                type="number"
-                id="Science"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-        <div class="subject-box">
-            <label for="GMRC">GMRC</label>
-            <input
-                type="number"
-                id="GMRC"
-                min="0"
-                max="100"
-                value="0">
-        </div>
-
-    </div>
-
-    <br>
-
-    <button id="saveBtn">
-        Save Scores
-    </button>
-
-</div>
-
-
-<!-- =====================================
-     ADD NEW STUDENT
-====================================== -->
-
-<div class="card">
-
-    <h2>Add New Student</h2>
-
-    <div class="form-row">
-
-        <input
-            type="text"
-            id="newStudentID"
-            placeholder="Student ID">
-
-        <input
-            type="text"
-            id="newStudentName"
-            placeholder="Student Name">
-
-        <input
-            type="text"
-            id="newStudentPassword"
-            placeholder="Student Password">
-
-        <button id="addStudentBtn">
-            Add Student
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================
-     CHANGE STUDENT PASSWORD
-====================================== -->
-
-<div class="card">
-
-    <h2>Change Student Password</h2>
-
-    <div class="form-row">
-
-        <input
-            type="text"
-            id="passwordStudentID"
-            placeholder="Student ID">
-
-        <input
-            type="text"
-            id="changeNewPassword"
-            placeholder="New Password">
-
-        <button id="changePasswordBtn">
-            Change Password
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================
-     STUDENT LIST
-====================================== -->
-
-<div class="card">
-
-    <h2>Student List</h2>
-
-    <input
-        type="text"
-        id="studentSearch"
-        class="search-box"
-        placeholder="Search by Student ID or Name">
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-
-        </thead>
-
-        <tbody id="studentList">
-
-            <tr>
-                <td colspan="3">
-                    Loading students...
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-</div>
-
-
-<div class="logout-note">
-    Teacher Dashboard — Student Score Management
-</div>
-```
-
-</div>
-
-<!-- =====================================
-     TEACHER DASHBOARD JAVASCRIPT
-====================================== -->
+<!-- TEACHER DASHBOARD JAVASCRIPT -->
 
 <script
     type="module"
