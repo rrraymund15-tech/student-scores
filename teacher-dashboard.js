@@ -256,28 +256,16 @@ const subjectInputs = [
 
 function calculateAverage() {
 
-    const scores =
-        subjectInputs.map(
-            (input) =>
-                Number(input.value)
-        );
-
-
-    const hasScores =
-        scores.some(
-            (score) =>
-                score > 0
-        );
-
-
-    if (!hasScores) {
-
-        averageValue.textContent =
-            "—";
-
-        return;
-
-    }
+    const scores = [
+        Number(AP.value),
+        Number(FIL.value),
+        Number(HELE.value),
+        Number(MAPEH.value),
+        Number(English.value),
+        Number(Mathematics.value),
+        Number(Science.value),
+        Number(GMRC.value)
+    ];
 
 
     const total =
