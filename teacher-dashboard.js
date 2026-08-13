@@ -498,24 +498,30 @@ function calculateAverage() {
         Number(GMRC.value)
     ];
 
+    const validScores = scores.filter(
+        (score) => Number.isFinite(score)
+    );
+
+    if (validScores.length === 0) {
+
+        averageValue.textContent = "0.00";
+        return;
+
+    }
 
     const total =
-        scores.reduce(
-            (sum, score) =>
-                sum + score,
+        validScores.reduce(
+            (sum, score) => sum + score,
             0
         );
 
-
     const average =
-        total / scores.length;
-
+        total / validScores.length;
 
     averageValue.textContent =
         average.toFixed(2);
 
 }
-
 
 // ========================================
 // UPDATE AVERAGE WHEN SCORE CHANGES
