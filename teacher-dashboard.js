@@ -53,18 +53,31 @@ const firebaseConfig = {
 // ========================================
 // INITIALIZE FIREBASE
 // ========================================
-
 const app =
     initializeApp(firebaseConfig);
-
 
 const auth =
     getAuth(app);
 
 
+// ========================================
+// SECOND FIREBASE APP FOR STUDENT ACCOUNTS
+// ========================================
+
+const studentAuthApp =
+    initializeApp(
+        firebaseConfig,
+        "studentAuthApp"
+    );
+
+const studentAuth =
+    getAuth(
+        studentAuthApp
+    );
+
+
 const db =
     getFirestore(app);
-
 
 // ========================================
 // CHECK TEACHER LOGIN
