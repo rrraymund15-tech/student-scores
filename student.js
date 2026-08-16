@@ -11,480 +11,742 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
-const loginButton = document.getElementById("loginBtn");
-const message = document.getElementById("message");
-const auth = getAuth();
+// =====================================
+// LOGIN ELEMENTS
+// =====================================
+
+const loginButton =
+    document.getElementById("loginBtn");
+
+const message =
+    document.getElementById("message");
+
+const auth =
+    getAuth();
 
 
-loginButton.addEventListener("click", async () => {
+// =====================================
+// STUDENT LOGIN
+// =====================================
 
-    message.innerHTML = "";
+loginButton.addEventListener(
+    "click",
+    async () => {
 
-    const studentID =
-        document.getElementById("studentID").value.trim();
+        message.innerHTML = "";
 
-    const password =
-        document.getElementById("password").value.trim();
+        const studentID =
+            document
+                .getElementById("studentID")
+                .value
+                .trim();
 
-
-    // CHECK LOGIN FIELDS
-
-    if (studentID === "" || password === "") {
-
-        message.innerHTML =
-            "Please enter Student ID and Password.";
-
-        return;
-    }
-
-
-    try {
-
-        // CREATE FIREBASE EMAIL
-
-        const studentEmail =
-            studentID + "@studentscores.local";
+        const password =
+            document
+                .getElementById("password")
+                .value
+                .trim();
 
 
-        // LOGIN
+        // =====================================
+        // CHECK LOGIN FIELDS
+        // =====================================
 
-        await signInWithEmailAndPassword(
-            auth,
-            studentEmail,
-            password
-        );
-
-
-        // GET STUDENT DOCUMENT
-
-        const studentRef =
-            doc(db, "students", studentID);
-
-
-        const studentSnap =
-            await getDoc(studentRef);
-
-
-        // CHECK IF STUDENT EXISTS
-
-        if (!studentSnap.exists()) {
+        if (
+            studentID === "" ||
+            password === ""
+        ) {
 
             message.innerHTML =
-                "Incorrect Student ID or Password.";
+                "Please enter Student ID and Password.";
 
             return;
         }
 
 
-        const student =
-            studentSnap.data();
+        try {
+
+            // =====================================
+            // CREATE FIREBASE EMAIL
+            // =====================================
+
+            const studentEmail =
+                studentID + "@studentscores.local";
 
 
-        // CHECK PASSWORD
+            // =====================================
+            // LOGIN
+            // =====================================
 
-        if (student.password !== password) {
-
-            message.innerHTML =
-                "Incorrect Student ID or Password.";
-
-            return;
-        }
-
-
-        // =====================================
-        // GET TERM 1 FROM FIRESTORE MAP
-        // =====================================
-
-        const term1 =
-            student.term1 || {};
+            await signInWithEmailAndPassword(
+                auth,
+                studentEmail,
+                password
+            );
 
 
-        // =====================================
-        // GET TERM 2 FROM FIRESTORE MAP
-        // =====================================
+            // =====================================
+            // GET STUDENT DOCUMENT
+            // =====================================
 
-        const term2 =
-            student.term2 || {};
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    studentID
+                );
 
 
-        // =====================================
-        // DISPLAY STUDENT DASHBOARD
-        // =====================================
+            const studentSnap =
+                await getDoc(
+                    studentRef
+                );
 
-        document.body.innerHTML = `
 
-            <div class="student-dashboard">
+            // =====================================
+            // CHECK IF STUDENT EXISTS
+            // =====================================
 
-                <div class="student-header">
+            if (
+                !studentSnap.exists()
+            ) {
 
-                    <div class="school-info">
+                message.innerHTML =
+                    "Incorrect Student ID or Password.";
+
+                return;
+            }
+
+
+            const student =
+                studentSnap.data();
+
+
+            // =====================================
+            // CHECK PASSWORD
+            // =====================================
+
+            if (
+                student.password !== password
+            ) {
+
+                message.innerHTML =
+                    "Incorrect Student ID or Password.";
+
+                return;
+            }
+
+
+            // =====================================
+            // GET TERMS
+            // =====================================
+
+            const term1 =
+                student.term1 || {};
+
+            const term2 =
+                student.term2 || {};
+
+            const term3 =
+                student.term3 || {};
+
+
+            // =====================================
+            // DISPLAY STUDENT DASHBOARD
+            // =====================================
+
+            document.body.innerHTML = `
+
+                <div class="student-dashboard">
+
+                    <div class="student-header">
+
+                        <div class="school-info">
+
+                            <h2>
+                                SHILOH CHRISTIAN SCHOOL
+                            </h2>
+
+                            <p>
+                                Student Score Portal
+                            </p>
+
+                            <p>
+                                School Year: 2026–2027
+                            </p>
+
+                        </div>
+
+
+                        <h1>
+                            Student Scores
+                        </h1>
+
 
                         <h2>
-                            SHILOH CHRISTIAN SCHOOL
+                            ${student.name || "Student"}
                         </h2>
 
-                        <p>
-                            Student Score Portal
-                        </p>
 
                         <p>
-                            School Year: 2026–2027
+                            Student ID:
+                            <strong>
+                                ${studentID}
+                            </strong>
                         </p>
 
                     </div>
 
 
-                    <h1>
-                        Student Scores
-                    </h1>
+                    <div class="score-card">
 
+                        <h2>
+                            My Scores
+                        </h2>
 
-                    <h2>
-                        ${student.name || "Student"}
-                    </h2>
 
+                        <label for="studentTerm">
+                            Select Term:
+                        </label>
 
-                    <p>
-                        Student ID:
-                        <strong>
-                            ${studentID}
-                        </strong>
-                    </p>
 
-                </div>
+                        <select id="studentTerm">
 
+                            <option value="term1">
+                                Term 1
+                            </option>
 
-                <div class="score-card">
+                            <option value="term2">
+                                Term 2
+                            </option>
 
-                    <h2>
-                        My Scores
-                    </h2>
+                            <option value="term3">
+                                Term 3
+                            </option>
 
+                        </select>
 
-                    <label for="studentTerm">
-                        Select Term:
-                    </label>
 
+                        <div id="scoresContainer"></div>
 
-                    <select id="studentTerm">
 
-                        <option value="term1">
-                            Term 1
-                        </option>
+                        <button
+                            id="logoutButton"
+                            type="button"
+                        >
+                            Logout
+                        </button>
 
-                        <option value="term2">
-                            Term 2
-                        </option>
-
-                    </select>
-
-
-                    <div id="scoresContainer"></div>
-
-
-                    <button
-                        id="logoutButton"
-                        type="button"
-                    >
-                        Logout
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        // GET ELEMENTS
-
-        const termSelect =
-            document.getElementById("studentTerm");
-
-
-        const scoresContainer =
-            document.getElementById("scoresContainer");
-
-
-        const logoutButton =
-            document.getElementById("logoutButton");
-
-
-        // =====================================
-        // DISPLAY SCORES
-        // =====================================
-
-        function displayScores(termScores) {
-
-            const AP =
-                Number(termScores.AP) || 0;
-
-            const FIL =
-                Number(termScores.FIL) || 0;
-
-            const HELE =
-                Number(termScores.HELE) || 0;
-
-            const MUSICandArts =
-                Number(termScores.MUSICandArts) || 0;
-
-            const PEandHealth =
-                Number(termScores.PEandHealth) || 0;
-
-            const English =
-                Number(termScores.English) || 0;
-
-            const Mathematics =
-                Number(termScores.Mathematics) || 0;
-
-            const Science =
-                Number(termScores.Science) || 0;
-
-            const GMRC =
-                Number(termScores.GMRC) || 0;
-
-
-            // CALCULATE GENERAL AVERAGE
-
-            const average =
-                (
-                    AP +
-                    FIL +
-                    HELE +
-                    MUSICandArts +
-                    PEandHealth +
-                    English +
-                    Mathematics +
-                    Science +
-                    GMRC
-                ) / 9;
-
-
-            // DISPLAY SCORES
-
-            scoresContainer.innerHTML = `
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Subject
-                            </th>
-
-                            <th>
-                                Score
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        <tr>
-
-                            <td>
-                                Araling Panlipunan
-                            </td>
-
-                            <td>
-                                ${AP}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Filipino
-                            </td>
-
-                            <td>
-                                ${FIL}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                HELE
-                            </td>
-
-                            <td>
-                                ${HELE}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Music & Arts
-                            </td>
-
-                            <td>
-                                ${MUSICandArts}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                PE & Health
-                            </td>
-
-                            <td>
-                                ${PEandHealth}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                English
-                            </td>
-
-                            <td>
-                                ${English}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Mathematics
-                            </td>
-
-                            <td>
-                                ${Mathematics}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Science
-                            </td>
-
-                            <td>
-                                ${Science}
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                GMRC
-                            </td>
-
-                            <td>
-                                ${GMRC}
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-
-                <div class="average">
-
-                    <strong>
-                        General Average:
-                    </strong>
-
-                    <span>
-                        ${average.toFixed(2)}
-                    </span>
+                    </div>
 
                 </div>
 
             `;
 
+
+            // =====================================
+            // GET ELEMENTS
+            // =====================================
+
+            const termSelect =
+                document.getElementById(
+                    "studentTerm"
+                );
+
+
+            const scoresContainer =
+                document.getElementById(
+                    "scoresContainer"
+                );
+
+
+            const logoutButton =
+                document.getElementById(
+                    "logoutButton"
+                );
+
+
+            // =====================================
+            // DISPLAY SCORES
+            // =====================================
+
+            function displayScores(termScores) {
+
+                // =================================
+                // REGULAR SUBJECT SCORES
+                // =================================
+
+                const AP =
+                    Number(termScores.AP) || 0;
+
+                const FIL =
+                    Number(termScores.FIL) || 0;
+
+                const HELE =
+                    Number(termScores.HELE) || 0;
+
+                const MAPEH =
+                    Number(termScores.MAPEH) || 0;
+
+                const English =
+                    Number(termScores.English) || 0;
+
+                const Mathematics =
+                    Number(termScores.Mathematics) || 0;
+
+                const Science =
+                    Number(termScores.Science) || 0;
+
+                const GMRC =
+                    Number(termScores.GMRC) || 0;
+
+
+                // =================================
+                // EXAM DATA
+                // =================================
+
+                const exams =
+                    termScores.exams || {};
+
+
+                // =================================
+                // GET EXAM DISPLAY
+                // =================================
+
+                function getExamData(subject) {
+
+                    const exam =
+                        exams[subject];
+
+
+                    if (
+                        !exam ||
+                        exam.rawScore === undefined ||
+                        exam.totalScore === undefined
+                    ) {
+
+                        return {
+                            score: "—",
+                            equivalent: "—"
+                        };
+
+                    }
+
+
+                    const raw =
+                        Number(exam.rawScore);
+
+                    const total =
+                        Number(exam.totalScore);
+
+
+                    if (
+                        !Number.isFinite(raw) ||
+                        !Number.isFinite(total) ||
+                        total <= 0
+                    ) {
+
+                        return {
+                            score: "—",
+                            equivalent: "—"
+                        };
+
+                    }
+
+
+                    let equivalent;
+
+
+                    if (
+                        exam.equivalent !== undefined &&
+                        Number.isFinite(
+                            Number(exam.equivalent)
+                        )
+                    ) {
+
+                        equivalent =
+                            Number(exam.equivalent);
+
+                    } else {
+
+                        equivalent =
+                            (raw / total) * 100;
+
+                    }
+
+
+                    return {
+
+                        score:
+                            `${raw} / ${total}`,
+
+                        equivalent:
+                            equivalent.toFixed(2)
+
+                    };
+
+                }
+
+
+                // =================================
+                // GET EACH EXAM
+                // =================================
+
+                const APExam =
+                    getExamData("AP");
+
+                const FILExam =
+                    getExamData("FIL");
+
+                const HELEExam =
+                    getExamData("HELE");
+
+                const MAPEHExam =
+                    getExamData("MAPEH");
+
+                const EnglishExam =
+                    getExamData("English");
+
+                const MathematicsExam =
+                    getExamData("Mathematics");
+
+                const ScienceExam =
+                    getExamData("Science");
+
+                const GMRCExam =
+                    getExamData("GMRC");
+
+
+                // =================================
+                // GENERAL AVERAGE
+                // =================================
+
+                const scores = [
+
+                    AP,
+                    FIL,
+                    HELE,
+                    MAPEH,
+                    English,
+                    Mathematics,
+                    Science,
+                    GMRC
+
+                ];
+
+
+                const total =
+                    scores.reduce(
+                        (sum, score) =>
+                            sum + score,
+                        0
+                    );
+
+
+                const average =
+                    total / scores.length;
+
+
+                // =================================
+                // DISPLAY TABLE
+                // =================================
+
+                scoresContainer.innerHTML = `
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Subject
+                                </th>
+
+                                <th>
+                                    Score
+                                </th>
+
+                                <th>
+                                    Exam
+                                </th>
+
+                                <th>
+                                    Equivalent
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <tr>
+
+                                <td>
+                                    Araling Panlipunan
+                                </td>
+
+                                <td>
+                                    ${AP}
+                                </td>
+
+                                <td>
+                                    ${APExam.score}
+                                </td>
+
+                                <td>
+                                    ${APExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Filipino
+                                </td>
+
+                                <td>
+                                    ${FIL}
+                                </td>
+
+                                <td>
+                                    ${FILExam.score}
+                                </td>
+
+                                <td>
+                                    ${FILExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    HELE
+                                </td>
+
+                                <td>
+                                    ${HELE}
+                                </td>
+
+                                <td>
+                                    ${HELEExam.score}
+                                </td>
+
+                                <td>
+                                    ${HELEExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    MAPEH
+                                </td>
+
+                                <td>
+                                    ${MAPEH}
+                                </td>
+
+                                <td>
+                                    ${MAPEHExam.score}
+                                </td>
+
+                                <td>
+                                    ${MAPEHExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    English
+                                </td>
+
+                                <td>
+                                    ${English}
+                                </td>
+
+                                <td>
+                                    ${EnglishExam.score}
+                                </td>
+
+                                <td>
+                                    ${EnglishExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Mathematics
+                                </td>
+
+                                <td>
+                                    ${Mathematics}
+                                </td>
+
+                                <td>
+                                    ${MathematicsExam.score}
+                                </td>
+
+                                <td>
+                                    ${MathematicsExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Science
+                                </td>
+
+                                <td>
+                                    ${Science}
+                                </td>
+
+                                <td>
+                                    ${ScienceExam.score}
+                                </td>
+
+                                <td>
+                                    ${ScienceExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    GMRC
+                                </td>
+
+                                <td>
+                                    ${GMRC}
+                                </td>
+
+                                <td>
+                                    ${GMRCExam.score}
+                                </td>
+
+                                <td>
+                                    ${GMRCExam.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+
+                    <div class="average">
+
+                        <strong>
+                            General Average:
+                        </strong>
+
+                        <span>
+                            ${average.toFixed(2)}
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // =====================================
+            // SHOW TERM 1 FIRST
+            // =====================================
+
+            displayScores(term1);
+
+
+            // =====================================
+            // CHANGE TERM
+            // =====================================
+
+            termSelect.addEventListener(
+                "change",
+                () => {
+
+                    if (
+                        termSelect.value === "term1"
+                    ) {
+
+                        displayScores(term1);
+
+                    }
+
+                    else if (
+                        termSelect.value === "term2"
+                    ) {
+
+                        displayScores(term2);
+
+                    }
+
+                    else {
+
+                        displayScores(term3);
+
+                    }
+
+                }
+            );
+
+
+            // =====================================
+            // LOGOUT
+            // =====================================
+
+            logoutButton.addEventListener(
+                "click",
+                () => {
+
+                    location.reload();
+
+                }
+            );
+
+
         }
 
 
         // =====================================
-        // SHOW TERM 1 FIRST
+        // ERROR HANDLING
         // =====================================
 
-        displayScores(term1);
+        catch (error) {
+
+            console.error(
+                "FIREBASE ERROR:",
+                error
+            );
 
 
-        // =====================================
-        // CHANGE TERM
-        // =====================================
+            message.innerHTML =
+                "Incorrect Student ID or Password.";
 
-        termSelect.addEventListener(
-            "change",
-            () => {
-
-                if (
-                    termSelect.value === "term1"
-                ) {
-
-                    displayScores(term1);
-
-                } else {
-
-                    displayScores(term2);
-
-                }
-
-            }
-        );
-
-
-        // =====================================
-        // LOGOUT
-        // =====================================
-
-        logoutButton.addEventListener(
-            "click",
-            () => {
-
-                location.reload();
-
-            }
-        );
+        }
 
     }
-
-
-    // =====================================
-    // ERROR HANDLING
-    // =====================================
-
-    catch (error) {
-
-        console.error(
-            "FIREBASE ERROR:",
-            error
-        );
-
-
-        message.innerHTML =
-            "Incorrect Student ID or Password.";
-
-    }
-
-});
+);
