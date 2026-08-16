@@ -122,19 +122,7 @@ loginButton.addEventListener(
                 studentSnap.data();
 
 
-            // =====================================
-            // CHECK PASSWORD
-            // =====================================
-
-            if (
-                student.password !== password
-            ) {
-
-                message.innerHTML =
-                    "Incorrect Student ID or Password.";
-
-                return;
-            }
+         
 
 
             // =====================================
