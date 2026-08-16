@@ -1437,6 +1437,10 @@ addStudentBtn.addEventListener(
             newStudentPassword.value.trim();
 
 
+        // =================================
+        // CHECK REQUIRED FIELDS
+        // =================================
+
         if (
             !id ||
             !name ||
@@ -1452,7 +1456,28 @@ addStudentBtn.addEventListener(
         }
 
 
+        // =================================
+        // CHECK PASSWORD LENGTH
+        // =================================
+
+        if (
+            password.length < 6
+        ) {
+
+            alert(
+                "Student password must be at least 6 characters."
+            );
+
+            return;
+
+        }
+
+
         try {
+
+            // =================================
+            // CHECK FIRESTORE STUDENT
+            // =================================
 
             const studentRef =
                 doc(
@@ -1482,7 +1507,42 @@ addStudentBtn.addEventListener(
 
 
             // =================================
-            // CREATE STUDENT
+            // CREATE FIREBASE AUTH ACCOUNT
+            // =================================
+
+            const studentEmail =
+                `${id}@studentscores.local`;
+
+
+            try {
+
+                await createUserWithEmailAndPassword(
+                    studentAuth,
+                    studentEmail,
+                    password
+                );
+
+            } catch (authError) {
+
+                console.error(
+                    "STUDENT AUTH CREATION ERROR:",
+                    authError
+                );
+
+
+                alert(
+                    "Could not create the student's login account:\n\n" +
+                    authError.message
+                );
+
+
+                return;
+
+            }
+
+
+            // =================================
+            // CREATE FIRESTORE STUDENT RECORD
             // =================================
 
             await setDoc(
@@ -1495,6 +1555,10 @@ addStudentBtn.addEventListener(
                     password:
                         password,
 
+
+                    // =================================
+                    // TERM 1
+                    // =================================
 
                     term1: {
 
@@ -1519,6 +1583,10 @@ addStudentBtn.addEventListener(
                     },
 
 
+                    // =================================
+                    // TERM 2
+                    // =================================
+
                     term2: {
 
                         AP: 0,
@@ -1542,6 +1610,10 @@ addStudentBtn.addEventListener(
                     },
 
 
+                    // =================================
+                    // TERM 3
+                    // =================================
+
                     term3: {
 
                         AP: 0,
@@ -1558,7 +1630,9 @@ addStudentBtn.addEventListener(
 
                         Science: 0,
 
-                        GMRC: 0
+                        GMRC: 0,
+
+                        exams: {}
 
                     }
 
@@ -1566,22 +1640,41 @@ addStudentBtn.addEventListener(
             );
 
 
+            // =================================
+            // SIGN OUT STUDENT AUTH
+            // =================================
+
+            await signOut(
+                studentAuth
+            );
+
+
+            // =================================
+            // SUCCESS
+            // =================================
+
             alert(
                 "Student added successfully!"
             );
 
 
+            // =================================
+            // CLEAR FORM
+            // =================================
+
             newStudentID.value =
                 "";
-
 
             newStudentName.value =
                 "";
 
-
             newStudentPassword.value =
                 "";
 
+
+            // =================================
+            // REFRESH STUDENT LIST
+            // =================================
 
             await loadStudentList();
 
@@ -1589,6 +1682,7 @@ addStudentBtn.addEventListener(
         } catch (error) {
 
             console.error(
+                "ERROR ADDING STUDENT:",
                 error
             );
 
