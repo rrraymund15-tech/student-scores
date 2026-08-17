@@ -389,9 +389,11 @@ loginButton.addEventListener(
                 const HELEExam =
                     getExamData("HELE");
 
-                const MAPEHExam =
-                    getExamData("MAPEH");
+               const MusicArtsExam =
+    getExamData("MusicArts");
 
+const PEHealthExam =
+    getExamData("PEHealth");
                 const EnglishExam =
                     getExamData("English");
 
@@ -545,12 +547,27 @@ loginButton.addEventListener(
                                 </td>
 
                                 <td>
-                                    ${MAPEHExam.score}
-                                </td>
+                               <td>
+    <div>
+        <strong>M/A:</strong>
+        ${MusicArtsExam.score}
+    </div>
+    <div>
+        <strong>PE/H:</strong>
+        ${PEHealthExam.score}
+    </div>
+</td>
 
-                                <td>
-                                    ${MAPEHExam.equivalent}
-                                </td>
+<td>
+    <div>
+        <strong>M/A:</strong>
+        ${MusicArtsExam.equivalent}
+    </div>
+    <div>
+        <strong>PE/H:</strong>
+        ${PEHealthExam.equivalent}
+    </div>
+</td>
 
                             </tr>
 
