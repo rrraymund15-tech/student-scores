@@ -2,14 +2,12 @@ import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-
 import {
     getAuth,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
 
 import {
     getFirestore,
@@ -53,6 +51,7 @@ const firebaseConfig = {
 // ========================================
 // INITIALIZE FIREBASE
 // ========================================
+
 const app =
     initializeApp(firebaseConfig);
 
@@ -79,6 +78,7 @@ const studentAuth =
 const db =
     getFirestore(app);
 
+
 // ========================================
 // CHECK TEACHER LOGIN
 // ========================================
@@ -103,141 +103,73 @@ onAuthStateChanged(
 // ========================================
 
 const studentIDInput =
-    document.getElementById(
-        "studentID"
-    );
-
+    document.getElementById("studentID");
 
 const studentName =
-    document.getElementById(
-        "studentName"
-    );
-
+    document.getElementById("studentName");
 
 const AP =
-    document.getElementById(
-        "AP"
-    );
-
+    document.getElementById("AP");
 
 const FIL =
-    document.getElementById(
-        "FIL"
-    );
-
+    document.getElementById("FIL");
 
 const HELE =
-    document.getElementById(
-        "HELE"
-    );
-
+    document.getElementById("HELE");
 
 const MAPEH =
-    document.getElementById(
-        "MAPEH"
-    );
-
+    document.getElementById("MAPEH");
 
 const English =
-    document.getElementById(
-        "English"
-    );
-
+    document.getElementById("English");
 
 const Mathematics =
-    document.getElementById(
-        "Mathematics"
-    );
-
+    document.getElementById("Mathematics");
 
 const Science =
-    document.getElementById(
-        "Science"
-    );
-
+    document.getElementById("Science");
 
 const GMRC =
-    document.getElementById(
-        "GMRC"
-    );
-
+    document.getElementById("GMRC");
 
 const loadBtn =
-    document.getElementById(
-        "loadBtn"
-    );
-
+    document.getElementById("loadBtn");
 
 const saveBtn =
-    document.getElementById(
-        "saveBtn"
-    );
-
+    document.getElementById("saveBtn");
 
 const newStudentID =
-    document.getElementById(
-        "newStudentID"
-    );
-
+    document.getElementById("newStudentID");
 
 const newStudentName =
-    document.getElementById(
-        "newStudentName"
-    );
-
+    document.getElementById("newStudentName");
 
 const newStudentPassword =
-    document.getElementById(
-        "newStudentPassword"
-    );
-
+    document.getElementById("newStudentPassword");
 
 const addStudentBtn =
-    document.getElementById(
-        "addStudentBtn"
-    );
-
+    document.getElementById("addStudentBtn");
 
 const studentList =
-    document.getElementById(
-        "studentList"
-    );
-
+    document.getElementById("studentList");
 
 const studentSearch =
-    document.getElementById(
-        "studentSearch"
-    );
-
+    document.getElementById("studentSearch");
 
 const termSelect =
-    document.getElementById(
-        "termSelect"
-    );
-
+    document.getElementById("termSelect");
 
 const passwordStudentID =
-    document.getElementById(
-        "passwordStudentID"
-    );
-
+    document.getElementById("passwordStudentID");
 
 const changeNewPassword =
-    document.getElementById(
-        "changeNewPassword"
-    );
-
+    document.getElementById("changeNewPassword");
 
 const changePasswordBtn =
-    document.getElementById(
-        "changePasswordBtn"
-    );
-
+    document.getElementById("changePasswordBtn");
 
 const averageValue =
-    document.getElementById(
-        "averageValue"
-    );
+    document.getElementById("averageValue");
 
 
 // ========================================
@@ -309,10 +241,81 @@ const examFields = {
 };
 
 
+// ========================================
+// SUMMATIVE TEST INPUTS
+// ========================================
+
+const summativeFields = {
+
+    AP: {
+        raw: document.getElementById("summativeAPRaw"),
+        total: document.getElementById("summativeAPTotal"),
+        equivalent: document.getElementById("summativeAPEquivalent")
+    },
+
+    FIL: {
+        raw: document.getElementById("summativeFILRaw"),
+        total: document.getElementById("summativeFILTotal"),
+        equivalent: document.getElementById("summativeFILEquivalent")
+    },
+
+    HELE: {
+        raw: document.getElementById("summativeHELERaw"),
+        total: document.getElementById("summativeHELETotal"),
+        equivalent: document.getElementById("summativeHELEEquivalent")
+    },
+
+    MusicArts: {
+        raw: document.getElementById("summativeMusicArtsRaw"),
+        total: document.getElementById("summativeMusicArtsTotal"),
+        equivalent: document.getElementById("summativeMusicArtsEquivalent")
+    },
+
+    PEHealth: {
+        raw: document.getElementById("summativePEHealthRaw"),
+        total: document.getElementById("summativePEHealthTotal"),
+        equivalent: document.getElementById("summativePEHealthEquivalent")
+    },
+
+    English: {
+        raw: document.getElementById("summativeEnglishRaw"),
+        total: document.getElementById("summativeEnglishTotal"),
+        equivalent: document.getElementById("summativeEnglishEquivalent")
+    },
+
+    Mathematics: {
+        raw: document.getElementById("summativeMathematicsRaw"),
+        total: document.getElementById("summativeMathematicsTotal"),
+        equivalent: document.getElementById("summativeMathematicsEquivalent")
+    },
+
+    Science: {
+        raw: document.getElementById("summativeScienceRaw"),
+        total: document.getElementById("summativeScienceTotal"),
+        equivalent: document.getElementById("summativeScienceEquivalent")
+    },
+
+    GMRC: {
+        raw: document.getElementById("summativeGMRCRaw"),
+        total: document.getElementById("summativeGMRCTotal"),
+        equivalent: document.getElementById("summativeGMRCEquivalent")
+    }
+
+};
+
+
+// ========================================
+// CALCULATE EXAM EQUIVALENT
+// ========================================
+
 function calculateExamEquivalent(field) {
 
-    const raw = Number(field.raw.value);
-    const total = Number(field.total.value);
+    const raw =
+        Number(field.raw.value);
+
+    const total =
+        Number(field.total.value);
+
 
     if (
         !Number.isFinite(raw) ||
@@ -321,29 +324,105 @@ function calculateExamEquivalent(field) {
         raw < 0
     ) {
 
-        field.equivalent.textContent = "—";
+        field.equivalent.textContent =
+            "—";
+
         return null;
 
     }
 
-    const equivalent = (raw / total) * 100;
+
+    const equivalent =
+        (raw / total) * 100;
+
 
     field.equivalent.textContent =
         equivalent.toFixed(2);
+
 
     return equivalent;
 
 }
 
 
+// ========================================
+// CALCULATE SUMMATIVE EQUIVALENT
+// ========================================
+
+function calculateSummativeEquivalent(field) {
+
+    const raw =
+        Number(field.raw.value);
+
+    const total =
+        Number(field.total.value);
+
+
+    if (
+        !Number.isFinite(raw) ||
+        !Number.isFinite(total) ||
+        total <= 0 ||
+        raw < 0
+    ) {
+
+        field.equivalent.textContent =
+            "—";
+
+        return null;
+
+    }
+
+
+    const equivalent =
+        (raw / total) * 100;
+
+
+    field.equivalent.textContent =
+        equivalent.toFixed(2);
+
+
+    return equivalent;
+
+}
+
+
+// ========================================
+// UPDATE ALL EXAM EQUIVALENTS
+// ========================================
+
 function updateAllExamEquivalents() {
 
     Object.values(examFields).forEach(
-        (field) => calculateExamEquivalent(field)
+        (field) => {
+
+            calculateExamEquivalent(field);
+
+        }
     );
 
 }
 
+
+// ========================================
+// UPDATE ALL SUMMATIVE EQUIVALENTS
+// ========================================
+
+function updateAllSummativeEquivalents() {
+
+    Object.values(summativeFields).forEach(
+        (field) => {
+
+            calculateSummativeEquivalent(field);
+
+        }
+    );
+
+}
+
+
+// ========================================
+// CLEAR EXAM FIELDS
+// ========================================
 
 function clearExamFields() {
 
@@ -360,6 +439,29 @@ function clearExamFields() {
 }
 
 
+// ========================================
+// CLEAR SUMMATIVE FIELDS
+// ========================================
+
+function clearSummativeFields() {
+
+    Object.values(summativeFields).forEach(
+        (field) => {
+
+            field.raw.value = "";
+            field.total.value = "";
+            field.equivalent.textContent = "—";
+
+        }
+    );
+
+}
+
+
+// ========================================
+// LOAD EXAM FIELDS
+// ========================================
+
 function loadExamFields(exams = {}) {
 
     Object.entries(examFields).forEach(
@@ -368,11 +470,14 @@ function loadExamFields(exams = {}) {
             const saved =
                 exams[key] || {};
 
+
             field.raw.value =
                 saved.rawScore ?? "";
 
+
             field.total.value =
                 saved.totalScore ?? "";
+
 
             calculateExamEquivalent(field);
 
@@ -382,9 +487,43 @@ function loadExamFields(exams = {}) {
 }
 
 
+// ========================================
+// LOAD SUMMATIVE FIELDS
+// ========================================
+
+function loadSummativeFields(summative = {}) {
+
+    Object.entries(summativeFields).forEach(
+        ([key, field]) => {
+
+            const saved =
+                summative[key] || {};
+
+
+            field.raw.value =
+                saved.rawScore ?? "";
+
+
+            field.total.value =
+                saved.totalScore ?? "";
+
+
+            calculateSummativeEquivalent(field);
+
+        }
+    );
+
+}
+
+
+// ========================================
+// GET EXAM SCORES
+// ========================================
+
 function getExamScores() {
 
     const exams = {};
+
 
     Object.entries(examFields).forEach(
         ([key, field]) => {
@@ -395,6 +534,7 @@ function getExamScores() {
             const totalText =
                 field.total.value.trim();
 
+
             if (
                 rawText === "" &&
                 totalText === ""
@@ -404,11 +544,13 @@ function getExamScores() {
 
             }
 
+
             const rawScore =
                 Number(rawText);
 
             const totalScore =
                 Number(totalText);
+
 
             if (
                 !Number.isFinite(rawScore) ||
@@ -423,7 +565,10 @@ function getExamScores() {
 
             }
 
-            if (rawScore > totalScore) {
+
+            if (
+                rawScore > totalScore
+            ) {
 
                 throw new Error(
                     `${key} exam: raw score cannot be greater than total score.`
@@ -431,16 +576,21 @@ function getExamScores() {
 
             }
 
+
             exams[key] = {
 
-                rawScore: rawScore,
+                rawScore:
+                    rawScore,
 
-                totalScore: totalScore,
+                totalScore:
+                    totalScore,
 
                 equivalent:
                     Number(
-                        ((rawScore / totalScore) * 100)
-                            .toFixed(2)
+                        (
+                            (rawScore / totalScore) *
+                            100
+                        ).toFixed(2)
                     )
 
             };
@@ -448,27 +598,182 @@ function getExamScores() {
         }
     );
 
+
     return exams;
 
 }
 
 
+// ========================================
+// GET SUMMATIVE SCORES
+// ========================================
+
+function getSummativeScores() {
+
+    const summative = {};
+
+
+    Object.entries(summativeFields).forEach(
+        ([key, field]) => {
+
+            const rawText =
+                field.raw.value.trim();
+
+            const totalText =
+                field.total.value.trim();
+
+
+            if (
+                rawText === "" &&
+                totalText === ""
+            ) {
+
+                return;
+
+            }
+
+
+            const rawScore =
+                Number(rawText);
+
+            const totalScore =
+                Number(totalText);
+
+
+            if (
+                !Number.isFinite(rawScore) ||
+                !Number.isFinite(totalScore) ||
+                totalScore <= 0 ||
+                rawScore < 0
+            ) {
+
+                throw new Error(
+                    `${key} summative test: please enter a valid raw score and total score.`
+                );
+
+            }
+
+
+            if (
+                rawScore > totalScore
+            ) {
+
+                throw new Error(
+                    `${key} summative test: raw score cannot be greater than total score.`
+                );
+
+            }
+
+
+            summative[key] = {
+
+                rawScore:
+                    rawScore,
+
+                totalScore:
+                    totalScore,
+
+                equivalent:
+                    Number(
+                        (
+                            (rawScore / totalScore) *
+                            100
+                        ).toFixed(2)
+                    )
+
+            };
+
+        }
+    );
+
+
+    return summative;
+
+}
+
+
+// ========================================
+// EXAM INPUT EVENTS
+// ========================================
+
 Object.values(examFields).forEach(
     (field) => {
 
-        field.raw.addEventListener(
-            "input",
-            () => calculateExamEquivalent(field)
-        );
+        if (
+            field.raw &&
+            field.total &&
+            field.equivalent
+        ) {
 
-        field.total.addEventListener(
-            "input",
-            () => calculateExamEquivalent(field)
-        );
+            field.raw.addEventListener(
+                "input",
+                () => {
+
+                    calculateExamEquivalent(
+                        field
+                    );
+
+                }
+            );
+
+
+            field.total.addEventListener(
+                "input",
+                () => {
+
+                    calculateExamEquivalent(
+                        field
+                    );
+
+                }
+            );
+
+        }
 
     }
 );
 
+
+// ========================================
+// SUMMATIVE INPUT EVENTS
+// ========================================
+
+Object.values(summativeFields).forEach(
+    (field) => {
+
+        if (
+            field.raw &&
+            field.total &&
+            field.equivalent
+        ) {
+
+            field.raw.addEventListener(
+                "input",
+                () => {
+
+                    calculateSummativeEquivalent(
+                        field
+                    );
+
+                }
+            );
+
+
+            field.total.addEventListener(
+                "input",
+                () => {
+
+                    calculateSummativeEquivalent(
+                        field
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
 
 
 // ========================================
@@ -478,19 +783,12 @@ Object.values(examFields).forEach(
 const subjectInputs = [
 
     AP,
-
     FIL,
-
     HELE,
-
     MAPEH,
-
     English,
-
     Mathematics,
-
     Science,
-
     GMRC
 
 ];
@@ -503,40 +801,63 @@ const subjectInputs = [
 function calculateAverage() {
 
     const scores = [
+
         Number(AP.value),
+
         Number(FIL.value),
+
         Number(HELE.value),
+
         Number(MAPEH.value),
+
         Number(English.value),
+
         Number(Mathematics.value),
+
         Number(Science.value),
+
         Number(GMRC.value)
+
     ];
 
-    const validScores = scores.filter(
-        (score) => Number.isFinite(score)
-    );
 
-    if (validScores.length === 0) {
+    const validScores =
+        scores.filter(
+            (score) =>
+                Number.isFinite(score)
+        );
 
-        averageValue.textContent = "0.00";
+
+    if (
+        validScores.length === 0
+    ) {
+
+        averageValue.textContent =
+            "0.00";
+
         return;
 
     }
 
+
     const total =
         validScores.reduce(
-            (sum, score) => sum + score,
+            (sum, score) =>
+                sum + score,
             0
         );
 
+
     const average =
-        total / validScores.length;
+        total /
+        validScores.length;
+
 
     averageValue.textContent =
         average.toFixed(2);
 
 }
+
 
 // ========================================
 // UPDATE AVERAGE WHEN SCORE CHANGES
@@ -545,81 +866,17 @@ function calculateAverage() {
 subjectInputs.forEach(
     (input) => {
 
-        input.addEventListener(
-            "input",
-            calculateAverage
-        );
+        if (input) {
+
+            input.addEventListener(
+                "input",
+                calculateAverage
+            );
+
+        }
 
     }
 );
-
-
-// ========================================
-// CHECK REQUIRED ELEMENTS
-// ========================================
-
-if (
-
-    !studentIDInput ||
-
-    !studentName ||
-
-    !AP ||
-
-    !FIL ||
-
-    !HELE ||
-
-    !MAPEH ||
-
-    !English ||
-
-    !Mathematics ||
-
-    !Science ||
-
-    !GMRC ||
-
-    !loadBtn ||
-
-    !saveBtn ||
-
-    !newStudentID ||
-
-    !newStudentName ||
-
-    !newStudentPassword ||
-
-    !addStudentBtn ||
-
-    !studentList ||
-
-    !studentSearch ||
-
-    !termSelect ||
-
-    !passwordStudentID ||
-
-    !changeNewPassword ||
-
-    !changePasswordBtn ||
-
-    !averageValue ||
-
-    Object.values(examFields).some(
-        (field) =>
-            !field.raw ||
-            !field.total ||
-            !field.equivalent
-    )
-
-) {
-
-    console.error(
-        "Teacher Dashboard: One or more HTML elements are missing."
-    );
-
-}
 
 
 // ========================================
@@ -831,7 +1088,7 @@ function displayStudents(
 
                         const confirmed =
                             confirm(
-                                `Are you sure you want to delete ${studentNameValue} (${studentID})?\n\nThis will permanently delete the student's record and all scores.`
+                                `Are you sure you want to delete ${studentNameValue} (${studentID})?\n\nThis will permanently delete the student's Firestore record and all scores.`
                             );
 
 
@@ -1047,7 +1304,6 @@ changePasswordBtn.addEventListener(
             passwordStudentID.value =
                 "";
 
-
             changeNewPassword.value =
                 "";
 
@@ -1201,10 +1457,28 @@ loadBtn.addEventListener(
 
 
             // =================================
+            // LOAD SUMMATIVE TEST SCORES
+            // =================================
+
+            loadSummativeFields(
+                termScores.summative || {}
+            );
+
+
+            // =================================
             // CALCULATE AVERAGE
             // =================================
 
             calculateAverage();
+
+
+            // =================================
+            // UPDATE EQUIVALENTS
+            // =================================
+
+            updateAllExamEquivalents();
+
+            updateAllSummativeEquivalents();
 
 
         } catch (error) {
@@ -1262,52 +1536,45 @@ saveBtn.addEventListener(
                 termSelect.value;
 
 
+            // =================================
+            // SUBJECT SCORES
+            // =================================
+
             const scoresToSave = {
 
                 AP:
-                    Number(
-                        AP.value
-                    ) || 0,
+                    Number(AP.value) || 0,
 
                 FIL:
-                    Number(
-                        FIL.value
-                    ) || 0,
+                    Number(FIL.value) || 0,
 
                 HELE:
-                    Number(
-                        HELE.value
-                    ) || 0,
+                    Number(HELE.value) || 0,
 
                 MAPEH:
-                    Number(
-                        MAPEH.value
-                    ) || 0,
+                    Number(MAPEH.value) || 0,
 
                 English:
-                    Number(
-                        English.value
-                    ) || 0,
+                    Number(English.value) || 0,
 
                 Mathematics:
-                    Number(
-                        Mathematics.value
-                    ) || 0,
+                    Number(Mathematics.value) || 0,
 
                 Science:
-                    Number(
-                        Science.value
-                    ) || 0,
+                    Number(Science.value) || 0,
 
                 GMRC:
-                    Number(
-                        GMRC.value
-                    ) || 0
+                    Number(GMRC.value) || 0
 
             };
 
 
+            // =================================
+            // GET EXAM SCORES
+            // =================================
+
             let examsToSave;
+
 
             try {
 
@@ -1316,36 +1583,90 @@ saveBtn.addEventListener(
 
             } catch (examError) {
 
-                alert(examError.message);
+                alert(
+                    examError.message
+                );
+
                 return;
 
             }
 
 
-            // Preserve the existing term structure and
-            // add exams separately. Existing grades are
-            // never replaced by exam scores.
+            // =================================
+            // GET SUMMATIVE SCORES
+            // =================================
+
+            let summativeToSave;
+
+
+            try {
+
+                summativeToSave =
+                    getSummativeScores();
+
+            } catch (summativeError) {
+
+                alert(
+                    summativeError.message
+                );
+
+                return;
+
+            }
+
+
+            // =================================
+            // GET EXISTING DATA
+            // =================================
 
             const existingSnap =
-                await getDoc(docRef);
+                await getDoc(
+                    docRef
+                );
+
+
+            if (
+                !existingSnap.exists()
+            ) {
+
+                alert(
+                    "Student record not found."
+                );
+
+                return;
+
+            }
+
 
             const existingData =
-                existingSnap.exists()
-                    ? existingSnap.data()
-                    : {};
+                existingSnap.data();
+
 
             const existingTerm =
-                existingData[selectedTerm] || {};
+                existingData[selectedTerm] ||
+                {};
 
+
+            // =================================
+            // SAVE EVERYTHING
+            // =================================
 
             await updateDoc(
                 docRef,
                 {
 
                     [selectedTerm]: {
+
                         ...existingTerm,
+
                         ...scoresToSave,
-                        exams: examsToSave
+
+                        exams:
+                            examsToSave,
+
+                        summative:
+                            summativeToSave
+
                     }
 
                 }
@@ -1359,12 +1680,16 @@ saveBtn.addEventListener(
             calculateAverage();
 
 
+            // =================================
+            // SUCCESS MESSAGE
+            // =================================
+
             if (
                 selectedTerm === "term1"
             ) {
 
                 alert(
-                    "Term 1 scores saved successfully!"
+                    "Term 1 scores, exams, and summative tests saved successfully!"
                 );
 
             }
@@ -1374,7 +1699,7 @@ saveBtn.addEventListener(
             ) {
 
                 alert(
-                    "Term 2 scores saved successfully!"
+                    "Term 2 scores, exams, and summative tests saved successfully!"
                 );
 
             }
@@ -1384,7 +1709,7 @@ saveBtn.addEventListener(
             ) {
 
                 alert(
-                    "Term 3 scores saved successfully!"
+                    "Term 3 scores, exams, and summative tests saved successfully!"
                 );
 
             }
@@ -1578,7 +1903,9 @@ addStudentBtn.addEventListener(
 
                         GMRC: 0,
 
-                        exams: {}
+                        exams: {},
+
+                        summative: {}
 
                     },
 
@@ -1605,7 +1932,9 @@ addStudentBtn.addEventListener(
 
                         GMRC: 0,
 
-                        exams: {}
+                        exams: {},
+
+                        summative: {}
 
                     },
 
@@ -1632,7 +1961,9 @@ addStudentBtn.addEventListener(
 
                         GMRC: 0,
 
-                        exams: {}
+                        exams: {},
+
+                        summative: {}
 
                     }
 
