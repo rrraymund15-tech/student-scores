@@ -122,9 +122,6 @@ loginButton.addEventListener(
                 studentSnap.data();
 
 
-         
-
-
             // =====================================
             // GET TERMS
             // =====================================
@@ -389,11 +386,12 @@ loginButton.addEventListener(
                 const HELEExam =
                     getExamData("HELE");
 
-               const MusicArtsExam =
-    getExamData("MusicArts");
+                const MusicArtsExam =
+                    getExamData("MusicArts");
 
-const PEHealthExam =
-    getExamData("PEHealth");
+                const PEHealthExam =
+                    getExamData("PEHealth");
+
                 const EnglishExam =
                     getExamData("English");
 
@@ -405,6 +403,134 @@ const PEHealthExam =
 
                 const GMRCExam =
                     getExamData("GMRC");
+
+
+                // =================================
+                // SUMMATIVE TEST DATA
+                // =================================
+
+                const summative =
+                    termScores.summative || {};
+
+
+                // =================================
+                // GET SUMMATIVE DISPLAY
+                // =================================
+
+                function getSummativeData(subject) {
+
+                    const test =
+                        summative[subject];
+
+
+                    if (
+                        !test ||
+                        test.rawScore === undefined ||
+                        test.totalScore === undefined
+                    ) {
+
+                        return {
+
+                            score: "—",
+
+                            equivalent: "—"
+
+                        };
+
+                    }
+
+
+                    const raw =
+                        Number(test.rawScore);
+
+                    const total =
+                        Number(test.totalScore);
+
+
+                    if (
+                        !Number.isFinite(raw) ||
+                        !Number.isFinite(total) ||
+                        total <= 0
+                    ) {
+
+                        return {
+
+                            score: "—",
+
+                            equivalent: "—"
+
+                        };
+
+                    }
+
+
+                    let equivalent;
+
+
+                    if (
+                        test.equivalent !== undefined &&
+                        Number.isFinite(
+                            Number(test.equivalent)
+                        )
+                    ) {
+
+                        equivalent =
+                            Number(test.equivalent);
+
+                    } else {
+
+                        equivalent =
+                            (raw / total) * 100;
+
+                    }
+
+
+                    return {
+
+                        score:
+                            `${raw} / ${total}`,
+
+                        equivalent:
+                            equivalent.toFixed(2)
+
+                    };
+
+                }
+
+
+                // =================================
+                // GET EACH SUMMATIVE TEST
+                // =================================
+
+                const APSummative =
+                    getSummativeData("AP");
+
+                const FILSummative =
+                    getSummativeData("FIL");
+
+                const ComputerSummative =
+                    getSummativeData("Computer");
+
+                const HELESummative =
+                    getSummativeData("HELE");
+
+                const MusicArtsSummative =
+                    getSummativeData("MusicArts");
+
+                const PEHealthSummative =
+                    getSummativeData("PEHealth");
+
+                const MathematicsSummative =
+                    getSummativeData("Mathematics");
+
+                const ScienceSummative =
+                    getSummativeData("Science");
+
+                const EnglishSummative =
+                    getSummativeData("English");
+
+                const GMRCSummative =
+                    getSummativeData("GMRC");
 
 
                 // =================================
@@ -438,10 +564,19 @@ const PEHealthExam =
 
 
                 // =================================
-                // DISPLAY TABLE
+                // DISPLAY TABLES
                 // =================================
 
                 scoresContainer.innerHTML = `
+
+                    <!-- =================================
+                         REGULAR SUBJECT SCORES
+                    ================================== -->
+
+                    <h3>
+                        Subject Scores
+                    </h3>
+
 
                     <table>
 
@@ -546,28 +681,45 @@ const PEHealthExam =
                                     ${MAPEH}
                                 </td>
 
-                             
-                               <td>
-    <div>
-        <strong>M/A:</strong>
-        ${MusicArtsExam.score}
-    </div>
-    <div>
-        <strong>PE/H:</strong>
-        ${PEHealthExam.score}
-    </div>
-</td>
+                                <td>
 
-<td>
-    <div>
-        <strong>M/A:</strong>
-        ${MusicArtsExam.equivalent}
-    </div>
-    <div>
-        <strong>PE/H:</strong>
-        ${PEHealthExam.equivalent}
-    </div>
-</td>
+                                    <div>
+                                        <strong>
+                                            M/A:
+                                        </strong>
+
+                                        ${MusicArtsExam.score}
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            PE/H:
+                                        </strong>
+
+                                        ${PEHealthExam.score}
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div>
+                                        <strong>
+                                            M/A:
+                                        </strong>
+
+                                        ${MusicArtsExam.equivalent}
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            PE/H:
+                                        </strong>
+
+                                        ${PEHealthExam.equivalent}
+                                    </div>
+
+                                </td>
 
                             </tr>
 
@@ -672,6 +824,222 @@ const PEHealthExam =
                         </span>
 
                     </div>
+
+
+                    <!-- =================================
+                         SUMMATIVE TEST SCORES
+                    ================================== -->
+
+                    <h3 style="margin-top: 30px;">
+                        Summative Test Scores
+                    </h3>
+
+
+                    <p>
+                        Summative Test scores are
+                        displayed for viewing only.
+                    </p>
+
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Subject
+                                </th>
+
+                                <th>
+                                    Score
+                                </th>
+
+                                <th>
+                                    Equivalent
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <tr>
+
+                                <td>
+                                    Araling Panlipunan
+                                </td>
+
+                                <td>
+                                    ${APSummative.score}
+                                </td>
+
+                                <td>
+                                    ${APSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Filipino
+                                </td>
+
+                                <td>
+                                    ${FILSummative.score}
+                                </td>
+
+                                <td>
+                                    ${FILSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Computer
+                                </td>
+
+                                <td>
+                                    ${ComputerSummative.score}
+                                </td>
+
+                                <td>
+                                    ${ComputerSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    HELE
+                                </td>
+
+                                <td>
+                                    ${HELESummative.score}
+                                </td>
+
+                                <td>
+                                    ${HELESummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Music/Arts
+                                </td>
+
+                                <td>
+                                    ${MusicArtsSummative.score}
+                                </td>
+
+                                <td>
+                                    ${MusicArtsSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    PE/Health
+                                </td>
+
+                                <td>
+                                    ${PEHealthSummative.score}
+                                </td>
+
+                                <td>
+                                    ${PEHealthSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Mathematics
+                                </td>
+
+                                <td>
+                                    ${MathematicsSummative.score}
+                                </td>
+
+                                <td>
+                                    ${MathematicsSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Science
+                                </td>
+
+                                <td>
+                                    ${ScienceSummative.score}
+                                </td>
+
+                                <td>
+                                    ${ScienceSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    English
+                                </td>
+
+                                <td>
+                                    ${EnglishSummative.score}
+                                </td>
+
+                                <td>
+                                    ${EnglishSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    GMRC
+                                </td>
+
+                                <td>
+                                    ${GMRCSummative.score}
+                                </td>
+
+                                <td>
+                                    ${GMRCSummative.equivalent}
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
 
                 `;
 
