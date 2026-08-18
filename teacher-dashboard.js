@@ -253,18 +253,23 @@ const summativeFields = {
         equivalent: document.getElementById("summativeAPEquivalent")
     },
 
-    FIL: {
-        raw: document.getElementById("summativeFILRaw"),
-        total: document.getElementById("summativeFILTotal"),
-        equivalent: document.getElementById("summativeFILEquivalent")
-    },
+  FIL: {
+    raw: document.getElementById("summativeFILRaw"),
+    total: document.getElementById("summativeFILTotal"),
+    equivalent: document.getElementById("summativeFILEquivalent")
+},
 
-    HELE: {
-        raw: document.getElementById("summativeHELERaw"),
-        total: document.getElementById("summativeHELETotal"),
-        equivalent: document.getElementById("summativeHELEEquivalent")
-    },
+Computer: {
+    raw: document.getElementById("summativeComputerRaw"),
+    total: document.getElementById("summativeComputerTotal"),
+    equivalent: document.getElementById("summativeComputerEquivalent")
+},
 
+HELE: {
+    raw: document.getElementById("summativeHELERaw"),
+    total: document.getElementById("summativeHELETotal"),
+    equivalent: document.getElementById("summativeHELEEquivalent")
+},
     MusicArts: {
         raw: document.getElementById("summativeMusicArtsRaw"),
         total: document.getElementById("summativeMusicArtsTotal"),
