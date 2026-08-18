@@ -827,7 +827,347 @@
             </div>
 
         </div>
+        <!-- =================================
+             SUMMATIVE TEST SCORES
+        ================================== -->
 
+        <div class="exam-section">
+
+            <h3>Summative Test Scores</h3>
+
+            <p class="exam-note">
+                Enter the raw score and total score.
+                Summative Test Equivalent is calculated as
+                (Raw Score ÷ Total Score) × 100.
+                Summative Test scores are stored separately
+                and are NOT included in the Current Term Average.
+            </p>
+
+            <div class="exam-grid">
+
+                <div class="exam-cell header">Subject</div>
+                <div class="exam-cell header">Raw Score</div>
+                <div class="exam-cell header">Total Score</div>
+                <div class="exam-cell header">Summative Equivalent</div>
+
+
+                <!-- AP -->
+
+                <div class="exam-cell subject">
+                    AP
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeAPRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeAPTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeAPEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- FILIPINO -->
+
+                <div class="exam-cell subject">
+                    Filipino
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeFILRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeFILTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeFILEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- HELE -->
+
+                <div class="exam-cell subject">
+                    HELE
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeHELERaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeHELETotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeHELEEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- MUSIC / ARTS -->
+
+                <div class="exam-cell subject">
+                    Music/Arts
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeMusicArtsRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeMusicArtsTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeMusicArtsEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- PE / HEALTH -->
+
+                <div class="exam-cell subject">
+                    PE/Health
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativePEHealthRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativePEHealthTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativePEHealthEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- ENGLISH -->
+
+                <div class="exam-cell subject">
+                    English
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeEnglishRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeEnglishTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeEnglishEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- MATHEMATICS -->
+
+                <div class="exam-cell subject">
+                    Mathematics
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeMathematicsRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeMathematicsTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeMathematicsEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- SCIENCE -->
+
+                <div class="exam-cell subject">
+                    Science
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeScienceRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeScienceTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeScienceEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+
+                <!-- GMRC -->
+
+                <div class="exam-cell subject">
+                    GMRC
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeGMRCRaw"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Raw">
+                </div>
+
+                <div class="exam-cell">
+                    <input
+                        type="number"
+                        id="summativeGMRCTotal"
+                        class="exam-input"
+                        min="0"
+                        step="any"
+                        placeholder="Total">
+                </div>
+
+                <div class="exam-cell">
+                    <span
+                        id="summativeGMRCEquivalent"
+                        class="exam-equivalent">
+                        —
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
 
         <!-- =================================
              AVERAGE
