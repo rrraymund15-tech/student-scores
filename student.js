@@ -435,132 +435,165 @@ loginButton.addEventListener(
                 */
 
 
-                function getSummativeTest1Data() {
+              function getSummativeTest1Data() {
 
-                    // New preferred structure
-                    if (
-                        termScores.summativeTest1 &&
-                        typeof termScores.summativeTest1 === "object"
-                    ) {
+    // =================================
+    // NEW STRUCTURE
+    // summativeTests.test1
+    // =================================
 
-                        return termScores.summativeTest1;
+    if (
+        termScores.summativeTests &&
+        termScores.summativeTests.test1 &&
+        typeof termScores.summativeTests.test1 === "object"
+    ) {
 
-                    }
+        return termScores.summativeTests.test1;
 
-
-                    // Alternative structure
-                    if (
-                        termScores.summative1 &&
-                        typeof termScores.summative1 === "object"
-                    ) {
-
-                        return termScores.summative1;
-
-                    }
+    }
 
 
-                    // Nested structure
-                    if (
-                        termScores.summative &&
-                        termScores.summative.test1 &&
-                        typeof termScores.summative.test1 === "object"
-                    ) {
+    // =================================
+    // OTHER POSSIBLE STRUCTURES
+    // =================================
 
-                        return termScores.summative.test1;
+    if (
+        termScores.summativeTest1 &&
+        typeof termScores.summativeTest1 === "object"
+    ) {
 
-                    }
+        return termScores.summativeTest1;
 
-
-                    if (
-                        termScores.summative &&
-                        termScores.summative.summativeTest1 &&
-                        typeof termScores.summative.summativeTest1 === "object"
-                    ) {
-
-                        return termScores.summative.summativeTest1;
-
-                    }
+    }
 
 
-                    // Backward compatibility:
-                    // old summative data was stored directly
-                    // under "summative"
-                    if (
-                        termScores.summative &&
-                        typeof termScores.summative === "object" &&
-                        !termScores.summative.test2 &&
-                        !termScores.summative.summativeTest2
-                    ) {
+    if (
+        termScores.summative1 &&
+        typeof termScores.summative1 === "object"
+    ) {
 
-                        return termScores.summative;
+        return termScores.summative1;
 
-                    }
+    }
 
 
-                    return {};
+    if (
+        termScores.summative &&
+        termScores.summative.test1 &&
+        typeof termScores.summative.test1 === "object"
+    ) {
 
-                }
+        return termScores.summative.test1;
 
-
-                function getSummativeTest2Data() {
-
-                    // New preferred structure
-                    if (
-                        termScores.summativeTest2 &&
-                        typeof termScores.summativeTest2 === "object"
-                    ) {
-
-                        return termScores.summativeTest2;
-
-                    }
+    }
 
 
-                    // Alternative structure
-                    if (
-                        termScores.summative2 &&
-                        typeof termScores.summative2 === "object"
-                    ) {
+    if (
+        termScores.summative &&
+        termScores.summative.summativeTest1 &&
+        typeof termScores.summative.summativeTest1 === "object"
+    ) {
 
-                        return termScores.summative2;
+        return termScores.summative.summativeTest1;
 
-                    }
-
-
-                    // Nested structure
-                    if (
-                        termScores.summative &&
-                        termScores.summative.test2 &&
-                        typeof termScores.summative.test2 === "object"
-                    ) {
-
-                        return termScores.summative.test2;
-
-                    }
+    }
 
 
-                    if (
-                        termScores.summative &&
-                        termScores.summative.summativeTest2 &&
-                        typeof termScores.summative.summativeTest2 === "object"
-                    ) {
+    // =================================
+    // OLD STRUCTURE
+    // summative = Test 1
+    // =================================
 
-                        return termScores.summative.summativeTest2;
+    if (
+        termScores.summative &&
+        typeof termScores.summative === "object"
+    ) {
 
-                    }
+        return termScores.summative;
 
-
-                    return {};
-
-                }
-
-
-                const summativeTest1 =
-                    getSummativeTest1Data();
+    }
 
 
-                const summativeTest2 =
-                    getSummativeTest2Data();
+    return {};
 
+}
+
+
+function getSummativeTest2Data() {
+
+    // =================================
+    // NEW STRUCTURE
+    // summativeTests.test2
+    // =================================
+
+    if (
+        termScores.summativeTests &&
+        termScores.summativeTests.test2 &&
+        typeof termScores.summativeTests.test2 === "object"
+    ) {
+
+        return termScores.summativeTests.test2;
+
+    }
+
+
+    // =================================
+    // OTHER POSSIBLE STRUCTURES
+    // =================================
+
+    if (
+        termScores.summativeTest2 &&
+        typeof termScores.summativeTest2 === "object"
+    ) {
+
+        return termScores.summativeTest2;
+
+    }
+
+
+    if (
+        termScores.summative2 &&
+        typeof termScores.summative2 === "object"
+    ) {
+
+        return termScores.summative2;
+
+    }
+
+
+    if (
+        termScores.summative &&
+        termScores.summative.test2 &&
+        typeof termScores.summative.test2 === "object"
+    ) {
+
+        return termScores.summative.test2;
+
+    }
+
+
+    if (
+        termScores.summative &&
+        termScores.summative.summativeTest2 &&
+        typeof termScores.summative.summativeTest2 === "object"
+    ) {
+
+        return termScores.summative.summativeTest2;
+
+    }
+
+
+    return {};
+
+}
+
+
+const summativeTest1 =
+    getSummativeTest1Data();
+
+
+const summativeTest2 =
+    getSummativeTest2Data();
 
                 // =================================
                 // GET SUMMATIVE DISPLAY
