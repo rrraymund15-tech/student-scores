@@ -7,7 +7,8 @@ import {
 
 import {
     getAuth,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
@@ -383,6 +384,9 @@ loginButton.addEventListener(
                 const FILExam =
                     getExamData("FIL");
 
+                const ComputerExam =
+                    getExamData("Computer");
+
                 const HELEExam =
                     getExamData("HELE");
 
@@ -409,18 +413,166 @@ loginButton.addEventListener(
                 // SUMMATIVE TEST DATA
                 // =================================
 
-                const summative =
-                    termScores.summative || {};
+                /*
+                    The system supports these structures:
+
+                    summativeTest1
+                    summativeTest2
+
+                    OR
+
+                    summative1
+                    summative2
+
+                    OR older/nested structures such as:
+
+                    summative.test1
+                    summative.test2
+
+                    This makes the student portal
+                    more tolerant of the data already
+                    stored in Firestore.
+                */
+
+
+                function getSummativeTest1Data() {
+
+                    // New preferred structure
+                    if (
+                        termScores.summativeTest1 &&
+                        typeof termScores.summativeTest1 === "object"
+                    ) {
+
+                        return termScores.summativeTest1;
+
+                    }
+
+
+                    // Alternative structure
+                    if (
+                        termScores.summative1 &&
+                        typeof termScores.summative1 === "object"
+                    ) {
+
+                        return termScores.summative1;
+
+                    }
+
+
+                    // Nested structure
+                    if (
+                        termScores.summative &&
+                        termScores.summative.test1 &&
+                        typeof termScores.summative.test1 === "object"
+                    ) {
+
+                        return termScores.summative.test1;
+
+                    }
+
+
+                    if (
+                        termScores.summative &&
+                        termScores.summative.summativeTest1 &&
+                        typeof termScores.summative.summativeTest1 === "object"
+                    ) {
+
+                        return termScores.summative.summativeTest1;
+
+                    }
+
+
+                    // Backward compatibility:
+                    // old summative data was stored directly
+                    // under "summative"
+                    if (
+                        termScores.summative &&
+                        typeof termScores.summative === "object" &&
+                        !termScores.summative.test2 &&
+                        !termScores.summative.summativeTest2
+                    ) {
+
+                        return termScores.summative;
+
+                    }
+
+
+                    return {};
+
+                }
+
+
+                function getSummativeTest2Data() {
+
+                    // New preferred structure
+                    if (
+                        termScores.summativeTest2 &&
+                        typeof termScores.summativeTest2 === "object"
+                    ) {
+
+                        return termScores.summativeTest2;
+
+                    }
+
+
+                    // Alternative structure
+                    if (
+                        termScores.summative2 &&
+                        typeof termScores.summative2 === "object"
+                    ) {
+
+                        return termScores.summative2;
+
+                    }
+
+
+                    // Nested structure
+                    if (
+                        termScores.summative &&
+                        termScores.summative.test2 &&
+                        typeof termScores.summative.test2 === "object"
+                    ) {
+
+                        return termScores.summative.test2;
+
+                    }
+
+
+                    if (
+                        termScores.summative &&
+                        termScores.summative.summativeTest2 &&
+                        typeof termScores.summative.summativeTest2 === "object"
+                    ) {
+
+                        return termScores.summative.summativeTest2;
+
+                    }
+
+
+                    return {};
+
+                }
+
+
+                const summativeTest1 =
+                    getSummativeTest1Data();
+
+
+                const summativeTest2 =
+                    getSummativeTest2Data();
 
 
                 // =================================
                 // GET SUMMATIVE DISPLAY
                 // =================================
 
-                function getSummativeData(subject) {
+                function getSummativeData(
+                    summativeData,
+                    subject
+                ) {
 
                     const test =
-                        summative[subject];
+                        summativeData[subject];
 
 
                     if (
@@ -499,38 +651,133 @@ loginButton.addEventListener(
 
 
                 // =================================
-                // GET EACH SUMMATIVE TEST
+                // SUMMATIVE TEST 1
                 // =================================
 
-                const APSummative =
-                    getSummativeData("AP");
+                const APTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "AP"
+                    );
 
-                const FILSummative =
-                    getSummativeData("FIL");
+                const FILTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "FIL"
+                    );
 
-                const ComputerSummative =
-                    getSummativeData("Computer");
+                const ComputerTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "Computer"
+                    );
 
-                const HELESummative =
-                    getSummativeData("HELE");
+                const HELETest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "HELE"
+                    );
 
-                const MusicArtsSummative =
-                    getSummativeData("MusicArts");
+                const MusicArtsTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "MusicArts"
+                    );
 
-                const PEHealthSummative =
-                    getSummativeData("PEHealth");
+                const PEHealthTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "PEHealth"
+                    );
 
-                const MathematicsSummative =
-                    getSummativeData("Mathematics");
+                const MathematicsTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "Mathematics"
+                    );
 
-                const ScienceSummative =
-                    getSummativeData("Science");
+                const ScienceTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "Science"
+                    );
 
-                const EnglishSummative =
-                    getSummativeData("English");
+                const EnglishTest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "English"
+                    );
 
-                const GMRCSummative =
-                    getSummativeData("GMRC");
+                const GMRCtest1 =
+                    getSummativeData(
+                        summativeTest1,
+                        "GMRC"
+                    );
+
+
+                // =================================
+                // SUMMATIVE TEST 2
+                // =================================
+
+                const APTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "AP"
+                    );
+
+                const FILTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "FIL"
+                    );
+
+                const ComputerTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "Computer"
+                    );
+
+                const HELETest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "HELE"
+                    );
+
+                const MusicArtsTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "MusicArts"
+                    );
+
+                const PEHealthTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "PEHealth"
+                    );
+
+                const MathematicsTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "Mathematics"
+                    );
+
+                const ScienceTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "Science"
+                    );
+
+                const EnglishTest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "English"
+                    );
+
+                const GMRCtest2 =
+                    getSummativeData(
+                        summativeTest2,
+                        "GMRC"
+                    );
 
 
                 // =================================
@@ -564,7 +811,7 @@ loginButton.addEventListener(
 
 
                 // =================================
-                // DISPLAY TABLES
+                // DISPLAY EVERYTHING
                 // =================================
 
                 scoresContainer.innerHTML = `
@@ -606,7 +853,6 @@ loginButton.addEventListener(
 
 
                         <tbody>
-
 
                             <tr>
 
@@ -827,16 +1073,16 @@ loginButton.addEventListener(
 
 
                     <!-- =================================
-                         SUMMATIVE TEST SCORES
+                         SUMMATIVE TEST 1
                     ================================== -->
 
                     <h3 style="margin-top: 30px;">
-                        Summative Test Scores
+                        Summative Test 1 Scores
                     </h3>
 
 
                     <p>
-                        Summative Test scores are
+                        Summative Test 1 scores are
                         displayed for viewing only.
                     </p>
 
@@ -868,172 +1114,188 @@ loginButton.addEventListener(
 
 
                             <tr>
-
-                                <td>
-                                    Araling Panlipunan
-                                </td>
-
-                                <td>
-                                    ${APSummative.score}
-                                </td>
-
-                                <td>
-                                    ${APSummative.equivalent}
-                                </td>
-
+                                <td>Araling Panlipunan</td>
+                                <td>${APTest1.score}</td>
+                                <td>${APTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    Filipino
-                                </td>
-
-                                <td>
-                                    ${FILSummative.score}
-                                </td>
-
-                                <td>
-                                    ${FILSummative.equivalent}
-                                </td>
-
+                                <td>Filipino</td>
+                                <td>${FILTest1.score}</td>
+                                <td>${FILTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    Computer
-                                </td>
-
-                                <td>
-                                    ${ComputerSummative.score}
-                                </td>
-
-                                <td>
-                                    ${ComputerSummative.equivalent}
-                                </td>
-
+                                <td>Computer</td>
+                                <td>${ComputerTest1.score}</td>
+                                <td>${ComputerTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    HELE
-                                </td>
-
-                                <td>
-                                    ${HELESummative.score}
-                                </td>
-
-                                <td>
-                                    ${HELESummative.equivalent}
-                                </td>
-
+                                <td>HELE</td>
+                                <td>${HELETest1.score}</td>
+                                <td>${HELETest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    Music/Arts
-                                </td>
-
-                                <td>
-                                    ${MusicArtsSummative.score}
-                                </td>
-
-                                <td>
-                                    ${MusicArtsSummative.equivalent}
-                                </td>
-
+                                <td>Music/Arts</td>
+                                <td>${MusicArtsTest1.score}</td>
+                                <td>${MusicArtsTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    PE/Health
-                                </td>
-
-                                <td>
-                                    ${PEHealthSummative.score}
-                                </td>
-
-                                <td>
-                                    ${PEHealthSummative.equivalent}
-                                </td>
-
+                                <td>PE/Health</td>
+                                <td>${PEHealthTest1.score}</td>
+                                <td>${PEHealthTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    Mathematics
-                                </td>
-
-                                <td>
-                                    ${MathematicsSummative.score}
-                                </td>
-
-                                <td>
-                                    ${MathematicsSummative.equivalent}
-                                </td>
-
+                                <td>Mathematics</td>
+                                <td>${MathematicsTest1.score}</td>
+                                <td>${MathematicsTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    Science
-                                </td>
-
-                                <td>
-                                    ${ScienceSummative.score}
-                                </td>
-
-                                <td>
-                                    ${ScienceSummative.equivalent}
-                                </td>
-
+                                <td>Science</td>
+                                <td>${ScienceTest1.score}</td>
+                                <td>${ScienceTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
-
-                                <td>
-                                    English
-                                </td>
-
-                                <td>
-                                    ${EnglishSummative.score}
-                                </td>
-
-                                <td>
-                                    ${EnglishSummative.equivalent}
-                                </td>
-
+                                <td>English</td>
+                                <td>${EnglishTest1.score}</td>
+                                <td>${EnglishTest1.equivalent}</td>
                             </tr>
 
 
                             <tr>
+                                <td>GMRC</td>
+                                <td>${GMRCtest1.score}</td>
+                                <td>${GMRCtest1.equivalent}</td>
+                            </tr>
 
-                                <td>
-                                    GMRC
-                                </td>
 
-                                <td>
-                                    ${GMRCSummative.score}
-                                </td>
+                        </tbody>
 
-                                <td>
-                                    ${GMRCSummative.equivalent}
-                                </td>
+                    </table>
 
+
+                    <!-- =================================
+                         SUMMATIVE TEST 2
+                    ================================== -->
+
+                    <h3 style="margin-top: 30px;">
+                        Summative Test 2 Scores
+                    </h3>
+
+
+                    <p>
+                        Summative Test 2 scores are
+                        displayed for viewing only.
+                    </p>
+
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Subject
+                                </th>
+
+                                <th>
+                                    Score
+                                </th>
+
+                                <th>
+                                    Equivalent
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <tr>
+                                <td>Araling Panlipunan</td>
+                                <td>${APTest2.score}</td>
+                                <td>${APTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Filipino</td>
+                                <td>${FILTest2.score}</td>
+                                <td>${FILTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Computer</td>
+                                <td>${ComputerTest2.score}</td>
+                                <td>${ComputerTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>HELE</td>
+                                <td>${HELETest2.score}</td>
+                                <td>${HELETest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Music/Arts</td>
+                                <td>${MusicArtsTest2.score}</td>
+                                <td>${MusicArtsTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>PE/Health</td>
+                                <td>${PEHealthTest2.score}</td>
+                                <td>${PEHealthTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Mathematics</td>
+                                <td>${MathematicsTest2.score}</td>
+                                <td>${MathematicsTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Science</td>
+                                <td>${ScienceTest2.score}</td>
+                                <td>${ScienceTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>English</td>
+                                <td>${EnglishTest2.score}</td>
+                                <td>${EnglishTest2.equivalent}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>GMRC</td>
+                                <td>${GMRCtest2.score}</td>
+                                <td>${GMRCtest2.equivalent}</td>
                             </tr>
 
 
@@ -1093,13 +1355,27 @@ loginButton.addEventListener(
 
             logoutButton.addEventListener(
                 "click",
-                () => {
+                async () => {
 
-                    location.reload();
+                    try {
+
+                        await signOut(auth);
+
+                        location.reload();
+
+                    } catch (error) {
+
+                        console.error(
+                            "LOGOUT ERROR:",
+                            error
+                        );
+
+                        location.reload();
+
+                    }
 
                 }
             );
-
 
         }
 
