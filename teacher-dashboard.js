@@ -173,6 +173,14 @@ const averageValue =
 
 
 // ========================================
+// SUMMATIVE TEST SELECTOR
+// ========================================
+
+const summativeTestSelect =
+    document.getElementById("summativeTestSelect");
+
+
+// ========================================
 // EXAM INPUTS
 // ========================================
 
@@ -253,23 +261,24 @@ const summativeFields = {
         equivalent: document.getElementById("summativeAPEquivalent")
     },
 
-  FIL: {
-    raw: document.getElementById("summativeFILRaw"),
-    total: document.getElementById("summativeFILTotal"),
-    equivalent: document.getElementById("summativeFILEquivalent")
-},
+    FIL: {
+        raw: document.getElementById("summativeFILRaw"),
+        total: document.getElementById("summativeFILTotal"),
+        equivalent: document.getElementById("summativeFILEquivalent")
+    },
 
-Computer: {
-    raw: document.getElementById("summativeComputerRaw"),
-    total: document.getElementById("summativeComputerTotal"),
-    equivalent: document.getElementById("summativeComputerEquivalent")
-},
+    Computer: {
+        raw: document.getElementById("summativeComputerRaw"),
+        total: document.getElementById("summativeComputerTotal"),
+        equivalent: document.getElementById("summativeComputerEquivalent")
+    },
 
-HELE: {
-    raw: document.getElementById("summativeHELERaw"),
-    total: document.getElementById("summativeHELETotal"),
-    equivalent: document.getElementById("summativeHELEEquivalent")
-},
+    HELE: {
+        raw: document.getElementById("summativeHELERaw"),
+        total: document.getElementById("summativeHELETotal"),
+        equivalent: document.getElementById("summativeHELEEquivalent")
+    },
+
     MusicArts: {
         raw: document.getElementById("summativeMusicArtsRaw"),
         total: document.getElementById("summativeMusicArtsTotal"),
@@ -321,7 +330,6 @@ function calculateExamEquivalent(field) {
     const total =
         Number(field.total.value);
 
-
     if (
         !Number.isFinite(raw) ||
         !Number.isFinite(total) ||
@@ -336,14 +344,11 @@ function calculateExamEquivalent(field) {
 
     }
 
-
     const equivalent =
         (raw / total) * 100;
 
-
     field.equivalent.textContent =
         equivalent.toFixed(2);
-
 
     return equivalent;
 
@@ -362,7 +367,6 @@ function calculateSummativeEquivalent(field) {
     const total =
         Number(field.total.value);
 
-
     if (
         !Number.isFinite(raw) ||
         !Number.isFinite(total) ||
@@ -377,14 +381,11 @@ function calculateSummativeEquivalent(field) {
 
     }
 
-
     const equivalent =
         (raw / total) * 100;
 
-
     field.equivalent.textContent =
         equivalent.toFixed(2);
-
 
     return equivalent;
 
@@ -475,14 +476,11 @@ function loadExamFields(exams = {}) {
             const saved =
                 exams[key] || {};
 
-
             field.raw.value =
                 saved.rawScore ?? "";
 
-
             field.total.value =
                 saved.totalScore ?? "";
-
 
             calculateExamEquivalent(field);
 
@@ -504,14 +502,11 @@ function loadSummativeFields(summative = {}) {
             const saved =
                 summative[key] || {};
 
-
             field.raw.value =
                 saved.rawScore ?? "";
 
-
             field.total.value =
                 saved.totalScore ?? "";
-
 
             calculateSummativeEquivalent(field);
 
@@ -529,7 +524,6 @@ function getExamScores() {
 
     const exams = {};
 
-
     Object.entries(examFields).forEach(
         ([key, field]) => {
 
@@ -538,7 +532,6 @@ function getExamScores() {
 
             const totalText =
                 field.total.value.trim();
-
 
             if (
                 rawText === "" &&
@@ -549,13 +542,11 @@ function getExamScores() {
 
             }
 
-
             const rawScore =
                 Number(rawText);
 
             const totalScore =
                 Number(totalText);
-
 
             if (
                 !Number.isFinite(rawScore) ||
@@ -570,7 +561,6 @@ function getExamScores() {
 
             }
 
-
             if (
                 rawScore > totalScore
             ) {
@@ -580,7 +570,6 @@ function getExamScores() {
                 );
 
             }
-
 
             exams[key] = {
 
@@ -603,7 +592,6 @@ function getExamScores() {
         }
     );
 
-
     return exams;
 
 }
@@ -617,7 +605,6 @@ function getSummativeScores() {
 
     const summative = {};
 
-
     Object.entries(summativeFields).forEach(
         ([key, field]) => {
 
@@ -626,7 +613,6 @@ function getSummativeScores() {
 
             const totalText =
                 field.total.value.trim();
-
 
             if (
                 rawText === "" &&
@@ -637,13 +623,11 @@ function getSummativeScores() {
 
             }
 
-
             const rawScore =
                 Number(rawText);
 
             const totalScore =
                 Number(totalText);
-
 
             if (
                 !Number.isFinite(rawScore) ||
@@ -658,7 +642,6 @@ function getSummativeScores() {
 
             }
 
-
             if (
                 rawScore > totalScore
             ) {
@@ -668,7 +651,6 @@ function getSummativeScores() {
                 );
 
             }
-
 
             summative[key] = {
 
@@ -690,7 +672,6 @@ function getSummativeScores() {
 
         }
     );
-
 
     return summative;
 
@@ -720,7 +701,6 @@ Object.values(examFields).forEach(
 
                 }
             );
-
 
             field.total.addEventListener(
                 "input",
@@ -762,7 +742,6 @@ Object.values(summativeFields).forEach(
 
                 }
             );
-
 
             field.total.addEventListener(
                 "input",
@@ -808,30 +787,21 @@ function calculateAverage() {
     const scores = [
 
         Number(AP.value),
-
         Number(FIL.value),
-
         Number(HELE.value),
-
         Number(MAPEH.value),
-
         Number(English.value),
-
         Number(Mathematics.value),
-
         Number(Science.value),
-
         Number(GMRC.value)
 
     ];
-
 
     const validScores =
         scores.filter(
             (score) =>
                 Number.isFinite(score)
         );
-
 
     if (
         validScores.length === 0
@@ -844,7 +814,6 @@ function calculateAverage() {
 
     }
 
-
     const total =
         validScores.reduce(
             (sum, score) =>
@@ -852,11 +821,9 @@ function calculateAverage() {
             0
         );
 
-
     const average =
         total /
         validScores.length;
-
 
     averageValue.textContent =
         average.toFixed(2);
@@ -901,22 +868,18 @@ async function loadStudentList() {
                 "students"
             );
 
-
         const snapshot =
             await getDocs(
                 studentsRef
             );
 
-
         allStudents = [];
-
 
         snapshot.forEach(
             (studentDoc) => {
 
                 const data =
                     studentDoc.data();
-
 
                 allStudents.push({
 
@@ -932,11 +895,9 @@ async function loadStudentList() {
             }
         );
 
-
         displayStudents(
             allStudents
         );
-
 
     } catch (error) {
 
@@ -944,7 +905,6 @@ async function loadStudentList() {
             "Error loading students:",
             error
         );
-
 
         studentList.innerHTML = `
             <tr>
@@ -970,7 +930,6 @@ function displayStudents(
     studentList.innerHTML =
         "";
 
-
     if (
         students.length === 0
     ) {
@@ -987,7 +946,6 @@ function displayStudents(
 
     }
 
-
     students.forEach(
         (student) => {
 
@@ -995,7 +953,6 @@ function displayStudents(
                 document.createElement(
                     "tr"
                 );
-
 
             row.innerHTML = `
 
@@ -1017,7 +974,6 @@ function displayStudents(
 
                     </button>
 
-
                     <button
                         class="delete-student-btn"
                         data-id="${student.id}"
@@ -1031,7 +987,6 @@ function displayStudents(
 
             `;
 
-
             studentList.appendChild(
                 row
             );
@@ -1039,10 +994,6 @@ function displayStudents(
         }
     );
 
-
-    // ====================================
-    // LOAD BUTTONS
-    // ====================================
 
     document
         .querySelectorAll(
@@ -1058,7 +1009,6 @@ function displayStudents(
                         studentIDInput.value =
                             button.dataset.id;
 
-
                         loadBtn.click();
 
                     }
@@ -1067,10 +1017,6 @@ function displayStudents(
             }
         );
 
-
-    // ====================================
-    // DELETE BUTTONS
-    // ====================================
 
     document
         .querySelectorAll(
@@ -1086,23 +1032,19 @@ function displayStudents(
                         const studentID =
                             button.dataset.id;
 
-
                         const studentNameValue =
                             button.dataset.name;
-
 
                         const confirmed =
                             confirm(
                                 `Are you sure you want to delete ${studentNameValue} (${studentID})?\n\nThis will permanently delete the student's Firestore record and all scores.`
                             );
 
-
                         if (!confirmed) {
 
                             return;
 
                         }
-
 
                         try {
 
@@ -1113,26 +1055,21 @@ function displayStudents(
                                     studentID
                                 );
 
-
                             await deleteDoc(
                                 studentRef
                             );
-
 
                             alert(
                                 "Student deleted successfully."
                             );
 
-
                             await loadStudentList();
-
 
                         } catch (error) {
 
                             console.error(
                                 error
                             );
-
 
                             alert(
                                 "Error deleting student: " +
@@ -1163,7 +1100,6 @@ studentSearch.addEventListener(
                 .trim()
                 .toLowerCase();
 
-
         const filteredStudents =
             allStudents.filter(
                 (student) => {
@@ -1188,7 +1124,6 @@ studentSearch.addEventListener(
 
                 }
             );
-
 
         displayStudents(
             filteredStudents
@@ -1216,10 +1151,8 @@ changePasswordBtn.addEventListener(
         const studentID =
             passwordStudentID.value.trim();
 
-
         const newPassword =
             changeNewPassword.value.trim();
-
 
         if (
             !studentID ||
@@ -1234,7 +1167,6 @@ changePasswordBtn.addEventListener(
 
         }
 
-
         if (
             newPassword.length < 4
         ) {
@@ -1247,19 +1179,16 @@ changePasswordBtn.addEventListener(
 
         }
 
-
         const confirmed =
             confirm(
                 `Change the password for student ${studentID}?`
             );
-
 
         if (!confirmed) {
 
             return;
 
         }
-
 
         try {
 
@@ -1270,12 +1199,10 @@ changePasswordBtn.addEventListener(
                     studentID
                 );
 
-
             const studentSnap =
                 await getDoc(
                     studentRef
                 );
-
 
             if (
                 !studentSnap.exists()
@@ -1289,7 +1216,6 @@ changePasswordBtn.addEventListener(
 
             }
 
-
             await updateDoc(
                 studentRef,
                 {
@@ -1300,11 +1226,9 @@ changePasswordBtn.addEventListener(
                 }
             );
 
-
             alert(
                 "Student password changed successfully."
             );
-
 
             passwordStudentID.value =
                 "";
@@ -1312,13 +1236,11 @@ changePasswordBtn.addEventListener(
             changeNewPassword.value =
                 "";
 
-
         } catch (error) {
 
             console.error(
                 error
             );
-
 
             alert(
                 "Error changing password: " +
@@ -1342,7 +1264,6 @@ loadBtn.addEventListener(
         const studentID =
             studentIDInput.value.trim();
 
-
         if (!studentID) {
 
             alert(
@@ -1353,7 +1274,6 @@ loadBtn.addEventListener(
 
         }
 
-
         try {
 
             const docRef =
@@ -1363,12 +1283,10 @@ loadBtn.addEventListener(
                     studentID
                 );
 
-
             const docSnap =
                 await getDoc(
                     docRef
                 );
-
 
             if (
                 !docSnap.exists()
@@ -1382,19 +1300,15 @@ loadBtn.addEventListener(
 
             }
 
-
             const data =
                 docSnap.data();
-
 
             studentName.textContent =
                 data.name ||
                 "No name";
 
-
             const selectedTerm =
                 termSelect.value;
-
 
             let termScores = {};
 
@@ -1423,30 +1337,23 @@ loadBtn.addEventListener(
             AP.value =
                 termScores.AP ?? 0;
 
-
             FIL.value =
                 termScores.FIL ?? 0;
-
 
             HELE.value =
                 termScores.HELE ?? 0;
 
-
             MAPEH.value =
                 termScores.MAPEH ?? 0;
-
 
             English.value =
                 termScores.English ?? 0;
 
-
             Mathematics.value =
                 termScores.Mathematics ?? 0;
 
-
             Science.value =
                 termScores.Science ?? 0;
-
 
             GMRC.value =
                 termScores.GMRC ?? 0;
@@ -1462,11 +1369,47 @@ loadBtn.addEventListener(
 
 
             // =================================
-            // LOAD SUMMATIVE TEST SCORES
+            // LOAD SELECTED SUMMATIVE TEST
             // =================================
 
+            const selectedSummativeTest =
+                summativeTestSelect
+                    ? summativeTestSelect.value
+                    : "test1";
+
+            let savedSummative =
+                {};
+
+
+            // New structure
+            if (
+                termScores.summativeTests &&
+                termScores.summativeTests[
+                    selectedSummativeTest
+                ]
+            ) {
+
+                savedSummative =
+                    termScores.summativeTests[
+                        selectedSummativeTest
+                    ];
+
+            }
+
+            // Old structure = Test 1
+            else if (
+                selectedSummativeTest === "test1" &&
+                termScores.summative
+            ) {
+
+                savedSummative =
+                    termScores.summative;
+
+            }
+
+
             loadSummativeFields(
-                termScores.summative || {}
+                savedSummative
             );
 
 
@@ -1476,10 +1419,6 @@ loadBtn.addEventListener(
 
             calculateAverage();
 
-
-            // =================================
-            // UPDATE EQUIVALENTS
-            // =================================
 
             updateAllExamEquivalents();
 
@@ -1492,13 +1431,68 @@ loadBtn.addEventListener(
                 error
             );
 
-
             alert(
                 "Error loading student: " +
                 error.message
             );
 
         }
+
+    }
+);
+
+
+// ========================================
+// CHANGE SUMMATIVE TEST
+// ========================================
+
+if (summativeTestSelect) {
+
+    summativeTestSelect.addEventListener(
+        "change",
+        () => {
+
+            const studentID =
+                studentIDInput.value.trim();
+
+            if (!studentID) {
+
+                clearSummativeFields();
+
+                return;
+
+            }
+
+            loadBtn.click();
+
+        }
+    );
+
+}
+
+
+// ========================================
+// CHANGE TERM
+// ========================================
+
+termSelect.addEventListener(
+    "change",
+    () => {
+
+        const studentID =
+            studentIDInput.value.trim();
+
+        if (!studentID) {
+
+            clearExamFields();
+
+            clearSummativeFields();
+
+            return;
+
+        }
+
+        loadBtn.click();
 
     }
 );
@@ -1515,7 +1509,6 @@ saveBtn.addEventListener(
         const studentID =
             studentIDInput.value.trim();
 
-
         if (!studentID) {
 
             alert(
@@ -1526,7 +1519,6 @@ saveBtn.addEventListener(
 
         }
 
-
         try {
 
             const docRef =
@@ -1536,9 +1528,13 @@ saveBtn.addEventListener(
                     studentID
                 );
 
-
             const selectedTerm =
                 termSelect.value;
+
+            const selectedSummativeTest =
+                summativeTestSelect
+                    ? summativeTestSelect.value
+                    : "test1";
 
 
             // =================================
@@ -1580,7 +1576,6 @@ saveBtn.addEventListener(
 
             let examsToSave;
 
-
             try {
 
                 examsToSave =
@@ -1602,7 +1597,6 @@ saveBtn.addEventListener(
             // =================================
 
             let summativeToSave;
-
 
             try {
 
@@ -1629,7 +1623,6 @@ saveBtn.addEventListener(
                     docRef
                 );
 
-
             if (
                 !existingSnap.exists()
             ) {
@@ -1642,10 +1635,8 @@ saveBtn.addEventListener(
 
             }
 
-
             const existingData =
                 existingSnap.data();
-
 
             const existingTerm =
                 existingData[selectedTerm] ||
@@ -1653,34 +1644,89 @@ saveBtn.addEventListener(
 
 
             // =================================
-            // SAVE EVERYTHING
+            // PRESERVE EXISTING SUMMATIVE TESTS
+            // =================================
+
+            const existingSummativeTests = {
+
+                ...(existingTerm.summativeTests || {})
+
+            };
+
+
+            // =================================
+            // OLD SUMMATIVE DATA = TEST 1
+            // =================================
+
+            if (
+                existingTerm.summative &&
+                !existingSummativeTests.test1
+            ) {
+
+                existingSummativeTests.test1 =
+                    existingTerm.summative;
+
+            }
+
+
+            // =================================
+            // UPDATE ONLY SELECTED TEST
+            // =================================
+
+            existingSummativeTests[
+                selectedSummativeTest
+            ] =
+                summativeToSave;
+
+
+            // =================================
+            // BUILD UPDATED TERM
+            // =================================
+
+            const updatedTerm = {
+
+                ...existingTerm,
+
+                ...scoresToSave,
+
+                exams:
+                    examsToSave,
+
+                summativeTests:
+                    existingSummativeTests
+
+            };
+
+
+            // =================================
+            // KEEP OLD SUMMATIVE FIELD
+            // FOR COMPATIBILITY WITH OLD PORTAL
+            // =================================
+
+            if (
+                selectedSummativeTest === "test1"
+            ) {
+
+                updatedTerm.summative =
+                    summativeToSave;
+
+            }
+
+
+            // =================================
+            // SAVE TO FIRESTORE
             // =================================
 
             await updateDoc(
                 docRef,
                 {
 
-                    [selectedTerm]: {
-
-                        ...existingTerm,
-
-                        ...scoresToSave,
-
-                        exams:
-                            examsToSave,
-
-                        summative:
-                            summativeToSave
-
-                    }
+                    [selectedTerm]:
+                        updatedTerm
 
                 }
             );
 
-
-            // =================================
-            // UPDATE AVERAGE
-            // =================================
 
             calculateAverage();
 
@@ -1689,43 +1735,15 @@ saveBtn.addEventListener(
             // SUCCESS MESSAGE
             // =================================
 
-            if (
-                selectedTerm === "term1"
-            ) {
+            const testName =
+                selectedSummativeTest === "test1"
+                    ? "Summative Test 1"
+                    : "Summative Test 2";
 
-                alert(
-                    "Term 1 scores, exams, and summative tests saved successfully!"
-                );
 
-            }
-
-            else if (
-                selectedTerm === "term2"
-            ) {
-
-                alert(
-                    "Term 2 scores, exams, and summative tests saved successfully!"
-                );
-
-            }
-
-            else if (
-                selectedTerm === "term3"
-            ) {
-
-                alert(
-                    "Term 3 scores, exams, and summative tests saved successfully!"
-                );
-
-            }
-
-            else {
-
-                alert(
-                    "Scores saved successfully!"
-                );
-
-            }
+            alert(
+                `${selectedTerm.toUpperCase()} ${testName} saved successfully!`
+            );
 
 
         } catch (error) {
@@ -1734,7 +1752,6 @@ saveBtn.addEventListener(
                 "ERROR SAVING SCORES:",
                 error
             );
-
 
             alert(
                 "Error saving scores: " +
@@ -1758,18 +1775,12 @@ addStudentBtn.addEventListener(
         const id =
             newStudentID.value.trim();
 
-
         const name =
             newStudentName.value.trim();
-
 
         const password =
             newStudentPassword.value.trim();
 
-
-        // =================================
-        // CHECK REQUIRED FIELDS
-        // =================================
 
         if (
             !id ||
@@ -1786,10 +1797,6 @@ addStudentBtn.addEventListener(
         }
 
 
-        // =================================
-        // CHECK PASSWORD LENGTH
-        // =================================
-
         if (
             password.length < 6
         ) {
@@ -1805,10 +1812,6 @@ addStudentBtn.addEventListener(
 
         try {
 
-            // =================================
-            // CHECK FIRESTORE STUDENT
-            // =================================
-
             const studentRef =
                 doc(
                     db,
@@ -1816,12 +1819,10 @@ addStudentBtn.addEventListener(
                     id
                 );
 
-
             const existingStudent =
                 await getDoc(
                     studentRef
                 );
-
 
             if (
                 existingStudent.exists()
@@ -1837,7 +1838,7 @@ addStudentBtn.addEventListener(
 
 
             // =================================
-            // CREATE FIREBASE AUTH ACCOUNT
+            // CREATE AUTH ACCOUNT
             // =================================
 
             const studentEmail =
@@ -1859,12 +1860,10 @@ addStudentBtn.addEventListener(
                     authError
                 );
 
-
                 alert(
                     "Could not create the student's login account:\n\n" +
                     authError.message
                 );
-
 
                 return;
 
@@ -1872,7 +1871,7 @@ addStudentBtn.addEventListener(
 
 
             // =================================
-            // CREATE FIRESTORE STUDENT RECORD
+            // CREATE FIRESTORE RECORD
             // =================================
 
             await setDoc(
@@ -1893,22 +1892,22 @@ addStudentBtn.addEventListener(
                     term1: {
 
                         AP: 0,
-
                         FIL: 0,
-
                         HELE: 0,
-
                         MAPEH: 0,
-
                         English: 0,
-
                         Mathematics: 0,
-
                         Science: 0,
-
                         GMRC: 0,
 
                         exams: {},
+
+                        summativeTests: {
+
+                            test1: {},
+                            test2: {}
+
+                        },
 
                         summative: {}
 
@@ -1922,22 +1921,22 @@ addStudentBtn.addEventListener(
                     term2: {
 
                         AP: 0,
-
                         FIL: 0,
-
                         HELE: 0,
-
                         MAPEH: 0,
-
                         English: 0,
-
                         Mathematics: 0,
-
                         Science: 0,
-
                         GMRC: 0,
 
                         exams: {},
+
+                        summativeTests: {
+
+                            test1: {},
+                            test2: {}
+
+                        },
 
                         summative: {}
 
@@ -1951,22 +1950,22 @@ addStudentBtn.addEventListener(
                     term3: {
 
                         AP: 0,
-
                         FIL: 0,
-
                         HELE: 0,
-
                         MAPEH: 0,
-
                         English: 0,
-
                         Mathematics: 0,
-
                         Science: 0,
-
                         GMRC: 0,
 
                         exams: {},
+
+                        summativeTests: {
+
+                            test1: {},
+                            test2: {}
+
+                        },
 
                         summative: {}
 
@@ -1985,18 +1984,10 @@ addStudentBtn.addEventListener(
             );
 
 
-            // =================================
-            // SUCCESS
-            // =================================
-
             alert(
                 "Student added successfully!"
             );
 
-
-            // =================================
-            // CLEAR FORM
-            // =================================
 
             newStudentID.value =
                 "";
@@ -2008,10 +1999,6 @@ addStudentBtn.addEventListener(
                 "";
 
 
-            // =================================
-            // REFRESH STUDENT LIST
-            // =================================
-
             await loadStudentList();
 
 
@@ -2021,7 +2008,6 @@ addStudentBtn.addEventListener(
                 "ERROR ADDING STUDENT:",
                 error
             );
-
 
             alert(
                 "Error adding student: " +
